@@ -33,7 +33,7 @@ Label::AnnotationStatus::AnnotationStatus()
 	annotation = AL_Null;
 }
 
-Label::AnnotationLabel Label::AnnotationStatus::CheckAnnotationLabel(const char * p, int len)
+Label::AnnotationLabel Label::AnnotationStatus::CheckAnnotationLabel(const std::string p, int len)
 {
 	if (len != 3 || p[0] != '_' || p[2] != '_')
 	{
@@ -47,18 +47,19 @@ Label::AnnotationLabel Label::AnnotationStatus::CheckAnnotationLabel(const char 
 	}
 }
 
-bool Label::AnnotationStatus::AddAnnotation(const char * p, int len, unsigned short addr)
+bool Label::AnnotationStatus::AddAnnotation(const std::string p, int len, unsigned short addr)
 {
 	if (curAddr != addr)
 	{
-		annotation = AL_Null; curAddr = addr;
+		annotation = AL_Null;
+        curAddr = addr;
 	}
 	AnnotationLabel al = CheckAnnotationLabel(p, len);
 	annotation |= al;
 	return (al != AL_Null);
 }
 
-Label::Label() : count(0), maxLabelLength(0)
+Label::Label() : count(0), maxLabelLength(0), element(MAX_LABEL_COUNT)
 {}
 
 Label::Element * Label::AddLabel(const char * n, int len, unsigned short addr)

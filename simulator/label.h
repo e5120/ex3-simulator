@@ -2,6 +2,7 @@
 
 #include <cstdio>
 #include <string>
+#include <vector>
 
 class Label
 {
@@ -33,13 +34,13 @@ public:
 
 		AnnotationStatus();
 
-		AnnotationLabel CheckAnnotationLabel(const char * p, int len);
+		AnnotationLabel CheckAnnotationLabel(const std::string p, int len);
 
-		bool AddAnnotation(const char * p, int len, unsigned short addr);
+		bool AddAnnotation(const std::string p, int len, unsigned short addr);
 	} annotation;
 
 #define MAX_LABEL_COUNT	1000
-	Element element[MAX_LABEL_COUNT];
+    std::vector<Element> element;
 	int count, maxLabelLength;
 	Label();
 
