@@ -1,0 +1,11 @@
+ORG 10
+
+L0, LDA CRDS I
+    VGA
+
+CRDS, SYM CRD
+CRD, HEX 0
+      HEX 0
+      HEX 0
+      HEX 0
+END

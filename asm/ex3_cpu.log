@@ -1,0 +1,123 @@
+----------------
+label(  ST0) :     0(0x0000)
+label(  INI) :    16(0x0010)
+label(   L0) :    25(0x0019)
+label(I_HND) :    29(0x001d)
+label(  SOU) :    32(0x0020)
+label(  IRT) :    40(0x0028)
+label(   BA) :    47(0x002f)
+label(   BE) :    48(0x0030)
+label(  SDT) :    49(0x0031)
+label(  STT) :    50(0x0032)
+label(  SFG) :    51(0x0033)
+label(  VH4) :    52(0x0034)
+label(  VH8) :    53(0x0035)
+label(  VM1) :    54(0x0036)
+label(  VM4) :    55(0x0037)
+label(COUNT) :    56(0x0038)
+label(  STR) :    57(0x0039)
+label(   ST) :    71(0x0047)
+----------------
+// interrupt entry point
+  ST0: 0000 [0000]: (    0:    0)      	// interrupt return address
+       0001 [401d]: BUN 01d   (I_HND)	// goto I_HND (interrupt handler)
+// program entry point
+// initialize data
+  INI: 0010 [7800]: CLA              	// AC <- 0
+       0011 [3032]: STA 032   (  STT)	// M[STT] <- 0
+       0012 [3033]: STA 033   (  SFG)	// M[SFG] <- 0
+// IMSK[3:0] : { S_IN, S_OUT, P_IN, P_OUT }
+       0013 [2034]: LDA 034   (  VH4)	// AC <- M[VH8] (1000)
+       0014 [f010]: IMK              	// IMSK <- (1000) (S_IN enabled)
+       0015 [f040]: SIO              	// IOT <- 1 (serial-IO selected)
+       0016 [7400]: CLE              
+       0017 [7100]: CME              
+       0018 [f080]: IST              
+   L0: 0019 [2032]: LDA 032   (  STT)	// AC <- M[STT]
+       001a [7008]: SNA              	// (M[STT] < 0) ? skip next
+       001b [4019]: BUN 019   (   L0)
+       001c [7001]: HLT              
+//////////// interrupt handler /////////
+// 1. store AC & E to memory
+I_HND: 001d [302f]: STA 02f   (   BA)	// M[BA] <- AC	(store AC)
+       001e [7040]: CIL              	// AC[0] <- E	(AC[15:1] is not important here...)
+       001f [3030]: STA 030   (   BE)	// M[BE] <- AC	(store E)
+// 3. check GP_OUT
+// M[SFG] != 0
+  SOU: 0020 [f100]: SKO              	// (S_OUT ready) ? skip next
+       0021 [4028]: BUN 028   (  IRT)	// goto IRT
+// output to S_OUT
+       0022 [a047]: LDA 047 I (   ST)	// AC <- M[SDT]
+       0023 [f400]: OUT              
+       0024 [6047]: ISZ 047   (   ST)
+       0025 [6038]: ISZ 038   (COUNT)
+       0026 [4020]: BUN 020   (  SOU)
+       0027 [7001]: HLT              
+// 4. restore AC & E from memory
+  IRT: 0028 [2030]: LDA 030   (   BE)	// AC <- M[BE]
+       0029 [7080]: CIR              	// E <- AC[0]	(restore E)
+       002a [202f]: LDA 02f   (   BA)	// AC <- M[BA]	(restore AC)
+       002b [7400]: CLE              
+       002c [7100]: CME              
+       002d [f080]: IST              
+       002e [c000]: BUN 000 I (  ST0)	// indirect return (return address stored in ST0)
+// data (no initialization)
+   BA: 002f [0000]: (    0:    0)      	// backup storage for AC during interrupt handling
+   BE: 0030 [0000]: (    0:    0)      	// backup storage for  E during interrupt handling
+  SDT: 0031 [0000]: (    0:    0)      	// S_IN data
+// data (need initialization code)
+  STT: 0032 [0000]: (    0:    0)      	// state
+  SFG: 0033 [0000]: (    0:    0)      	// S_IN flag
+// data (read-only)
+  VH4: 0034 [0004]: (    4:    4)      	// VH4 = 0x4 (0100)
+  VH8: 0035 [0008]: (    8:    8)      	// VHA = 0x8 (1000)
+  VM1: 0036 [ffff]: (   -1:65535)      	// VM1 = -1
+  VM4: 0037 [fffc]: (   -4:65532)      	// VM4 = -4
+COUNT: 0038 [fff2]: (  -14:65522)      
+  STR: 0039 [001b]: (   27:   27)      
+       003a [005b]: (   91:  '[')      
+       003b [0033]: (   51:  '3')      
+       003c [0033]: (   51:  '3')      
+       003d [006d]: (  109:  'm')      
+       003e [0054]: (   84:  'T')      
+       003f [0045]: (   69:  'E')      
+       0040 [0053]: (   83:  'S')      
+       0041 [0054]: (   84:  'T')      
+       0042 [001b]: (   27:   27)      
+       0043 [005b]: (   91:  '[')      
+       0044 [0033]: (   51:  '3')      
+       0045 [0039]: (   57:  '9')      
+       0046 [006d]: (  109:  'm')      
+   ST: 0047 [0039]: (   57:  '9')      
+----------------
+----------------
+// interrupt entry point
+  ST0: 0000 [001a]: (   26:   26)      	// interrupt return address
+// data (no initialization)
+   BA: 002f [0000]: (    0:    0)      	// backup storage for AC during interrupt handling
+   BE: 0030 [0001]: (    1:    1)      	// backup storage for  E during interrupt handling
+  SDT: 0031 [0000]: (    0:    0)      	// S_IN data
+// data (need initialization code)
+  STT: 0032 [0000]: (    0:    0)      	// state
+  SFG: 0033 [0000]: (    0:    0)      	// S_IN flag
+// data (read-only)
+  VH4: 0034 [0004]: (    4:    4)      	// VH4 = 0x4 (0100)
+  VH8: 0035 [0008]: (    8:    8)      	// VHA = 0x8 (1000)
+  VM1: 0036 [ffff]: (   -1:65535)      	// VM1 = -1
+  VM4: 0037 [fffc]: (   -4:65532)      	// VM4 = -4
+COUNT: 0038 [0000]: (    0:    0)      
+  STR: 0039 [001b]: (   27:   27)      
+       003a [005b]: (   91:  '[')      
+       003b [0033]: (   51:  '3')      
+       003c [0033]: (   51:  '3')      
+       003d [006d]: (  109:  'm')      
+       003e [0054]: (   84:  'T')      
+       003f [0045]: (   69:  'E')      
+       0040 [0053]: (   83:  'S')      
+       0041 [0054]: (   84:  'T')      
+       0042 [001b]: (   27:   27)      
+       0043 [005b]: (   91:  '[')      
+       0044 [0033]: (   51:  '3')      
+       0045 [0039]: (   57:  '9')      
+       0046 [006d]: (  109:  'm')      
+   ST: 0047 [0047]: (   71:  'G')      
