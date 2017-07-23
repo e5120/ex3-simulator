@@ -6,35 +6,31 @@ using namespace std;
 
 Label::Element::Element()
 {
-	name = 0; nlen = 0; address = 0;
+	name = "";
+	nlen = 0;
+	address = 0;
 }
 
 Label::Element::~Element()
 {
-	if (name) delete[] name;
 }
 
-void Label::Element::Set(const char * n, int len, unsigned short addr)
+void Label::Element::Set(const std::string n, int len, unsigned short addr)
 {
-	if (name)
-	{
-		delete[] name;
-	}
 	nlen = len;
-	name = new char[nlen + 1];
-	strncpy(name, n, nlen);
-	name[nlen] = 0;
+	name = n;
 	address = addr;
 }
 
 void Label::Element::PrintInfo(FILE * fp, int maxlen)
 {
-	if (fp) fprintf(fp, "label(%*s) : %5d(0x%04x)\n", maxlen, name, address, address);
+	if (fp) fprintf(fp, "label(%*s) : %5d(0x%04x)\n", maxlen, name.c_str(), address, address);
 }
 
 Label::AnnotationStatus::AnnotationStatus()
 {
-	curAddr = 0; annotation = AL_Null;
+	curAddr = 0;
+	annotation = AL_Null;
 }
 
 Label::AnnotationLabel Label::AnnotationStatus::CheckAnnotationLabel(const char * p, int len)
@@ -74,7 +70,7 @@ Label::Element * Label::AddLabel(const char * n, int len, unsigned short addr)
 	}
 	if ((lb = GetLabel(n, len)))
 	{
-		printf("ERROR: label(%s) already exists!!\n", lb->name); return 0;
+		printf("ERROR: label(%s) already exists!!\n", lb->name.c_str()); return 0;
 	}
 	lb = &element[count++];
 	lb->Set(n, len, addr);
@@ -89,7 +85,7 @@ Label::Element * Label::GetLabel(const char * p, int len)
 	int i;
 	for (i = 0; i < count; i++)
 	{
-		if (element[i].nlen == len && strncmp(element[i].name, p, len) == 0) return &element[i];
+		if (element[i].nlen == len && strncmp(element[i].name.c_str(), p, len) == 0) return &element[i];
 	}
 	return 0;
 }

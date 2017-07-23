@@ -1,22 +1,15 @@
 #include "cpu.h"
-#include "memory.h"
 
-CPU::CPU(const char * logfilename) : mem(0), isa(0), dbg(0)
+CPU::CPU(const std::string logfilename) : mem(nullptr), isa(nullptr), dbg(nullptr)
 {
-	fplog = fopen(logfilename, "w");
+	std::cout << "called cpu constructor" << std::endl;
+	fplog = fopen(logfilename.c_str(), "w");
 	Reset();
 }
 
 CPU::~CPU()
 {
-	if (mem)
-	{
-		delete mem;
-	}
-	if (isa)
-	{
-		delete isa;
-	}
+	std::cout << "called cpu destructor" << std::endl;
 	if (fplog)
 	{
 		fclose(fplog);

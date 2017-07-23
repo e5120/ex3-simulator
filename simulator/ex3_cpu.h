@@ -1,6 +1,9 @@
 #pragma once
 
 #include "cpu.h"
+#include "ex3_memory.h"
+#include "ex3_insnset.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
@@ -19,7 +22,7 @@ public:
 
 	virtual bool IsWaitingForInput();
 
-	void SetFG(unsigned short * fg, int val);
+	void SetFG(unsigned short& fg, int val);
 
 	virtual void _SetFGI(int val);
 	virtual void _SetFGO(int val);

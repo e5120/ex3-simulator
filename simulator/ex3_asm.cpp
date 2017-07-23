@@ -1,12 +1,11 @@
 #include <cstdio>
-#include <cstring>
-#include <cstdlib>
+#include <string>
 
 #include "debugger.h"
 #include "asmparser.h"
 #include "ex3_terminalsystem.h"
 
-Debugger * Debugger::globalDBG = 0;
+Debugger* Debugger::globalDBG = 0;
 
 #if !defined(WIN32)
 int _getche(void)
@@ -16,7 +15,7 @@ int _getche(void)
 }
 #endif
 
-const char * ASMParser::tool_name = "ex3_asm";
+std::string ASMParser::tool_name = "ex3_asm";
 
 int main(int argc, char ** argv)
 {
@@ -49,5 +48,6 @@ int main(int argc, char ** argv)
 
 	printf("\nhit return : ");
 	getchar();
-	return (ex3_sys.cpu.mem->errorFlag) ? -1 : 0;
+
+	return (ex3_sys.cpu->mem->errorFlag) ? -1 : 0;
 }

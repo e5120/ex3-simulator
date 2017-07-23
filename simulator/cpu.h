@@ -1,6 +1,8 @@
 #pragma once
 
 #include <cstdio>
+#include <memory>
+#include <iostream>
 
 #include "utils.h"
 #include "defs.h"
@@ -15,15 +17,15 @@ class CPU
 {
 public:
 	Label label;
-	Memory * mem;
-	InsnSet * isa;
+	std::unique_ptr<Memory> mem;
+	std::unique_ptr<InsnSet> isa;
 	unsigned short _S, _PC, _oldPC, _INPR, _OUTR, _FGI, _FGO;
 	int cycle_count, appl_cycle_count, intr_cycle_count, intr_pending;
 	FILE * fplog;
-	Debugger * dbg;
+	std::unique_ptr<Debugger> dbg;
 
-	CPU(const char * logfilename);
-	~CPU();
+	CPU(const std::string logfilename);
+	virtual ~CPU();
 
 	void PrintSeparator(FILE * fp);
 

@@ -1,5 +1,5 @@
 #pragma once
-
+#include <string>
 #include "label.h"
 
 class Memory
@@ -18,7 +18,7 @@ public:
 		unsigned char status;
 		unsigned char insnID;
 		unsigned short value;
-		char * headComment, *tailComment;
+		std::string headComment, tailComment;
 		Word();
 		~Word();
 
@@ -36,7 +36,7 @@ public:
 
 	Word * GetWord(unsigned int addr);
 	void ProbeInsn(unsigned short pc);
-	void FetchInsn(unsigned short & pc);
+	void FetchInsn(unsigned short& pc);
 
 	unsigned short Address();
 	unsigned short & Operand();

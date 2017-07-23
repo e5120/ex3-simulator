@@ -28,7 +28,7 @@ int EX3_ASMParser::ParseInsn(int passNum, const char * p, InsnSet::Insn * insn, 
 				}
 				if (!cpu->mem->IsValidAddress(lb->address))
 				{
-					printf("ERROR: label(%s) has invalid address (%x)\n", lb->name, lb->address); PrintErrorLocation(); return -1;
+					printf("ERROR: label(%s) has invalid address (%x)\n", lb->name.c_str(), lb->address); PrintErrorLocation(); return -1;
 				}
 				m->value |= lb->address;
 				p += lb->nlen;

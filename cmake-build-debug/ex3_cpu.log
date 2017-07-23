@@ -1,0 +1,55 @@
+----------------
+label(L0) :    16(0x0010)
+label(LY) :    21(0x0015)
+label(LX) :    25(0x0019)
+label(LP) :    32(0x0020)
+label(XL) :    42(0x002a)
+label(XH) :    43(0x002b)
+label(YL) :    44(0x002c)
+label(YH) :    45(0x002d)
+label(PL) :    46(0x002e)
+label(PH) :    47(0x002f)
+----------------
+// program entry point
+L0: 0010 [7400]: CLE           	// E <- 0
+    0011 [202c]: LDA 02c   (YL)	// AC <- M[YL]
+    0012 [7004]: SZA           	// (AC == 0) ? skip next
+    0013 [4015]: BUN 015   (LY)	// goto LY
+    0014 [7001]: HLT           
+LY: 0015 [7080]: CIR           	// {AC[15:0], E} <- {E, AC[15:0]}
+    0016 [302c]: STA 02c   (YL)	// M[YL] <- AC
+    0017 [7002]: SZE           	// (E == 0) ? skip next
+    0018 [4020]: BUN 020   (LP)	// goto LP
+LX: 0019 [202a]: LDA 02a   (XL)	// AC <- M[XL]
+    001a [7040]: CIL           	// {E, AC[15:0]} <- {AC[15:0], E}
+    001b [302a]: STA 02a   (XL)	// M[XL] <- AC
+    001c [202b]: LDA 02b   (XH)	// AC <- M[XH]
+    001d [7040]: CIL           	// {E, AC[15:0]} <- {AC[15:0], E}
+    001e [302b]: STA 02b   (XH)	// M[XH] <- AC
+    001f [4010]: BUN 010   (L0)	// goto LO
+LP: 0020 [202a]: LDA 02a   (XL)	// AC <- M[XL]
+    0021 [102e]: ADD 02e   (PL)	// AC <- AC + M[PL]
+    0022 [302e]: STA 02e   (PL)	// M[PL} <- AC
+    0023 [7800]: CLA           	// AC <- 0
+    0024 [7040]: CIL           	// {E, AC[15:0]} <- {AC[15:0], E}
+    0025 [102f]: ADD 02f   (PH)	// AC <- AC + M[PH]
+    0026 [102b]: ADD 02b   (XH)	// AC <- AC + M[XH]
+    0027 [302f]: STA 02f   (PH)	// M[PH] <- AC
+    0028 [7400]: CLE           	// E <- 0
+    0029 [4019]: BUN 019   (LX)	// goto LX
+// data
+XL: 002a [000a]: (   10:   10)   	// X:init(low digit)
+XH: 002b [0000]: (    0:    0)   	// X:init(high digit)
+YL: 002c [000a]: (   10:   10)   	// Y:init(low digit)
+YH: 002d [0000]: (    0:    0)   	// Y:init(high digit)
+PL: 002e [0000]: (    0:    0)   	// result(low digit)
+PH: 002f [0000]: (    0:    0)   	// result(high digit)
+----------------
+----------------
+// data
+XL: 002a [00a0]: (  160:  160)   	// X:init(low digit)
+XH: 002b [0000]: (    0:    0)   	// X:init(high digit)
+YL: 002c [0000]: (    0:    0)   	// Y:init(low digit)
+YH: 002d [0000]: (    0:    0)   	// Y:init(high digit)
+PL: 002e [0064]: (  100:  'd')   	// result(low digit)
+PH: 002f [0000]: (    0:    0)   	// result(high digit)

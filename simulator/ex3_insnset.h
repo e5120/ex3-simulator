@@ -1,3 +1,4 @@
+#pragma once
 #include "insnset.h"
 #include <stdlib.h>
 #include <time.h>

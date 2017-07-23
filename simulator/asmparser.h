@@ -1,25 +1,27 @@
 #pragma once
-
+#include <cstring>
 #include <cstdio>
+#include <string>
+#include <iostream>
 
 #include "cpu.h"
 
 class ASMParser
 {
 public:
-	CPU * cpu;
+	std::shared_ptr<CPU> cpu;
 	FILE * fp;
-	const char * asm_name;
-	static const char * tool_name;
+	const std::string asm_name;
+	static std::string tool_name;
 	int asmLineNum, blockCommentPending;
 
-	ASMParser(CPU * cpu0, const char * fname);
+	ASMParser(const std::shared_ptr<CPU>& cpu0, const std::string fname);
 	~ASMParser();
 
 	int Open();
 	void Close();
 
-	FILE * OpenFile(const char * extname);
+	FILE * OpenFile(const std::string extname);
 
 	int WriteVerilogMemFile();
 	int WriteVerilogMemProbeFile();

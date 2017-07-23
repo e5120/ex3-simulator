@@ -6,20 +6,17 @@ using namespace std;
 
 Memory::Word::Word()
 {
-	status = MS_Null; insnID = 0; value = 0; headComment = 0; tailComment = 0;
+	status = MS_Null;
+    insnID = 0;
+    value = 0;
+    headComment = "";
+    tailComment = "";
 }
 
 Memory::Word::~Word()
 {
-	if (headComment)
-	{
-		delete[] headComment;
-	}
-	if (tailComment)
-	{
-		delete[] tailComment;
-	}
 }
+
 void Memory::Word::SetStatus(Label::AnnotationStatus * labelAnnotation, int addr)
 {
 	status = MS_Used;
@@ -40,23 +37,20 @@ void Memory::Word::SetComment(const char * c, int len, int headFlag)
 {
 	if (headFlag)
 	{
-		int len0 = (headComment) ? strlen(headComment) + 2 : 0;
+		int len0 = (!headComment.empty()) ? headComment.size() + 2 : 0;
 		int len2 = len0 + len;
 		char * comment2 = new char[len2 + 1];
 		char * p = comment2;
-		if (headComment)
+		if (!headComment.empty())
 		{
-			sprintf(p, "%s\n/", headComment); p += strlen(headComment) + 2;
+			sprintf(p, "%s\n/", headComment.c_str());
+            p += headComment.size() + 2;
 		}
 		strncpy(p, c, len);
 		comment2[len2] = 0;
-		if (headComment)
-		{
-			delete[] headComment;
-		}
 		headComment = comment2;
 	}
-	else if (tailComment == 0)
+	else if (tailComment.empty())
 	{
 		char * comment2 = new char[len + 1];
 		char * p = comment2;
@@ -77,7 +71,6 @@ Memory::Memory(int sz)
 
 Memory::~Memory()
 {
-	delete[] word;
 }
 
 bool Memory::IsValidAddress(int addr)

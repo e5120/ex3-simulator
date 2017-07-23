@@ -1,9 +1,13 @@
 #include "system.h"
+#include <iostream>
 
 int System::RandomPeripheral::fd =0;
 
-System::RandomPeripheral::RandomPeripheral(CPU * cpu0, const char * n, int t) : cpu(cpu0), name(n), type(t), interval(-1), fp(0)
+System::RandomPeripheral::RandomPeripheral(const std::shared_ptr<CPU>& cpu0, const std::string n, int t)
+		: name(n), type(t), interval(-1), fp(0)
 {
+	cpu = cpu0;
+	std::cout << "system : " <<cpu.get() << std::endl;
 }
 
 System::RandomPeripheral::~RandomPeripheral()
@@ -23,7 +27,7 @@ void System::RandomPeripheral::Open(FILE * fp0)
 	fp = fp0;
 	if (fp)
 	{
-		fprintf(fp, "/// RandomPeripheral trace (%s) :\n", name);
+		fprintf(fp, "/// RandomPeripheral trace (%s) :\n", name.c_str());
 		fprintf(fp, "/// bit[17]   (port ID) : 0 = gpio, 1 = uart\n");
 		fprintf(fp, "/// bit[16]   (trace type) : 0 = interval cycles, 1 = data\n");
 		fprintf(fp, "/// bit[15:0] (value)\n\n");
@@ -48,7 +52,7 @@ int System::RandomPeripheral::GetPortID()
 	return cpu->GetSelectedPortID();
 }
 
-const char * System::RandomPeripheral::GetPortName()
+const std::string System::RandomPeripheral::GetPortName()
 {
 	return (GetPortID()) ? "SIO" : "PIO";
 }
@@ -72,7 +76,7 @@ void System::RandomPeripheral::SetRandomInterval()
 		"-------------------------------------\n"
 		"%s[%s].interval = %d\n"
 		"-------------------------------------\n"
-		, name, GetPortName(), interval);
+		, name.c_str(), GetPortName().c_str(), interval);
 	RecordTrace(TT_Interval, interval);
 }
 
@@ -212,9 +216,8 @@ void System::TerminalViewer::PrintView()
 #endif
 }
 
-System::InputTerminal::InputTerminal(CPU * cpu0) : RandomPeripheral(cpu0, "in", 1)
+System::InputTerminal::InputTerminal(const std::shared_ptr<CPU>& cpu0) : RandomPeripheral(cpu0, "in", 1), termView()
 {
-	termView = 0;
 }
 
 bool System::InputTerminal::IsPortReady()
@@ -225,7 +228,7 @@ bool System::InputTerminal::IsPortReady()
 void System::InputTerminal::AccessPort()
 {
 	termView->PrintView();
-	printf("IN-term [%s] > ", GetPortName());
+	printf("IN-term [%s] > ", GetPortName().c_str());
 	int value = _getche();
 	printf("\n");
 	switch (value)
@@ -264,7 +267,7 @@ void System::InputTerminal::PutInput(int value) {
                    "-------------------------------------\n"
                            "cpu->input[%s] = 0x%02x (%2d : '%c')\n"
                            "-------------------------------------\n"
-    , GetPortName(), value, value, value);
+    , GetPortName().c_str(), value, value, value);
     RecordTrace(TT_Data, value);
 
 #endif
@@ -275,9 +278,8 @@ bool System::InputTerminal::AccessHookEnabled()
 	return true;
 }
 
-System::OutputTerminal::OutputTerminal(CPU * cpu0) : RandomPeripheral(cpu0, "out", 0)
+System::OutputTerminal::OutputTerminal(const std::shared_ptr<CPU>& cpu0) : RandomPeripheral(cpu0, "out", 0), termView()
 {
-	termView = 0;
 }
 
 int System::OutputTerminal::GetInterval()
@@ -321,7 +323,7 @@ int System::OutputTerminal::GetOutput()
 		"-------------------------------------\n"
 		"cpu->output[%s] = 0x%02x (%2d : '%c')\n"
 		"-------------------------------------\n"
-		, GetPortName(), value, value, value);
+		, GetPortName().c_str(), value, value, value);
 	return value;
 }
 

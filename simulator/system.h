@@ -3,6 +3,7 @@
 #include <cstdio>
 #include <string>
 #include <stdio.h>
+#include <memory>
 #if SOCKET
 #include <sys/socket.h>
 #include <arpa/inet.h>
@@ -28,8 +29,8 @@ public:
 	class RandomPeripheral
 	{
 	public:
-		CPU * cpu;
-		const char * name;
+		std::shared_ptr<CPU> cpu;
+		const std::string name;
 		int type;	/// type = 0 : output, type = 1 : input
 		int interval;
 
@@ -37,22 +38,21 @@ public:
         static int fd;
 
 		FILE * fp;
-		RandomPeripheral(CPU * cpu0, const char * n, int t);
+		RandomPeripheral(const std::shared_ptr<CPU>& cpu0, const std::string n, int t);
 		virtual ~RandomPeripheral();
 		enum TraceType
 		{
 			TT_Interval = 0, TT_Data = 1
 		};
-		void Open(FILE * fp0);
+		void Open(FILE* fp0);
 		void Close();
 
 		int GetPortID();
-		const char * GetPortName();
+		const std::string GetPortName();
 		void RecordTrace(int rtype, unsigned char value);
 		virtual int GetInterval();
 		void SetRandomInterval();
 		int Execute(void(*accessPortHook)(int) = 0);
-        //static void SocketStart(int prt);
 		///	virtual abstract functions : must be defined in actual class
 		virtual bool IsPortReady() = 0;
 		virtual void AccessPort() = 0;
@@ -79,8 +79,8 @@ public:
 	class InputTerminal : public RandomPeripheral
 	{
 	public:
-		TerminalViewer * termView;
-		InputTerminal(CPU * cpu0);
+		std::shared_ptr<TerminalViewer> termView;
+		InputTerminal(const std::shared_ptr<CPU>& cpu0);
 
 		bool IsPortReady();
 		virtual void AccessPort();
@@ -91,8 +91,8 @@ public:
 	class OutputTerminal : public RandomPeripheral
 	{
 	public:
-		TerminalViewer * termView;
-		OutputTerminal(CPU * cpu0);
+		std::shared_ptr<TerminalViewer> termView;
+		OutputTerminal(const std::shared_ptr<CPU>& cpu0);
 
 		virtual int GetInterval();
 		bool IsPortReady();

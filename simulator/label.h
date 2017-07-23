@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdio>
+#include <string>
 
 class Label
 {
@@ -8,14 +9,14 @@ public:
 	class Element
 	{
 	public:
-		char * name;
+		std::string name;
 		int nlen;
 		unsigned short address;
 		
 		Element();
 		~Element();
 
-		void Set(const char * n, int len, unsigned short addr);
+		void Set(const std::string n, int len, unsigned short addr);
 
 		void PrintInfo(FILE * fp, int maxlen);
 	};

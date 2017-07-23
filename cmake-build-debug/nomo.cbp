@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="nomo"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="nomo">
+				<Option output="/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/cmake-build-debug/nomo" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../lib/clang/8.1.0/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/cmake-build-debug/Makefile&quot;  VERBOSE=1 nomo"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="nomo/fast">
+				<Option output="/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/cmake-build-debug/nomo" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../lib/clang/8.1.0/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/cmake-build-debug/Makefile&quot;  VERBOSE=1 nomo/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/simulator/asmparser.cpp">
+			<Option target="nomo"/>
+		</Unit>
+		<Unit filename="/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/simulator/asmparser.h">
+			<Option target="nomo"/>
+		</Unit>
+		<Unit filename="/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/simulator/cpu.cpp">
+			<Option target="nomo"/>
+		</Unit>
+		<Unit filename="/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/simulator/cpu.h">
+			<Option target="nomo"/>
+		</Unit>
+		<Unit filename="/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/simulator/debugger.cpp">
+			<Option target="nomo"/>
+		</Unit>
+		<Unit filename="/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/simulator/debugger.h">
+			<Option target="nomo"/>
+		</Unit>
+		<Unit filename="/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/simulator/defs.h">
+			<Option target="nomo"/>
+		</Unit>
+		<Unit filename="/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/simulator/ex3_asm.cpp">
+			<Option target="nomo"/>
+		</Unit>
+		<Unit filename="/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/simulator/ex3_asm_def.h">
+			<Option target="nomo"/>
+		</Unit>
+		<Unit filename="/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/simulator/ex3_asmparser.cpp">
+			<Option target="nomo"/>
+		</Unit>
+		<Unit filename="/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/simulator/ex3_asmparser.h">
+			<Option target="nomo"/>
+		</Unit>
+		<Unit filename="/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/simulator/ex3_cpu.cpp">
+			<Option target="nomo"/>
+		</Unit>
+		<Unit filename="/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/simulator/ex3_cpu.h">
+			<Option target="nomo"/>
+		</Unit>
+		<Unit filename="/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/simulator/ex3_insnset.cpp">
+			<Option target="nomo"/>
+		</Unit>
+		<Unit filename="/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/simulator/ex3_insnset.h">
+			<Option target="nomo"/>
+		</Unit>
+		<Unit filename="/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/simulator/ex3_memory.cpp">
+			<Option target="nomo"/>
+		</Unit>
+		<Unit filename="/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/simulator/ex3_memory.h">
+			<Option target="nomo"/>
+		</Unit>
+		<Unit filename="/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/simulator/ex3_terminalsystem.cpp">
+			<Option target="nomo"/>
+		</Unit>
+		<Unit filename="/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/simulator/ex3_terminalsystem.h">
+			<Option target="nomo"/>
+		</Unit>
+		<Unit filename="/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/simulator/insnset.cpp">
+			<Option target="nomo"/>
+		</Unit>
+		<Unit filename="/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/simulator/insnset.h">
+			<Option target="nomo"/>
+		</Unit>
+		<Unit filename="/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/simulator/label.cpp">
+			<Option target="nomo"/>
+		</Unit>
+		<Unit filename="/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/simulator/label.h">
+			<Option target="nomo"/>
+		</Unit>
+		<Unit filename="/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/simulator/memory.cpp">
+			<Option target="nomo"/>
+		</Unit>
+		<Unit filename="/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/simulator/memory.h">
+			<Option target="nomo"/>
+		</Unit>
+		<Unit filename="/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/simulator/system.cpp">
+			<Option target="nomo"/>
+		</Unit>
+		<Unit filename="/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/simulator/system.h">
+			<Option target="nomo"/>
+		</Unit>
+		<Unit filename="/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/simulator/utils.h">
+			<Option target="nomo"/>
+		</Unit>
+		<Unit filename="/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

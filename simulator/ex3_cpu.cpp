@@ -1,13 +1,11 @@
 #include "ex3_cpu.h"
-#include "ex3_memory.h"
-#include "ex3_insnset.h"
 
 
 EX3_CPU::EX3_CPU(int mem_size) : CPU("ex3_cpu.log")
 {
-	mem = new EX3_Memory(mem_size);
-	isa = new EX3_InsnSet(EX3_InsnSet::I_COUNT);
-	dbg = new Debugger(this);
+	mem.reset(new EX3_Memory(mem_size));
+    isa.reset(new EX3_InsnSet(EX3_InsnSet::I_COUNT));
+    dbg.reset(new Debugger(this));
 }
 
 void EX3_CPU::Reset()
@@ -35,23 +33,23 @@ bool EX3_CPU::IsWaitingForInput()
 	return IsInputReady() && (_IEN && inputEnabled || inputPending && !intr_pending);
 }
 
-void EX3_CPU::SetFG(unsigned short * fg, int val)
+void EX3_CPU::SetFG(unsigned short& fg, int val)
 {
 	int mask = (1 << GetSelectedPortID());
 	if (mask == 2)
 	{
 		val <<= 1;
 	}
-	*fg = (*fg & (~mask)) | val;
+	fg = (fg & (~mask)) | val;
 }
 
 void EX3_CPU::_SetFGI(int val)
 {
-	SetFG(&_FGI, val);
+	SetFG(_FGI, val);
 }
 void EX3_CPU::_SetFGO(int val)
 {
-	SetFG(&_FGO, val);
+	SetFG(_FGO, val);
 }
 
 int EX3_CPU::_GetFGI()
@@ -87,9 +85,9 @@ void EX3_CPU::PrintStatus(FILE * fp, bool intr_cycle)
 		}
 		else
 		{
-			if (mem->curCode->headComment)
+			if (!mem->curCode->headComment.empty())
 			{
-				fprintf(fp, "/%s\n", mem->curCode->headComment);
+				fprintf(fp, "/%s\n", mem->curCode->headComment.c_str());
 			}
 			if (isa->insn[mem->curCode->insnID].showMemFlag)
 			{
@@ -200,9 +198,9 @@ void EX3_CPU::PrintMemoryWord(Memory::Word * m, FILE * fp, int addr, int printMo
 		{
 			return;
 		}
-		if (!skipHeadComment && m->headComment)
+		if (!skipHeadComment && !m->headComment.empty())
 		{
-			fprintf(fp, "/%s\n", m->headComment);
+			fprintf(fp, "/%s\n", m->headComment.c_str());
 		}
 		if (verilogFlag)
 		{
@@ -219,13 +217,13 @@ void EX3_CPU::PrintMemoryWord(Memory::Word * m, FILE * fp, int addr, int printMo
 				fprintf(fp, "%1x%03x%04x\t///\t", 0, addr, m->value);
 			}
 		}
-		fprintf(fp, "%*s%s", label.maxLabelLength, (lb) ? lb->name : "", (lb) ? ": " : "  ");
+		fprintf(fp, "%*s%s", label.maxLabelLength, (lb) ? lb->name.c_str() : "", (lb) ? ": " : "  ");
 		if (insn->type == EX3_InsnSet::MEM_INSN)
 		{
 			int addrValue = mem->GetAddressField(m);
 			Label::Element * target_lb = label.GetLabel(addrValue);
 			fprintf(fp, "%04x [%04x]: %s %03x %s (%*s)", addr, m->value, insn->name, addrValue,
-				(mem->IsIndirectMemoryAccess(m)) ? "I" : " ", label.maxLabelLength, (target_lb) ? target_lb->name : "???");
+				(mem->IsIndirectMemoryAccess(m)) ? "I" : " ", label.maxLabelLength, (target_lb) ? target_lb->name.c_str() : "???");
 		}
 		else if (insn->type == EX3_InsnSet::REG_INSN)
 		{
@@ -240,9 +238,9 @@ void EX3_CPU::PrintMemoryWord(Memory::Word * m, FILE * fp, int addr, int printMo
 		{
 			EMIT_MESSAGE_3(fprintf, fp, "%04x [%04x]: ERROR!!! this memory location is unused but has non-zero value!!!\n", addr, m->value);
 		}
-		if (m->tailComment)
+		if (!m->tailComment.empty())
 		{
-			fprintf(fp, "\t/%s", m->tailComment);
+			fprintf(fp, "\t/%s", m->tailComment.c_str());
 		}
 		fprintf(fp, "\n");
 	}
