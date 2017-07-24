@@ -6,13 +6,21 @@ using namespace std;
 
 InsnSet::Insn::Insn()
 {
-	ID = 0; type = 0; nlen = 0; showMemFlag = 0; name = 0; operation = OP_DUMMY;
+	ID = 0;
+	type = 0;
+	nlen = 0;
+	showMemFlag = 0;
+	name = "";
+	operation = OP_DUMMY;
 }
 
-void InsnSet::Insn::Set(int id, const char * n, int t, int showMem, void(*op)(CPU *), unsigned short c)
+void InsnSet::Insn::Set(int id, const std::string n, int t, int showMem, void(*op)(CPU *), unsigned short c)
 {
-	ID = id; name = n; type = t; showMemFlag = showMem;
-	nlen = strlen(name);
+	ID = id;
+	name = n;
+	type = t;
+	showMemFlag = showMem;
+	nlen = name.size();
 	operation = op;
 	code = c;
 }
@@ -24,17 +32,17 @@ InsnSet::Insn * InsnSet::SearchInsn(const char ** iname_p)
 	for (i = 0; i < ICount; i++)
 	{
 		Insn * ii = &insn[i];
-		if (ii->nlen > 0 && strncmp(ii->name, iname, ii->nlen) == 0)
+		if (ii->nlen > 0 && strncmp(ii->name.c_str(), iname, ii->nlen) == 0)
 		{
-			*iname_p += ii->nlen; return ii;
+			*iname_p += ii->nlen;
+            return ii;
 		}
 	}
 	return 0;
 }
-InsnSet::InsnSet(int icount)
+InsnSet::InsnSet(int icount) : insn(icount)
 {
 	ICount = icount;
-	insn = new Insn[ICount];
 #define NI(i)	insn[I_##i].Set(I_##i, #i, 0, 0, OP_DUMMY, 0)
 	NI(ORG);
 	NI(END);
@@ -47,5 +55,4 @@ InsnSet::InsnSet(int icount)
 
 InsnSet::~InsnSet()
 {
-	delete[] insn;
 }

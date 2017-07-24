@@ -5,29 +5,45 @@
 /// bit[15:0]  : data
 
 // interrupt entry point
-0000001a	///	  ST0: 0000 [001a]: (   26:   26)      	// interrupt return address
+0000001b	///	ST0,HEX 0		/ interrupt return address
+: 0000 [001b]: (   27:   27)      	// interrupt return address
 //////////// subroutine (update IMSK) ////////
-001e005a	///	  UMK: 001e [005a]: (   90:  'Z')      
+001e005a	///	UMK,HEX 0
+: 001e [005a]: (   90:  'Z')      
 //////////// subroutine (check end-character) ////////
-0025005d	///	  CEC: 0025 [005d]: (   93:  ']')      
+0025005d	///	CEC,HEX 0
+: 0025 [005d]: (   93:  ']')      
 00390001	///	       0039 [0001]: (    1:    1)      	// (0001) (P_OUT : enabled)
 00420008	///	       0042 [0008]: (    8:    8)      	// (1000) (S_IN : enabled)
 00500004	///	       0050 [0004]: (    4:    4)      	// (0100) (S_OUT : enabled)
 00590002	///	       0059 [0002]: (    2:    2)      	// (0010) (P_IN : enabled)
 // data (no initialization)
-00660000	///	   BA: 0066 [0000]: (    0:    0)      	// backup storage for AC during interrupt handling
-00670001	///	   BE: 0067 [0001]: (    1:    1)      	// backup storage for  E during interrupt handling
-0068006f	///	  SDT: 0068 [006f]: (  111:  'o')      	// S_IN data
-00690004	///	  PDT: 0069 [0004]: (    4:    4)      	// P_IN data
+00660000	///	BA, DEC 000		/ backup storage for AC during interrupt handling
+: 0066 [0000]: (    0:    0)      	// backup storage for AC during interrupt handling
+00670001	///	BE, DEC 000		/ backup storage for  E during interrupt handling
+: 0067 [0001]: (    1:    1)      	// backup storage for  E during interrupt handling
+00680061	///	SDT,DEC 0			/ S_IN data
+: 0068 [0061]: (   97:  'a')      	// S_IN data
+00690004	///	PDT,DEC 0			/ P_IN data
+: 0069 [0004]: (    4:    4)      	// P_IN data
 // data (need initialization code)
-006affff	///	  STT: 006a [ffff]: (   -1:65535)      	// state
-006b0000	///	  SFG: 006b [0000]: (    0:    0)      	// S_IN flag
-006c0000	///	  PFG: 006c [0000]: (    0:    0)      	// P_IN flag
-006d000a	///	  MSK: 006d [000a]: (   10:   10)      	// IMSK data
+006affff	///	STT,DEC 0     / state
+: 006a [ffff]: (   -1:65535)      	// state
+006b0000	///	SFG,DEC 0     / S_IN flag
+: 006b [0000]: (    0:    0)      	// S_IN flag
+006c0000	///	PFG,DEC 0     / P_IN flag
+: 006c [0000]: (    0:    0)      	// P_IN flag
+006d000a	///	MSK,DEC 0			/ IMSK data
+: 006d [000a]: (   10:   10)      	// IMSK data
 // data (read-only)
-006e0006	///	  VH6: 006e [0006]: (    6:    6)      	// VH6 = 0x6 (0110)
-006f0009	///	  VH9: 006f [0009]: (    9:    9)      	// VH9 = 0x9 (1001)
-0070000a	///	  VHA: 0070 [000a]: (   10:   10)      	// VHA = 0xA (1010)
-0071ffff	///	  VM1: 0071 [ffff]: (   -1:65535)      	// VM1 = -1
-0072fffc	///	  VM4: 0072 [fffc]: (   -4:65532)      	// VM4 = -4
+006e0006	///	VH6,HEX 6     / VH6 = 0x6 (0110)
+: 006e [0006]: (    6:    6)      	// VH6 = 0x6 (0110)
+006f0009	///	VH9,HEX 9     / VH9 = 0x9 (1001)
+: 006f [0009]: (    9:    9)      	// VH9 = 0x9 (1001)
+0070000a	///	VHA,HEX A     / VHA = 0xA (1010)
+: 0070 [000a]: (   10:   10)      	// VHA = 0xA (1010)
+0071ffff	///	VM1,DEC -1    / VM1 = -1
+: 0071 [ffff]: (   -1:65535)      	// VM1 = -1
+0072fffc	///	VM4,DEC -4		/ VM4 = -4
+: 0072 [fffc]: (   -4:65532)      	// VM4 = -4
 f0000000	///	end-of-memory

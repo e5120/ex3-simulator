@@ -1,4 +1,6 @@
 #pragma once
+#include <string>
+#include <vector>
 
 class CPU;
 
@@ -12,15 +14,15 @@ public:
 		unsigned char type;
 		unsigned char nlen;
 		unsigned char showMemFlag;
-		const char * name;
+		std::string name;
 		unsigned short code;
 		void(*operation)(CPU *);
 		Insn();
-		void Set(int id, const char * n, int t, int showMem, void(*op)(CPU *), unsigned short c);
+		void Set(int id, const std::string n, int t, int showMem, void(*op)(CPU *), unsigned short c);
 	};
 
 	Insn * SearchInsn(const char ** iname_p);
-	Insn * insn;
+	std::vector<Insn> insn;
 	int ICount;
 	
 	enum InsnID

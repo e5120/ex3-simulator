@@ -13,8 +13,21 @@
   <component name="ChangeListManager">
     <list default="true" id="db297b7b-fbce-438e-86a9-b689524c6903" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/asm/ex3_asm" afterPath="$PROJECT_DIR$/asm/ex3_asm" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/simulator/label.cpp" afterPath="$PROJECT_DIR$/simulator/label.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/simulator/label.h" afterPath="$PROJECT_DIR$/simulator/label.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/asm/ex3_cpu.log" afterPath="$PROJECT_DIR$/asm/ex3_cpu.log" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/simulator/ex3_asmparser.cpp" afterPath="$PROJECT_DIR$/simulator/ex3_asmparser.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/simulator/ex3_asmparser.h" afterPath="$PROJECT_DIR$/simulator/ex3_asmparser.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/simulator/ex3_cpu.cpp" afterPath="$PROJECT_DIR$/simulator/ex3_cpu.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/simulator/insnset.cpp" afterPath="$PROJECT_DIR$/simulator/insnset.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/simulator/insnset.h" afterPath="$PROJECT_DIR$/simulator/insnset.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/verilog/test_io1.mem" afterPath="$PROJECT_DIR$/verilog/test_io1.mem" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/verilog/test_io1.prb" afterPath="$PROJECT_DIR$/verilog/test_io1.prb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/verilog/test_io1_in.log" afterPath="$PROJECT_DIR$/verilog/test_io1_in.log" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/verilog/test_io1_out.log" afterPath="$PROJECT_DIR$/verilog/test_io1_out.log" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/verilog/test_io2.mem" afterPath="$PROJECT_DIR$/verilog/test_io2.mem" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/verilog/test_io2.prb" afterPath="$PROJECT_DIR$/verilog/test_io2.prb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/verilog/test_io2_in.log" afterPath="$PROJECT_DIR$/verilog/test_io2_in.log" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/verilog/test_io2_out.log" afterPath="$PROJECT_DIR$/verilog/test_io2_out.log" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -26,9 +39,9 @@
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5">
+    <splitter split-orientation="horizontal" split-proportion="0.5515041">
       <split-first>
-        <leaf>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="ex3_terminalsystem.h" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/simulator/ex3_terminalsystem.h">
               <provider selected="true" editor-type-id="text-editor">
@@ -41,41 +54,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="ex3_asmparser.cpp" pinned="false" current-in-tab="false">
+          <file leaf-file-name="ex3_asmparser.cpp" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/simulator/ex3_asmparser.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="435">
-                  <caret line="30" column="82" lean-forward="false" selection-start-line="30" selection-start-column="74" selection-end-line="30" selection-end-column="82" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="ex3_cpu.cpp" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/simulator/ex3_cpu.cpp">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="23">
-                  <caret line="190" column="9" lean-forward="false" selection-start-line="190" selection-start-column="9" selection-end-line="190" selection-end-column="9" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="ex3_memory.cpp" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/simulator/ex3_memory.cpp">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="45">
-                  <caret line="3" column="1" lean-forward="false" selection-start-line="3" selection-start-column="1" selection-end-line="3" selection-end-column="1" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="memory.cpp" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/simulator/memory.cpp">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-147">
-                  <caret line="41" column="33" lean-forward="false" selection-start-line="41" selection-start-column="33" selection-end-line="41" selection-end-column="33" />
+                <state relative-caret-position="21">
+                  <caret line="3" column="83" lean-forward="true" selection-start-line="3" selection-start-column="83" selection-end-line="3" selection-end-column="83" />
                   <folding />
                 </state>
               </provider>
@@ -84,18 +67,8 @@
           <file leaf-file-name="asmparser.cpp" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/simulator/asmparser.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="82">
+                <state relative-caret-position="5145">
                   <caret line="343" column="24" lean-forward="false" selection-start-line="343" selection-start-column="24" selection-end-line="343" selection-end-column="24" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="label.cpp" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/simulator/label.cpp">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="228">
-                  <caret line="63" column="0" lean-forward="true" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -104,37 +77,33 @@
         </leaf>
       </split-first>
       <split-second>
-        <leaf>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="ex3_memory.h" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/simulator/ex3_memory.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="150">
-                  <caret line="10" column="38" lean-forward="false" selection-start-line="10" selection-start-column="38" selection-end-line="10" selection-end-column="38" />
+                <state relative-caret-position="105">
+                  <caret line="7" column="15" lean-forward="true" selection-start-line="7" selection-start-column="15" selection-end-line="7" selection-end-column="15" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="label.h" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/simulator/label.h">
+          <file leaf-file-name="ex3_asmparser.h" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/simulator/ex3_asmparser.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="690">
-                  <caret line="46" column="22" lean-forward="false" selection-start-line="46" selection-start-column="14" selection-end-line="46" selection-end-column="22" />
-                  <folding>
-                    <element signature="e#14#31#0" expanded="true" />
-                  </folding>
+                <state relative-caret-position="120">
+                  <caret line="8" column="43" lean-forward="false" selection-start-line="8" selection-start-column="43" selection-end-line="8" selection-end-column="43" />
+                  <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="memory.h" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/simulator/memory.h">
+          <file leaf-file-name="asmparser.h" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/simulator/asmparser.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="375">
-                  <caret line="25" column="30" lean-forward="false" selection-start-line="25" selection-start-column="30" selection-end-line="25" selection-end-column="36" />
-                  <folding>
-                    <element signature="e#13#30#0" expanded="true" />
-                  </folding>
+                <state relative-caret-position="285">
+                  <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -162,6 +131,7 @@
       <find>setcomment</find>
       <find>lb-&gt;name</find>
       <find>name</find>
+      <find>insn-&gt;name</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -174,10 +144,8 @@
         <option value="$PROJECT_DIR$/simulator/ex3_asm.cpp" />
         <option value="$PROJECT_DIR$/simulator/system.h" />
         <option value="$PROJECT_DIR$/simulator/system.cpp" />
-        <option value="$PROJECT_DIR$/simulator/asmparser.h" />
         <option value="$PROJECT_DIR$/simulator/ex3_cpu.h" />
         <option value="$PROJECT_DIR$/simulator/ex3_terminalsystem.cpp" />
-        <option value="$PROJECT_DIR$/simulator/ex3_asmparser.h" />
         <option value="$PROJECT_DIR$/simulator/ex3_insnset.h" />
         <option value="$PROJECT_DIR$/simulator/cpu.h" />
         <option value="$PROJECT_DIR$/simulator/cpu.cpp" />
@@ -186,10 +154,14 @@
         <option value="$PROJECT_DIR$/simulator/memory.h" />
         <option value="$PROJECT_DIR$/simulator/memory.cpp" />
         <option value="$PROJECT_DIR$/simulator/asmparser.cpp" />
-        <option value="$PROJECT_DIR$/simulator/ex3_asmparser.cpp" />
-        <option value="$PROJECT_DIR$/simulator/ex3_cpu.cpp" />
         <option value="$PROJECT_DIR$/simulator/label.cpp" />
         <option value="$PROJECT_DIR$/simulator/label.h" />
+        <option value="$PROJECT_DIR$/simulator/ex3_cpu.cpp" />
+        <option value="$PROJECT_DIR$/simulator/insnset.h" />
+        <option value="$PROJECT_DIR$/simulator/insnset.cpp" />
+        <option value="$PROJECT_DIR$/simulator/asmparser.h" />
+        <option value="$PROJECT_DIR$/simulator/ex3_asmparser.h" />
+        <option value="$PROJECT_DIR$/simulator/ex3_asmparser.cpp" />
       </list>
     </option>
   </component>
@@ -200,8 +172,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="width" value="1920" />
-    <option name="height" value="1080" />
+    <option name="width" value="1280" />
+    <option name="height" value="800" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -362,9 +334,17 @@
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.grunt" factoryName="Grunt.js">
+      <node-interpreter value="project" />
+      <envs />
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.npm" factoryName="npm">
@@ -463,20 +443,20 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1500811112487</updated>
-      <workItem from="1500811115627" duration="10281000" />
+      <workItem from="1500811115627" duration="10489000" />
+      <workItem from="1500873428335" duration="772000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10281000" />
+    <option name="totallyTimeSpent" value="11261000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1920" height="1080" extended-state="0" />
+    <frame x="0" y="0" width="1280" height="800" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.111979164" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14296874" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.0" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28848016" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -487,11 +467,12 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.0" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -506,11 +487,96 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/simulator/ex3_terminalsystem.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="28" lean-forward="false" selection-start-line="10" selection-start-column="28" selection-end-line="10" selection-end-column="28" />
+          <folding>
+            <element signature="e#14#33#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/simulator/ex3_asmparser.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="30" column="82" lean-forward="false" selection-start-line="30" selection-start-column="74" selection-end-line="30" selection-end-column="82" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/simulator/ex3_cpu.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2850">
+          <caret line="190" column="9" lean-forward="false" selection-start-line="190" selection-start-column="9" selection-end-line="190" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/simulator/ex3_memory.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="1" lean-forward="false" selection-start-line="3" selection-start-column="1" selection-end-line="3" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/simulator/memory.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="615">
+          <caret line="41" column="33" lean-forward="false" selection-start-line="41" selection-start-column="33" selection-end-line="41" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/simulator/asmparser.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5145">
+          <caret line="343" column="24" lean-forward="false" selection-start-line="343" selection-start-column="24" selection-end-line="343" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/simulator/label.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="945">
+          <caret line="63" column="0" lean-forward="true" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/simulator/ex3_memory.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="38" lean-forward="false" selection-start-line="10" selection-start-column="38" selection-end-line="10" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/simulator/memory.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="25" column="30" lean-forward="false" selection-start-line="25" selection-start-column="30" selection-end-line="25" selection-end-column="36" />
+          <folding>
+            <element signature="e#13#30#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/simulator/label.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="690">
+          <caret line="46" column="22" lean-forward="false" selection-start-line="46" selection-start-column="14" selection-end-line="46" selection-end-column="22" />
+          <folding>
+            <element signature="e#14#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -518,7 +584,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -526,7 +591,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1977">
           <caret line="4604" column="0" lean-forward="false" selection-start-line="4604" selection-start-column="0" selection-end-line="4604" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -549,16 +613,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/simulator/ex3_insnset.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#24#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/simulator/ex3_asm_def.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -575,22 +629,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/simulator/asmparser.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="23" column="37" lean-forward="false" selection-start-line="23" selection-start-column="37" selection-end-line="23" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/simulator/insnset.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="6" lean-forward="false" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/simulator/system.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="585">
@@ -599,19 +637,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/simulator/ex3_asmparser.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/simulator/cpu.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
           <caret line="14" column="9" lean-forward="false" selection-start-line="14" selection-start-column="9" selection-end-line="14" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -635,16 +664,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/simulator/ex3_insnset.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="15" lean-forward="true" selection-start-line="12" selection-start-column="15" selection-end-line="12" selection-end-column="15" />
-          <folding>
-            <element signature="e#13#33#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/simulator/ex3_terminalsystem.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
@@ -652,14 +671,6 @@
           <folding>
             <element signature="e#1083#1228#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/simulator/ex3_memory.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="38" lean-forward="false" selection-start-line="10" selection-start-column="38" selection-end-line="10" selection-end-column="38" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -673,17 +684,45 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/simulator/asmparser.cpp">
+    <entry file="file://$PROJECT_DIR$/simulator/ex3_terminalsystem.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="82">
-          <caret line="343" column="24" lean-forward="false" selection-start-line="343" selection-start-column="24" selection-end-line="343" selection-end-column="24" />
+        <state relative-caret-position="150">
+          <caret line="10" column="28" lean-forward="false" selection-start-line="10" selection-start-column="28" selection-end-line="10" selection-end-column="28" />
+          <folding>
+            <element signature="e#14#33#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/simulator/label.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="58">
+          <caret line="52" column="5" lean-forward="true" selection-start-line="52" selection-start-column="5" selection-end-line="52" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/simulator/ex3_insnset.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="15" lean-forward="true" selection-start-line="12" selection-start-column="15" selection-end-line="12" selection-end-column="15" />
+          <folding>
+            <element signature="e#13#33#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/simulator/ex3_insnset.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/simulator/memory.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-147">
+        <state relative-caret-position="15">
           <caret line="41" column="33" lean-forward="false" selection-start-line="41" selection-start-column="33" selection-end-line="41" selection-end-column="33" />
           <folding />
         </state>
@@ -697,46 +736,88 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/simulator/ex3_terminalsystem.h">
+    <entry file="file://$PROJECT_DIR$/simulator/utils.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="28" lean-forward="false" selection-start-line="10" selection-start-column="28" selection-end-line="10" selection-end-column="28" />
+        <state relative-caret-position="270">
+          <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
           <folding>
-            <element signature="e#14#33#0" expanded="true" />
+            <element signature="e#1034#1052#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/simulator/ex3_asmparser.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="30" column="82" lean-forward="false" selection-start-line="30" selection-start-column="74" selection-end-line="30" selection-end-column="82" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/simulator/ex3_cpu.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="23">
-          <caret line="190" column="9" lean-forward="false" selection-start-line="190" selection-start-column="9" selection-end-line="190" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/simulator/label.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="690">
-          <caret line="46" column="22" lean-forward="false" selection-start-line="46" selection-start-column="14" selection-end-line="46" selection-end-column="22" />
+        <state relative-caret-position="432">
+          <caret line="29" column="26" lean-forward="false" selection-start-line="29" selection-start-column="26" selection-end-line="29" selection-end-column="26" />
           <folding>
             <element signature="e#14#31#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/simulator/label.cpp">
+    <entry file="file://$PROJECT_DIR$/simulator/ex3_cpu.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="63" column="0" lean-forward="true" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
+        <state relative-caret-position="342">
+          <caret line="229" column="80" lean-forward="false" selection-start-line="229" selection-start-column="80" selection-end-line="229" selection-end-column="80" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/simulator/insnset.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="392">
+          <caret line="37" column="12" lean-forward="false" selection-start-line="37" selection-start-column="12" selection-end-line="37" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/simulator/insnset.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="24" lean-forward="false" selection-start-line="20" selection-start-column="24" selection-end-line="20" selection-end-column="24" />
+          <folding>
+            <element signature="e#13#30#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/simulator/asmparser.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5145">
+          <caret line="343" column="24" lean-forward="false" selection-start-line="343" selection-start-column="24" selection-end-line="343" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/simulator/asmparser.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/simulator/ex3_memory.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="15" lean-forward="true" selection-start-line="7" selection-start-column="15" selection-end-line="7" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/simulator/ex3_asmparser.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="43" lean-forward="false" selection-start-line="8" selection-start-column="43" selection-end-line="8" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/simulator/ex3_asmparser.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="21">
+          <caret line="3" column="83" lean-forward="true" selection-start-line="3" selection-start-column="83" selection-end-line="3" selection-end-column="83" />
           <folding />
         </state>
       </provider>

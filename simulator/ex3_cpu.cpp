@@ -222,12 +222,12 @@ void EX3_CPU::PrintMemoryWord(Memory::Word * m, FILE * fp, int addr, int printMo
 		{
 			int addrValue = mem->GetAddressField(m);
 			Label::Element * target_lb = label.GetLabel(addrValue);
-			fprintf(fp, "%04x [%04x]: %s %03x %s (%*s)", addr, m->value, insn->name, addrValue,
+			fprintf(fp, "%04x [%04x]: %s %03x %s (%*s)", addr, m->value, insn->name.c_str(), addrValue,
 				(mem->IsIndirectMemoryAccess(m)) ? "I" : " ", label.maxLabelLength, (target_lb) ? target_lb->name.c_str() : "???");
 		}
 		else if (insn->type == EX3_InsnSet::REG_INSN)
 		{
-			fprintf(fp, "%04x [%04x]: %s%*s", addr, m->value, insn->name, label.maxLabelLength + 9, "");
+			fprintf(fp, "%04x [%04x]: %s%*s", addr, m->value, insn->name.c_str(), label.maxLabelLength + 9, "");
 		}
 		else if (m->status != 0)
 		{

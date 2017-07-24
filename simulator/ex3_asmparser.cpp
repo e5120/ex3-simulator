@@ -1,7 +1,7 @@
 #include "ex3_asmparser.h"
 #include "ex3_insnset.h"
 
-int EX3_ASMParser::ParseInsn(int passNum, const char * p, InsnSet::Insn * insn, int & addr)
+int EX3_ASMParser::ParseInsn(int passNum, const char * p, InsnSet::Insn * insn, int& addr)
 {
 
 	if (insn->type == EX3_InsnSet::REG_INSN || insn->type == EX3_InsnSet::MEM_INSN)
