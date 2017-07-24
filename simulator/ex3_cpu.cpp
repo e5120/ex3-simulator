@@ -65,7 +65,7 @@ int EX3_CPU::_GetFGO()
 void EX3_CPU::PrintDataMemory()
 {
 	EMIT_MESSAGE_0(PrintSeparator, fplog);
-	EMIT_MESSAGE_1(PrintMemory, fplog, CPU::PM_Null);
+	EMIT_MESSAGE_1(PrintMemory, fplog, CPU:: PM_Null);
 }
 
 void EX3_CPU::PrintStatus(FILE * fp, bool intr_cycle)

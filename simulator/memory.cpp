@@ -33,7 +33,7 @@ void Memory::Word::SetStatus(Label::AnnotationStatus * labelAnnotation, int addr
 	}
 }
 
-void Memory::Word::SetComment(const char * c, int len, int headFlag)
+void Memory::Word::SetComment(std::string& c, int len, int headFlag)
 {
 	if (headFlag)
 	{
@@ -46,7 +46,7 @@ void Memory::Word::SetComment(const char * c, int len, int headFlag)
 			sprintf(p, "%s\n/", headComment.c_str());
             p += headComment.size() + 2;
 		}
-		strncpy(p, c, len);
+		strncpy(p, c.c_str(), len);
 		comment2[len2] = 0;
 		headComment = comment2;
 	}
@@ -54,7 +54,7 @@ void Memory::Word::SetComment(const char * c, int len, int headFlag)
 	{
 		char * comment2 = new char[len + 1];
 		char * p = comment2;
-		strncpy(p, c, len);
+		strncpy(p, c.c_str(), len);
 		comment2[len] = 0;
 		tailComment = comment2;
 	}

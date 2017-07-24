@@ -18,7 +18,7 @@ Label::Element::~Element()
 void Label::Element::Set(const std::string n, int len, unsigned short addr)
 {
 	nlen = len;
-	name = n;
+	name = n.substr(0,len);
 	address = addr;
 }
 
@@ -62,16 +62,18 @@ bool Label::AnnotationStatus::AddAnnotation(const std::string p, int len, unsign
 Label::Label() : count(0), maxLabelLength(0), element(MAX_LABEL_COUNT)
 {}
 
-Label::Element * Label::AddLabel(const char * n, int len, unsigned short addr)
+Label::Element * Label::AddLabel(std::string& n, int len, unsigned short addr)
 {
 	Element * lb;
 	if (count >= MAX_LABEL_COUNT)
 	{
-		printf("ERROR: labelCount exceeds limit %d\n", MAX_LABEL_COUNT); return 0;
+		printf("ERROR: labelCount exceeds limit %d\n", MAX_LABEL_COUNT);
+        return 0;
 	}
 	if ((lb = GetLabel(n, len)))
 	{
-		printf("ERROR: label(%s) already exists!!\n", lb->name.c_str()); return 0;
+		printf("ERROR: label(%s) already exists!!\n", lb->name.c_str());
+        return 0;
 	}
 	lb = &element[count++];
 	lb->Set(n, len, addr);
@@ -81,12 +83,14 @@ Label::Element * Label::AddLabel(const char * n, int len, unsigned short addr)
 	}
 	return lb;
 }
-Label::Element * Label::GetLabel(const char * p, int len)
+Label::Element * Label::GetLabel(std::string& p, int len)
 {
 	int i;
 	for (i = 0; i < count; i++)
 	{
-		if (element[i].nlen == len && strncmp(element[i].name.c_str(), p, len) == 0) return &element[i];
+		if (element[i].nlen == len && strncmp(element[i].name.c_str(), p.c_str(), len) == 0){
+			return &element[i];
+		}
 	}
 	return 0;
 }

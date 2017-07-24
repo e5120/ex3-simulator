@@ -34,7 +34,7 @@ LP, LDA XL		  / AC <- M[XL]
 / data
 XL, DEC 10		/ X:init(low digit)
 XH, DEC 0       / X:init(high digit)
-YL, DEC 10		/ Y:init(low digit)
+YL, DEC 100		/ Y:init(low digit)
 YH, DEC 0       / Y:init(high digit)
 PL, DEC 0		    / result(low digit)
 PH, DEC 0       / result(high digit)

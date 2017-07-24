@@ -27,23 +27,23 @@ public:
 	int WriteVerilogMemProbeFile();
 	int WriteVerilogMonitorFile();
 
-	void SkipWhiteSpace(const char ** pp);
+	void SkipWhiteSpace(std::string& pp);
 
-	int GetNum(const char ** pp, int insnType);
+	int GetNum(std::string& pp, int insnType);
 
-	int GetLabelLength(const char * p);
+	int GetLabelLength(std::string& p);
 
-	int ExtractComment(const char * p, int addr, int headFlag);
+	int ExtractComment(std::string& p, int addr, int headFlag);
 	void PrintErrorLocation();
-	int ParseLabel(const char * p);
-	int ParseLabel(int passNum, const char ** p, int & addr);
-	int ParseNonInsn(int passNum, const char * p, int insnID, int & addr);
+	int ParseLabel(std::string& p);
+	int ParseLabel(int passNum, std::string& p, int& addr);
+	int ParseNonInsn(int passNum, std::string& p, int insnID, int & addr);
 	
-	int ParseBlockCommentStart(const char ** p);
-	int ParseBlockCommentEnd(const char ** p);
-	int ParseBlockComment(const char ** p);
+	int ParseBlockCommentStart(std::string& p);
+	int ParseBlockCommentEnd(std::string& p);
+	int ParseBlockComment(std::string& p);
 	int Parse(int passNum);
 
 	///	virtual abstract functions : must be defined in actual class
-	virtual int ParseInsn(int passNum, const char * p, InsnSet::Insn * insn, int & addr) = 0;
+	virtual int ParseInsn(int passNum, std::string& p, InsnSet::Insn * insn, int& addr) = 0;
 };

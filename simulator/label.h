@@ -44,9 +44,9 @@ public:
 	int count, maxLabelLength;
 	Label();
 
-	Element * AddLabel(const char * n, int len, unsigned short addr);
+	Element * AddLabel(std::string& n, int len, unsigned short addr);
 
-	Element * GetLabel(const char * p, int len);
+	Element * GetLabel(std::string& p, int len);
 	Element * GetLabel(int addr);
 
 	void PrintLabels(FILE * fp);

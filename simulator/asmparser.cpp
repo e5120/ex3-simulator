@@ -139,23 +139,20 @@ int ASMParser::WriteVerilogMonitorFile()
 	}
 }
 
-void ASMParser::SkipWhiteSpace(const char ** pp)
+void ASMParser::SkipWhiteSpace(std::string& pp)
 {
-	const char * p = *pp;
-	while (*p == ' ' || *p == '\t')
-	{
-		p++;
-	}
-	*pp = p;
+    while(pp.find_first_of(" 　\t") == 0){
+        pp.erase(pp.begin());
+        if(pp.empty()) break;
+    }
 }
 
-int ASMParser::GetNum(const char ** pp, int insnType)
+int ASMParser::GetNum(std::string& pp, int insnType)
 {
 	if (insnType == InsnSet::I_CHR)
 	{
-		return **pp;
+		return pp.front();
 	}
-	const char * p = *pp;
 	int val = 0;
 	int first = 1;
 	int base = 0;
@@ -167,26 +164,28 @@ int ASMParser::GetNum(const char ** pp, int insnType)
 	default:				return -1;
 	}
 	int sign = 0;
-	if (*p == '-')
+	if (pp.front() == '-')
 	{
-		sign = 1; p++;
+		sign = 1;
+        pp.erase(pp.begin());
 	}
-	while (*p)
+	while (pp.front())
 	{
-		if (*p == ' ' || *p == '\t' || *p == '\n' || *p == '\r' || *p == COMMENT)
+        char p = pp.front();
+		if (p == ' ' || p == '\t' || p == '\n' || p == '\r' || p == COMMENT)
 		{
 			break;
 		}
 		val *= base;
-		int num = *p - '0';
+		int num = p - '0';
 		if (num >= 0 && num <= 9)
 		{
 			val += num;
 		}
 		else if (base == 16)
 		{
-			int upper = *p - 'A';
-			int lower = *p - 'a';
+			int upper = p - 'A';
+			int lower = p - 'a';
 			if (upper >= 0 && upper <= 5)
 			{
 				val += upper + 10;
@@ -204,10 +203,9 @@ int ASMParser::GetNum(const char ** pp, int insnType)
 		{
 			return -1;
 		}	/// error
-		p++;
+		pp.erase(pp.begin());
 		first = 0;
 	}
-	*pp = p;
 	if (sign)
 	{
 		val = -val;
@@ -215,12 +213,12 @@ int ASMParser::GetNum(const char ** pp, int insnType)
 	return (first) ? -1 : val;
 }
 
-int ASMParser::GetLabelLength(const char * p)
+int ASMParser::GetLabelLength(std::string& p)
 {
 	int nlen = 0;
-	while (*p)
+	while (p[nlen])
 	{
-		switch (*p)
+		switch (p[nlen])
 		{
 		case ' ':
 		case '\r':
@@ -229,26 +227,25 @@ int ASMParser::GetLabelLength(const char * p)
 		case ',':	return nlen;
 		default:	break;
 		}
-		nlen++;
-		p++;
+		++nlen;
 	}
 	return 0;
 }
 
-int ASMParser::ExtractComment(const char * p, int addr, int headFlag)
+int ASMParser::ExtractComment(std::string& p, int addr, int headFlag)
 {
 	if (addr >= 0 && addr < cpu->mem->size)
 	{
 		Memory::Word * m = &cpu->mem->word[addr];
-		SkipWhiteSpace(&p);
-		if (*p == '/')
+		SkipWhiteSpace(p);
+		if (p.front() == '/')
 		{
-			const char * pp = p;
-			while (*pp && *pp != '\r' && *pp != '\n')
+            int len = 0;
+			while (p[len] && p[len] != '\r' && p[len] != '\n')
 			{
-				pp++;
+                ++len;
 			}
-			m->SetComment(p, pp - p, headFlag);
+			m->SetComment(p, len, headFlag);
 			return 1;
 		}
 	}
@@ -259,70 +256,73 @@ void ASMParser::PrintErrorLocation()
 	printf("Error occurred on line %d\n", asmLineNum);
 }
 
-int ASMParser::ParseLabel(const char * p)
+int ASMParser::ParseLabel(std::string& p)
 {
 	int nlen = 0;
-	while (*p)
+	while (p[nlen])
 	{
-		switch (*p)
+		switch (p[nlen])
 		{
 		case ' ':
 		case '\t':	return 0;
 		case ',':	return nlen;
 		default:	break;
 		}
-		nlen++;
-		p++;
+		++nlen;
+		//p.erase(p.begin());
 	}
 	return 0;
 }
 
-int ASMParser::ParseLabel(int passNum, const char ** p, int & addr)
+int ASMParser::ParseLabel(int passNum, std::string& p, int& addr)
 {
-	if (passNum == 2 && ExtractComment(*p, addr, 1))
+	if (passNum == 2 && ExtractComment(p, addr, 1))
 	{
 		return 1;
 	}
 	SkipWhiteSpace(p);
-	if (**p == '/')
+	if (p.front() == '/')
 	{
 		return 1;
 	}	///	comment...
-	int labelLength = ParseLabel(*p);
+	int labelLength = ParseLabel(p);
 	if (labelLength > 0)
 	{
-		if (cpu->label.annotation.AddAnnotation(*p, labelLength, (unsigned short)addr))
+		if (cpu->label.annotation.AddAnnotation(p, labelLength, (unsigned short)addr))
 		{
 		}
 		else if (passNum == 1)
 		{	///	create label
-			if (cpu->label.AddLabel(*p, labelLength, (unsigned short)addr) == 0)
+			if (cpu->label.AddLabel(p, labelLength, (unsigned short)addr) == 0)
 			{
-				PrintErrorLocation(); return -1;
+				PrintErrorLocation();
+				return -1;
 			}
 		}
-		else if (cpu->label.GetLabel(*p, labelLength) == 0)
+		else if (cpu->label.GetLabel(p, labelLength) == 0)
 		{
-			printf("ERROR: label(%s) not found in 1st pass (bug in the parser...)\n", p); PrintErrorLocation(); return -1;
+			printf("ERROR: label(%s) not found in 1st pass (bug in the parser...)\n", p.c_str());
+            PrintErrorLocation();
+            return -1;
 		}
-		*p += labelLength + 1;
+        p.erase(0, labelLength+1);
 		SkipWhiteSpace(p);
 		if (passNum == 2)
 		{
-			ExtractComment(*p, addr, 1);
+			ExtractComment(p, addr, 1);
 		}
-		if (**p == '/')
+		if (p.front() == '/')
 		{
 			return 1;
 		}
 	}
-	return (**p == '\n' || **p == '\r') ? 1 : 0;
+	return (p.front() == '\n' || p.front() == '\r') ? 1 : 0;
 }
 
-int ASMParser::ParseNonInsn(int passNum, const char * p, int insnID, int & addr)
+int ASMParser::ParseNonInsn(int passNum, std::string& p, int insnID, int& addr)
 {
-	SkipWhiteSpace(&p);
-	int param = GetNum(&p, insnID);
+	SkipWhiteSpace(p);
+	int param = GetNum(p, insnID);
 	Memory::Word * m = &cpu->mem->word[addr];
 	int endReached = 0;
 	switch (insnID)
@@ -331,7 +331,9 @@ int ASMParser::ParseNonInsn(int passNum, const char * p, int insnID, int & addr)
 		addr = param;
 		if (!cpu->mem->IsValidAddress(addr))
 		{
-			printf("ERROR: ORG has invalid address %d (0x%x)\n", addr, addr); PrintErrorLocation(); return -1;
+			printf("ERROR: ORG has invalid address %d (0x%x)\n", addr, addr);
+			PrintErrorLocation();
+			return -1;
 		}
 		if (passNum == 2)
 		{
@@ -344,20 +346,26 @@ int ASMParser::ParseNonInsn(int passNum, const char * p, int insnID, int & addr)
 	case InsnSet::I_SYM:
 		if (passNum == 2)
 		{
-			SkipWhiteSpace(&p);
+			SkipWhiteSpace(p);
 			int len = GetLabelLength(p);
 			if (len == 0)
 			{
-				printf("ERROR: label(%s) length = 0 (bug in parser)\n", p); PrintErrorLocation(); return -1;
+				printf("ERROR: label(%s) length = 0 (bug in parser)\n", p.c_str());
+				PrintErrorLocation();
+				return -1;
 			}
-			Label::Element * lb = cpu->label.GetLabel(p, len);
+			Label::Element* lb = cpu->label.GetLabel(p, len);
 			if (lb == 0)
 			{
-				printf("ERROR: label(%s) not found in the 1st pass (bug in the program...)\n", p); PrintErrorLocation(); return -1;
+				printf("ERROR: label(%s) not found in the 1st pass (bug in the program...)\n", p.c_str());
+				PrintErrorLocation();
+				return -1;
 			}
 			if (!cpu->mem->IsValidAddress(lb->address))
 			{
-				printf("ERROR: label(%s) has invalid address (%x)\n", lb->name.c_str(), lb->address); PrintErrorLocation(); return -1;
+				printf("ERROR: label(%s) has invalid address (%x)\n", lb->name.c_str(), lb->address);
+				PrintErrorLocation();
+				return -1;
 			}
 			param = lb->address;
 		}
@@ -374,7 +382,7 @@ int ASMParser::ParseNonInsn(int passNum, const char * p, int insnID, int & addr)
 		{
 			ExtractComment(p, addr, 0);
 		}
-		addr++;
+		++addr;
 		break;
 	default:
 		break;
@@ -382,39 +390,43 @@ int ASMParser::ParseNonInsn(int passNum, const char * p, int insnID, int & addr)
 	return (endReached) ? 1 : 0;
 }
 
-int ASMParser::ParseBlockCommentStart(const char ** p)
+int ASMParser::ParseBlockCommentStart(std::string& p)
 {
 	if (!blockCommentPending)
 	{
 		SkipWhiteSpace(p);
-		if (strncmp(*p, "/*", 2) == 0)
+		if (strncmp(p.c_str(), "/*", 2) == 0)
 		{
-			blockCommentPending = 1; (*p) += 2; return 1;
+			blockCommentPending = 1;
+            p.erase(0,2);
+            return 1;
 		}
 	}
 	return 0;
 }
 
-int ASMParser::ParseBlockCommentEnd(const char ** p)
+int ASMParser::ParseBlockCommentEnd(std::string& p)
 {
 	if (blockCommentPending)
 	{
-		while (**p)
+		while (p.front())
 		{
-			if (strncmp(*p, "*/", 2) == 0)
+			if (strncmp(p.c_str(), "*/", 2) == 0)
 			{
-				(*p) += 2; blockCommentPending = 0; return 1;
+                p.erase(0,2);
+                blockCommentPending = 0;
+				return 1;
 			}
 			else
 			{
-				(*p)++;
+                p.erase(p.begin());
 			}
 		}
 	}
 	return 0;
 }
 
-int ASMParser::ParseBlockComment(const char ** p)
+int ASMParser::ParseBlockComment(std::string& p)
 {
 	while (ParseBlockCommentStart(p) || ParseBlockCommentEnd(p))
 	{
@@ -426,34 +438,39 @@ int ASMParser::Parse(int passNum)
 {
 	if (passNum != 1 && passNum != 2)
 	{
-		printf("passNum = %d is invalid\n", passNum); return -1;
+		printf("passNum = %d is invalid\n", passNum);
+        return -1;
 	}
 	char buf[MAX_LINE];
+    std::string p;
 	int addr = 0, endReached = 0;
 	blockCommentPending = 0;
 	asmLineNum = 0;
 	while (!endReached)
 	{
-		if (fgets(buf, MAX_LINE, fp) == 0)
+        if (fgets(buf, MAX_LINE, fp) == 0)
 		{
-			printf("ERROR: End of file reached before END\n"); return -1;
+			printf("ERROR: End of file reached before END\n");
+            return -1;
 		}
-		asmLineNum++;
-		const char * p = buf;
-		if (ParseBlockComment(&p))
+		++asmLineNum;
+		p = buf;
+		if (ParseBlockComment(p))
 		{
 			continue;
 		}
-		switch (ParseLabel(passNum, &p, addr))
+		switch (ParseLabel(passNum, p, addr))
 		{
 		case -1:	return -1;
 		case  1:	continue;
 		default:	break;
 		}
-		InsnSet::Insn * insn = cpu->isa->SearchInsn(&p);
+		InsnSet::Insn * insn = cpu->isa->SearchInsn(p);
 		if (insn == 0)
 		{
-			printf("ERROR: Invalid instruction (%s)\n", p); PrintErrorLocation(); return -1;
+			printf("ERROR: Invalid instruction (%s)\n", p.c_str());
+            PrintErrorLocation();
+            return -1;
 		}
 		switch (ParseInsn(passNum, p, insn, addr))
 		{
@@ -472,7 +489,8 @@ int ASMParser::Parse(int passNum)
 	{
 		if (!cpu->mem->IsValidAddress(addr))
 		{
-			printf("ERROR: program extends to invalid address %d (0x%x)\n", addr, addr); return -1;
+			printf("ERROR: program extends to invalid address %d (0x%x)\n", addr, addr);
+			return -1;
 		}
 		cpu->mem->maxAddr = addr;
 	}

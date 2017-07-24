@@ -1,302 +1,94 @@
 ----------------
-label(ST0,HEX 0		/ interrupt return address
-) :     0(0x0000)
-label(INI, 					/ initialize data
-) :    16(0x0010)
-label( L0,
-) :    26(0x001a)
-label(UMK,HEX 0
-) :    30(0x001e)
-label(CEC,HEX 0
-) :    37(0x0025)
-label(I_HND,
-) :    46(0x002e)
-label(SIN,
-) :    49(0x0031)
-label(POU, / M[SFG] != 0
-) :    61(0x003d)
-label(PIN,
-) :    72(0x0048)
-label(SOU, / M[PFG] != 0
-) :    84(0x0054)
-label(IRT,LDA BE	/ AC <- M[BE]
-) :    95(0x005f)
-label(BA, DEC 000		/ backup storage for AC during interrupt handling
-) :   102(0x0066)
-label(BE, DEC 000		/ backup storage for  E during interrupt handling
-) :   103(0x0067)
-label(SDT,DEC 0			/ S_IN data
-) :   104(0x0068)
-label(PDT,DEC 0			/ P_IN data
-) :   105(0x0069)
-label(STT,DEC 0     / state
-) :   106(0x006a)
-label(SFG,DEC 0     / S_IN flag
-) :   107(0x006b)
-label(PFG,DEC 0     / P_IN flag
-) :   108(0x006c)
-label(MSK,DEC 0			/ IMSK data
-) :   109(0x006d)
-label(VH6,HEX 6     / VH6 = 0x6 (0110)
-) :   110(0x006e)
-label(VH9,HEX 9     / VH9 = 0x9 (1001)
-) :   111(0x006f)
-label(VHA,HEX A     / VHA = 0xA (1010)
-) :   112(0x0070)
-label(VM1,DEC -1    / VM1 = -1
-) :   113(0x0071)
-label(VM4,DEC -4		/ VM4 = -4
-) :   114(0x0072)
+label(  ST0) :     0(0x0000)
+label(  INI) :    16(0x0010)
+label(   L0) :    27(0x001b)
+label(  CEC) :    31(0x001f)
+label(I_HND) :    40(0x0028)
+label(   TM) :    43(0x002b)
+label(TIMER) :    46(0x002e)
+label(  SIN) :    53(0x0035)
+label(  SOU) :    63(0x003f)
+label(  IRT) :    72(0x0048)
+label(   BA) :    79(0x004f)
+label(   BE) :    80(0x0050)
+label(  SDT) :    81(0x0051)
+label(  STT) :    82(0x0052)
+label(  SFG) :    83(0x0053)
+label(  VH4) :    84(0x0054)
+label(  VH8) :    85(0x0055)
+label(  VM1) :    86(0x0056)
+label(  VM4) :    87(0x0057)
+label(   CH) :    88(0x0058)
+label( TIME) :    89(0x0059)
 ----------------
 // interrupt entry point
-ST0,HEX 0		/ interrupt return address
-: 0000 [0000]: (    0:    0)      	// interrupt return address
-       0001 [402e]: BUN 02e   (I_HND,
-)	// goto I_HND (interrupt handler)
+  ST0: 0000 [0000]: (    0:    0)      	// interrupt return address
+       0001 [4028]: BUN 028   (I_HND)	// goto I_HND (interrupt handler)
 // program entry point
 // initialize data
-INI, 					/ initialize data
-: 0010 [7800]: CLA              	// AC <- 0
-       0011 [306a]: STA 06a   (STT,DEC 0     / state
-)	// M[STT] <- 0
-       0012 [306b]: STA 06b   (SFG,DEC 0     / S_IN flag
-)	// M[SFG] <- 0
-       0013 [306c]: STA 06c   (PFG,DEC 0     / P_IN flag
-)	// M[PFG] <- 0
+  INI: 0010 [7800]: CLA              	// AC <- 0
+       0011 [3052]: STA 052   (  STT)	// M[STT] <- 0
+       0012 [3053]: STA 053   (  SFG)	// M[SFG] <- 0
 // IMSK[3:0] : { S_IN, S_OUT, P_IN, P_OUT }
-       0014 [2070]: LDA 070   (VHA,HEX A     / VHA = 0xA (1010)
-)	// AC <- M[VHA] (1010)
-       0015 [306d]: STA 06d   (MSK,DEC 0			/ IMSK data
-)	// M[MSK] <- (1010)
-       0016 [f010]: IMK              	// IMSK   <- (1010) (S_IN, P_IN enabled)
-       0017 [7400]: CLE              
-       0018 [7100]: CME              
-       0019 [f080]: IST              
-//	ION					/ enable interrupt
- L0,
-: 001a [206a]: LDA 06a   (STT,DEC 0     / state
-)	// AC <- M[STT]
-       001b [7008]: SNA              	// (M[STT] < 0) ? skip next
-       001c [401a]: BUN 01a   ( L0,
-)
-       001d [7001]: HLT              
-//////////// subroutine (update IMSK) ////////
-UMK,HEX 0
-: 001e [0000]: (    0:    0)      
-// arg0 (AC) : unchanged bit mask
-// arg1 : added mask bit
-       001f [006d]: AND 06d   (MSK,DEC 0			/ IMSK data
-)	// AC <- arg0 & M[MSK]
-       0020 [901e]: ADD 01e I (UMK,HEX 0
-)	// AC <- AC + M[M[UMK]]
-       0021 [306d]: STA 06d   (MSK,DEC 0			/ IMSK data
-)	// M[MSK] <- AC
-       0022 [f010]: IMK              	// IMSK <- AC[3:0]
-       0023 [601e]: ISZ 01e   (UMK,HEX 0
-)	// ++M[UMK]
-       0024 [c01e]: BUN 01e I (UMK,HEX 0
-)	// return from UMK
+       0013 [2055]: LDA 055   (  VH8)	// AC <- M[VH8] (1000)
+       0014 [f010]: IMK              	// IMSK <- (1000) (S_IN enabled)
+       0015 [f040]: SIO              	// IOT <- 1 (serial-IO selected)
+//		PIO
+       0016 [7400]: CLE              
+       0017 [7100]: CME              
+       0018 [f080]: IST              
+       0019 [2059]: LDA 059   ( TIME)
+       001a [f008]: TMR              
+   L0: 001b [2052]: LDA 052   (  STT)	// AC <- M[STT]
+       001c [7008]: SNA              	// (M[STT] < 0) ? skip next
+       001d [401b]: BUN 01b   (   L0)
+       001e [7001]: HLT              
 //////////// subroutine (check end-character) ////////
-CEC,HEX 0
-: 0025 [0000]: (    0:    0)      
+// 終了条件・・・ctrl-Dが入力された時、エラー値(-1)を状態変数STTに代入する。
+// 　　　　　　　L0のループで状態変数STTがエラー値(-1)を持つと終了する。
+  CEC: 001f [0000]: (    0:    0)      
 // arg0 (AC) : output character
 // end-character = 0x4 (ctrl-D)
-       0026 [1072]: ADD 072   (VM4,DEC -4		/ VM4 = -4
-)	// AC <- AC - 4
-       0027 [7004]: SZA              	// (AC == 0) ? skip next
-       0028 [c025]: BUN 025 I (CEC,HEX 0
-)	// return from CEC
+       0020 [1057]: ADD 057   (  VM4)	// AC <- AC - 4
+       0021 [7004]: SZA              	// (AC == 0) ? skip next
+       0022 [c01f]: BUN 01f I (  CEC)	// return from CEC
 // output character matches (ctrl-D)
-       0029 [2071]: LDA 071   (VM1,DEC -1    / VM1 = -1
-)	// AC <- -1
-       002a [306a]: STA 06a   (STT,DEC 0     / state
-)	// M[STT] <- -1
-       002b [7800]: CLA              	// AC <- 0
-       002c [f010]: IMK              	// IMASK <- 0 (all interrupts disabled)
-       002d [c025]: BUN 025 I (CEC,HEX 0
-)	// return from CEC
+       0023 [2056]: LDA 056   (  VM1)	// AC <- -1
+       0024 [3052]: STA 052   (  STT)	// M[STT] <- -1
+       0025 [7800]: CLA              	// AC <- 0
+       0026 [f010]: IMK              	// IMSK <- 0 (all interrupts disabled)
+       0027 [c01f]: BUN 01f I (  CEC)	// return from CEC
 //////////// interrupt handler /////////
 // 1. store AC & E to memory
-I_HND,
-: 002e [3066]: STA 066   (BA, DEC 000		/ backup storage for AC during interrupt handling
-)	// M[BA] <- AC	(store AC)
-       002f [7040]: CIL              	// AC[0] <- E	(AC[15:1] is not important here...)
-       0030 [3067]: STA 067   (BE, DEC 000		/ backup storage for  E during interrupt handling
-)	// M[BE] <- AC	(store E)
+I_HND: 0028 [304f]: STA 04f   (   BA)	// M[BA] <- AC	(store AC)
+       0029 [7040]: CIL              	// AC[0] <- E	(AC[15:1] is not important here...)
+       002a [3050]: STA 050   (   BE)	// M[BE] <- AC	(store E)
+   TM: 002b [f004]: SKT              
+       002c [4035]: BUN 035   (  SIN)
+       002d [402e]: BUN 02e   (TIMER)
+TIMER: 002e [2059]: LDA 059   ( TIME)
+       002f [f008]: TMR              
+       0030 [2054]: LDA 054   (  VH4)
+       0031 [f010]: IMK              
+       0032 [2058]: LDA 058   (   CH)
+       0033 [3051]: STA 051   (  SDT)
+       0034 [403f]: BUN 03f   (  SOU)
 // 2. check SFG and S_IN
-//_B_,
-SIN,
-: 0031 [206b]: LDA 06b   (SFG,DEC 0     / S_IN flag
-)	// AC <- M[SFG]
-       0032 [7004]: SZA              	// (M[SFG] == 0) ? skip next
-       0033 [403d]: BUN 03d   (POU, / M[SFG] != 0
-)	// goto POU
-       0034 [f040]: SIO              	// IOT <- 1 (serial-IO selected)
-       0035 [f200]: SKI              	// (UART_RX ready) ? skip next
-       0036 [4048]: BUN 048   (PIN,
-)	// goto PIN
-// S_IN is ready --> update IMSK (disable S_IN, enable P_OUT)
-       0037 [206e]: LDA 06e   (VH6,HEX 6     / VH6 = 0x6 (0110)
-)	// AC <- (0110) (S_OUT, P_IN : unchanged)
-       0038 [501e]: BSA 01e   (UMK,HEX 0
-)	// call UMK (update IMSK)
-       0039 [0001]: (    1:    1)      	// (0001) (P_OUT : enabled)
+  SIN: 0035 [2053]: LDA 053   (  SFG)	// AC <- M[SFG]
+       0036 [7004]: SZA              	// (M[SFG] == 0) ? skip next
+       0037 [403f]: BUN 03f   (  SOU)	// goto SOU
+       0038 [f200]: SKI              	// (S_IN ready) ? skip next
+       0039 [4048]: BUN 048   (  IRT)	// goto IRT
+// S_IN is ready --> update IMSK (disable S_IN, enable S_OUT)
+       003a [2054]: LDA 054   (  VH4)	// AC   <- (0100)
+       003b [f010]: IMK              	// IMSK <- (0100) (enable S_OUT)
 // read S_IN data
-       003a [f800]: INP              	// AC(7:0) <- INPR
-       003b [3068]: STA 068   (SDT,DEC 0			/ S_IN data
-)	// M[SDT] <- AC
-       003c [606b]: ISZ 06b   (SFG,DEC 0     / S_IN flag
-)	// ++M[SFG]
-// 3. check P_OUT
+       003c [f800]: INP              	// AC(7:0) <- INPR
+       003d [3051]: STA 051   (  SDT)	// M[SDT] <- AC
+       003e [6053]: ISZ 053   (  SFG)	// ++M[SFG]
+// 3. check GP_OUT
 // M[SFG] != 0
-POU, / M[SFG] != 0
-: 003d [f020]: PIO              	// IOT <- 0 (parallel-IO selected)
-       003e [f100]: SKO              	// (P_OUT ready) ? skip next
-       003f [4048]: BUN 048   (PIN,
-)	// goto PIN
-// P_OUT is ready --> update IMSK (disable P_OUT, enable S_IN)
-       0040 [206e]: LDA 06e   (VH6,HEX 6     / VH6 = 0x6 (0110)
-)	// AC <- (0110) (S_OUT, P_IN : unchanged)
-       0041 [501e]: BSA 01e   (UMK,HEX 0
-)	// call UMK (update IMSK)
-       0042 [0008]: (    8:    8)      	// (1000) (S_IN : enabled)
-// output to P_OUT
-       0043 [2068]: LDA 068   (SDT,DEC 0			/ S_IN data
-)	// AC <- M[SDT]
-       0044 [f400]: OUT              	// OUTR <- AC
-       0045 [5025]: BSA 025   (CEC,HEX 0
-)	// call CEC (check end-character)
-       0046 [7800]: CLA              	// AC <- 0
-       0047 [306b]: STA 06b   (SFG,DEC 0     / S_IN flag
-)	// M[SFG] <- 0
-// 4. check PFG and P_IN
-PIN,
-: 0048 [206c]: LDA 06c   (PFG,DEC 0     / P_IN flag
-)	// AC <- M[PFG]
-       0049 [7004]: SZA              	// (M[PFG] == 0) ? skip next
-       004a [4054]: BUN 054   (SOU, / M[PFG] != 0
-)	// goto SOU
-       004b [f020]: PIO              	// IOT <- 0 (parallel-IO selected)
-       004c [f200]: SKI              	// (GP_IN ready) ? skip next
-       004d [405f]: BUN 05f   (IRT,LDA BE	/ AC <- M[BE]
-)	// goto IRT
-// P_IN is ready --> update IMSK (disable P_IN, enable S_OUT)
-       004e [206f]: LDA 06f   (VH9,HEX 9     / VH9 = 0x9 (1001)
-)	// AC <- (1001) (S_IN, P_OUT : unchanged)
-       004f [501e]: BSA 01e   (UMK,HEX 0
-)	// call UMK (update IMSK)
-       0050 [0004]: (    4:    4)      	// (0100) (S_OUT : enabled)
-// read P_IN data
-       0051 [f800]: INP              	// AC(7:0) <- INPR
-       0052 [3069]: STA 069   (PDT,DEC 0			/ P_IN data
-)	// M[PDT] <- AC
-       0053 [606c]: ISZ 06c   (PFG,DEC 0     / P_IN flag
-)	// ++M[PFG]
-// 5. check S_OUT
-// M[PFG] != 0
-SOU, / M[PFG] != 0
-: 0054 [f040]: SIO              	// IOT <- 1 (serial-IO selected)
-       0055 [f100]: SKO              	// (S_OUT ready) ? skip next
-       0056 [405f]: BUN 05f   (IRT,LDA BE	/ AC <- M[BE]
-)	// goto IRT
-// S_OUT is ready --> update IMSK (disable S_OUT, enable P_IN)
-       0057 [206f]: LDA 06f   (VH9,HEX 9     / VH9 = 0x9 (1001)
-)	// AC <- (1001) (S_IN, P_OUT : unchanged)
-       0058 [501e]: BSA 01e   (UMK,HEX 0
-)	// call UMK (update IMSK)
-       0059 [0002]: (    2:    2)      	// (0010) (P_IN : enabled)
-// output to S_OUT
-       005a [2069]: LDA 069   (PDT,DEC 0			/ P_IN data
-)	// AC <- M[PDT]
-       005b [f400]: OUT              	// OUTR <- AC
-       005c [5025]: BSA 025   (CEC,HEX 0
-)	// call CEC (check end-character)
-       005d [7800]: CLA              	// AC <- 0
-       005e [306c]: STA 06c   (PFG,DEC 0     / P_IN flag
-)	// M[PFG] <- 0
-// 6. restore AC & E from memory
-IRT,LDA BE	/ AC <- M[BE]
-: 005f [2067]: LDA 067   (BE, DEC 000		/ backup storage for  E during interrupt handling
-)	// AC <- M[BE]
-       0060 [7080]: CIR              	// E <- AC[0]	(restore E)
-       0061 [2066]: LDA 066   (BA, DEC 000		/ backup storage for AC during interrupt handling
-)	// AC <- M[BA]	(restore AC)
-       0062 [7400]: CLE              
-       0063 [7100]: CME              
-       0064 [f080]: IST              
-//	ION				/ IEN <- 1		(enable interrupt)
-       0065 [c000]: BUN 000 I (ST0,HEX 0		/ interrupt return address
-)	// indirect return (return address stored in ST0)
-// data (no initialization)
-BA, DEC 000		/ backup storage for AC during interrupt handling
-: 0066 [0000]: (    0:    0)      	// backup storage for AC during interrupt handling
-BE, DEC 000		/ backup storage for  E during interrupt handling
-: 0067 [0000]: (    0:    0)      	// backup storage for  E during interrupt handling
-SDT,DEC 0			/ S_IN data
-: 0068 [0000]: (    0:    0)      	// S_IN data
-PDT,DEC 0			/ P_IN data
-: 0069 [0000]: (    0:    0)      	// P_IN data
-// data (need initialization code)
-STT,DEC 0     / state
-: 006a [0000]: (    0:    0)      	// state
-SFG,DEC 0     / S_IN flag
-: 006b [0000]: (    0:    0)      	// S_IN flag
-PFG,DEC 0     / P_IN flag
-: 006c [0000]: (    0:    0)      	// P_IN flag
-MSK,DEC 0			/ IMSK data
-: 006d [0000]: (    0:    0)      	// IMSK data
-// data (read-only)
-VH6,HEX 6     / VH6 = 0x6 (0110)
-: 006e [0006]: (    6:    6)      	// VH6 = 0x6 (0110)
-VH9,HEX 9     / VH9 = 0x9 (1001)
-: 006f [0009]: (    9:    9)      	// VH9 = 0x9 (1001)
-VHA,HEX A     / VHA = 0xA (1010)
-: 0070 [000a]: (   10:   10)      	// VHA = 0xA (1010)
-VM1,DEC -1    / VM1 = -1
-: 0071 [ffff]: (   -1:65535)      	// VM1 = -1
-VM4,DEC -4		/ VM4 = -4
-: 0072 [fffc]: (   -4:65532)      	// VM4 = -4
-----------------
-----------------
-// interrupt entry point
-ST0,HEX 0		/ interrupt return address
-: 0000 [001b]: (   27:   27)      	// interrupt return address
-//////////// subroutine (update IMSK) ////////
-UMK,HEX 0
-: 001e [005a]: (   90:  'Z')      
-//////////// subroutine (check end-character) ////////
-CEC,HEX 0
-: 0025 [005d]: (   93:  ']')      
-       0039 [0001]: (    1:    1)      	// (0001) (P_OUT : enabled)
-       0042 [0008]: (    8:    8)      	// (1000) (S_IN : enabled)
-       0050 [0004]: (    4:    4)      	// (0100) (S_OUT : enabled)
-       0059 [0002]: (    2:    2)      	// (0010) (P_IN : enabled)
-// data (no initialization)
-BA, DEC 000		/ backup storage for AC during interrupt handling
-: 0066 [0000]: (    0:    0)      	// backup storage for AC during interrupt handling
-BE, DEC 000		/ backup storage for  E during interrupt handling
-: 0067 [0001]: (    1:    1)      	// backup storage for  E during interrupt handling
-SDT,DEC 0			/ S_IN data
-: 0068 [0061]: (   97:  'a')      	// S_IN data
-PDT,DEC 0			/ P_IN data
-: 0069 [0004]: (    4:    4)      	// P_IN data
-// data (need initialization code)
-STT,DEC 0     / state
-: 006a [ffff]: (   -1:65535)      	// state
-SFG,DEC 0     / S_IN flag
-: 006b [0000]: (    0:    0)      	// S_IN flag
-PFG,DEC 0     / P_IN flag
-: 006c [0000]: (    0:    0)      	// P_IN flag
-MSK,DEC 0			/ IMSK data
-: 006d [000a]: (   10:   10)      	// IMSK data
-// data (read-only)
-VH6,HEX 6     / VH6 = 0x6 (0110)
-: 006e [0006]: (    6:    6)      	// VH6 = 0x6 (0110)
-VH9,HEX 9     / VH9 = 0x9 (1001)
-: 006f [0009]: (    9:    9)      	// VH9 = 0x9 (1001)
-VHA,HEX A     / VHA = 0xA (1010)
-: 0070 [000a]: (   10:   10)      	// VHA = 0xA (1010)
-VM1,DEC -1    / VM1 = -1
-: 0071 [ffff]: (   -1:65535)      	// VM1 = -1
-VM4,DEC -4		/ VM4 = -4
-: 0072 [fffc]: (   -4:65532)      	// VM4 = -4
+  SOU: 003f [f100]: SKO              	// (S_OUT ready) ? skip next
+       0040 [4048]: BUN 048   (  IRT)	// goto IRT
+// S_OUT is ready --> update IMSK (disable S_OUT, enable S_IN)
+       0041 [2055]: LDA 

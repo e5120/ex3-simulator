@@ -4,62 +4,36 @@
 /// 16-bit data
 
 // program entry point
-@010 7400	///L0, CLE         / E <- 0
-: 0010 [7400]: CLE           	// E <- 0
-@011 202c	///    0011 [202c]: LDA 02c   (YL, DEC 10		/ Y:init(low digit)
-)	// AC <- M[YL]
+@010 7400	///L0: 0010 [7400]: CLE           	// E <- 0
+@011 202c	///    0011 [202c]: LDA 02c   (YL)	// AC <- M[YL]
 @012 7004	///    0012 [7004]: SZA           	// (AC == 0) ? skip next
-@013 4015	///    0013 [4015]: BUN 015   (LY, CIR         / {AC[15:0], E} <- {E, AC[15:0]}
-)	// goto LY
+@013 4015	///    0013 [4015]: BUN 015   (LY)	// goto LY
 @014 7001	///    0014 [7001]: HLT           
-@015 7080	///LY, CIR         / {AC[15:0], E} <- {E, AC[15:0]}
-: 0015 [7080]: CIR           	// {AC[15:0], E} <- {E, AC[15:0]}
-@016 302c	///    0016 [302c]: STA 02c   (YL, DEC 10		/ Y:init(low digit)
-)	// M[YL] <- AC
+@015 7080	///LY: 0015 [7080]: CIR           	// {AC[15:0], E} <- {E, AC[15:0]}
+@016 302c	///    0016 [302c]: STA 02c   (YL)	// M[YL] <- AC
 @017 7002	///    0017 [7002]: SZE           	// (E == 0) ? skip next
-@018 4020	///    0018 [4020]: BUN 020   (LP, LDA XL		  / AC <- M[XL]
-)	// goto LP
-@019 202a	///LX, LDA XL		  / AC <- M[XL]
-: 0019 [202a]: LDA 02a   (XL, DEC 10		/ X:init(low digit)
-)	// AC <- M[XL]
+@018 4020	///    0018 [4020]: BUN 020   (LP)	// goto LP
+@019 202a	///LX: 0019 [202a]: LDA 02a   (XL)	// AC <- M[XL]
 @01a 7040	///    001a [7040]: CIL           	// {E, AC[15:0]} <- {AC[15:0], E}
-@01b 302a	///    001b [302a]: STA 02a   (XL, DEC 10		/ X:init(low digit)
-)	// M[XL] <- AC
-@01c 202b	///    001c [202b]: LDA 02b   (XH, DEC 0       / X:init(high digit)
-)	// AC <- M[XH]
+@01b 302a	///    001b [302a]: STA 02a   (XL)	// M[XL] <- AC
+@01c 202b	///    001c [202b]: LDA 02b   (XH)	// AC <- M[XH]
 @01d 7040	///    001d [7040]: CIL           	// {E, AC[15:0]} <- {AC[15:0], E}
-@01e 302b	///    001e [302b]: STA 02b   (XH, DEC 0       / X:init(high digit)
-)	// M[XH] <- AC
-@01f 4010	///    001f [4010]: BUN 010   (L0, CLE         / E <- 0
-)	// goto LO
-@020 202a	///LP, LDA XL		  / AC <- M[XL]
-: 0020 [202a]: LDA 02a   (XL, DEC 10		/ X:init(low digit)
-)	// AC <- M[XL]
-@021 102e	///    0021 [102e]: ADD 02e   (PL, DEC 0		    / result(low digit)
-)	// AC <- AC + M[PL]
-@022 302e	///    0022 [302e]: STA 02e   (PL, DEC 0		    / result(low digit)
-)	// M[PL} <- AC
+@01e 302b	///    001e [302b]: STA 02b   (XH)	// M[XH] <- AC
+@01f 4010	///    001f [4010]: BUN 010   (L0)	// goto LO
+@020 202a	///LP: 0020 [202a]: LDA 02a   (XL)	// AC <- M[XL]
+@021 102e	///    0021 [102e]: ADD 02e   (PL)	// AC <- AC + M[PL]
+@022 302e	///    0022 [302e]: STA 02e   (PL)	// M[PL} <- AC
 @023 7800	///    0023 [7800]: CLA           	// AC <- 0
 @024 7040	///    0024 [7040]: CIL           	// {E, AC[15:0]} <- {AC[15:0], E}
-@025 102f	///    0025 [102f]: ADD 02f   (PH, DEC 0       / result(high digit)
-)	// AC <- AC + M[PH]
-@026 102b	///    0026 [102b]: ADD 02b   (XH, DEC 0       / X:init(high digit)
-)	// AC <- AC + M[XH]
-@027 302f	///    0027 [302f]: STA 02f   (PH, DEC 0       / result(high digit)
-)	// M[PH] <- AC
+@025 102f	///    0025 [102f]: ADD 02f   (PH)	// AC <- AC + M[PH]
+@026 102b	///    0026 [102b]: ADD 02b   (XH)	// AC <- AC + M[XH]
+@027 302f	///    0027 [302f]: STA 02f   (PH)	// M[PH] <- AC
 @028 7400	///    0028 [7400]: CLE           	// E <- 0
-@029 4019	///    0029 [4019]: BUN 019   (LX, LDA XL		  / AC <- M[XL]
-)	// goto LX
+@029 4019	///    0029 [4019]: BUN 019   (LX)	// goto LX
 // data
-@02a 000a	///XL, DEC 10		/ X:init(low digit)
-: 002a [000a]: (   10:   10)   	// X:init(low digit)
-@02b 0000	///XH, DEC 0       / X:init(high digit)
-: 002b [0000]: (    0:    0)   	// X:init(high digit)
-@02c 000a	///YL, DEC 10		/ Y:init(low digit)
-: 002c [000a]: (   10:   10)   	// Y:init(low digit)
-@02d 0000	///YH, DEC 0       / Y:init(high digit)
-: 002d [0000]: (    0:    0)   	// Y:init(high digit)
-@02e 0000	///PL, DEC 0		    / result(low digit)
-: 002e [0000]: (    0:    0)   	// result(low digit)
-@02f 0000	///PH, DEC 0       / result(high digit)
-: 002f [0000]: (    0:    0)   	// result(high digit)
+@02a 000a	///XL: 002a [000a]: (   10:   10)   	// X:init(low digit)
+@02b 0000	///XH: 002b [0000]: (    0:    0)   	// X:init(high digit)
+@02c 0064	///YL: 002c [0064]: (  100:  'd')   	// Y:init(low digit)
+@02d 0000	///YH: 002d [0000]: (    0:    0)   	// Y:init(high digit)
+@02e 0000	///PL: 002e [0000]: (    0:    0)   	// result(low digit)
+@02f 0000	///PH: 002f [0000]: (    0:    0)   	// result(high digit)

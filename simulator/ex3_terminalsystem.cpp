@@ -8,6 +8,7 @@ EX3_TerminalSystem::EX3_TerminalSystem(const std::string fname) : cpu(new EX3_CP
 	outTerm.Open(parser.OpenFile("_out.log"));
 	inTerm.termView.reset(&termView);
 	outTerm.termView.reset(&termView);
+    //printf("called terminal_sys constructor\n");
 }
 
 EX3_TerminalSystem::~EX3_TerminalSystem()
