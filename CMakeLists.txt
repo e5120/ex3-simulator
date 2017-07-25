@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.7)
-project(nomo)
+project(ex3_simulator)
 
 set(CMAKE_CXX_STANDARD 11)
 
@@ -33,4 +33,4 @@ set(SOURCE_FILES
         simulator/system.h
         simulator/utils.h)
 
-add_executable(nomo ${SOURCE_FILES})
+add_executable(ex3_simulator ${SOURCE_FILES})

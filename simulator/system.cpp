@@ -7,7 +7,6 @@ System::RandomPeripheral::RandomPeripheral(const std::shared_ptr<CPU>& cpu0, con
 		: name(n), type(t), interval(-1), fp(0)
 {
 	cpu = cpu0;
-	std::cout << "system : " <<cpu.get() << std::endl;
 }
 
 System::RandomPeripheral::~RandomPeripheral()
@@ -163,6 +162,11 @@ void System::TerminalViewer::Reset()
 
 System::TerminalViewer::TerminalViewer()
 {
+}
+
+System::TerminalViewer::TerminalViewer(const TerminalViewer& rval)
+{
+	str = rval.str;
 }
 
 System::TerminalViewer::~TerminalViewer()

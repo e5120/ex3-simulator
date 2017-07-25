@@ -119,5 +119,5 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/nomo.dir/DependInfo.cmake"
+  "CMakeFiles/ex3_simulator.dir/DependInfo.cmake"
   )

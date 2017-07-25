@@ -72,6 +72,7 @@ public:
 	public:
 		std::string str;
 		TerminalViewer();
+		TerminalViewer(const TerminalViewer &rval);
 		~TerminalViewer();
 		void PrintView();
 	};

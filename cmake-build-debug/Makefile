@@ -48,10 +48,10 @@ RM = /Applications/CLion.app/Contents/bin/cmake/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo
+CMAKE_SOURCE_DIR = /Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/ex3-simulator
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/cmake-build-debug
+CMAKE_BINARY_DIR = /Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/ex3-simulator/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/cmake-build-debug/CMakeFiles /Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/cmake-build-debug/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/ex3-simulator/cmake-build-debug/CMakeFiles /Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/ex3-simulator/cmake-build-debug/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/ex3-simulator/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -111,17 +111,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named nomo
+# Target rules for targets named ex3_simulator
 
 # Build rule for target.
-nomo: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 nomo
-.PHONY : nomo
+ex3_simulator: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ex3_simulator
+.PHONY : ex3_simulator
 
 # fast build rule for target.
-nomo/fast:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/build
-.PHONY : nomo/fast
+ex3_simulator/fast:
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/build
+.PHONY : ex3_simulator/fast
 
 simulator/asmparser.o: simulator/asmparser.cpp.o
 
@@ -129,7 +129,7 @@ simulator/asmparser.o: simulator/asmparser.cpp.o
 
 # target to build an object file
 simulator/asmparser.cpp.o:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/simulator/asmparser.cpp.o
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/simulator/asmparser.cpp.o
 .PHONY : simulator/asmparser.cpp.o
 
 simulator/asmparser.i: simulator/asmparser.cpp.i
@@ -138,7 +138,7 @@ simulator/asmparser.i: simulator/asmparser.cpp.i
 
 # target to preprocess a source file
 simulator/asmparser.cpp.i:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/simulator/asmparser.cpp.i
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/simulator/asmparser.cpp.i
 .PHONY : simulator/asmparser.cpp.i
 
 simulator/asmparser.s: simulator/asmparser.cpp.s
@@ -147,7 +147,7 @@ simulator/asmparser.s: simulator/asmparser.cpp.s
 
 # target to generate assembly for a file
 simulator/asmparser.cpp.s:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/simulator/asmparser.cpp.s
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/simulator/asmparser.cpp.s
 .PHONY : simulator/asmparser.cpp.s
 
 simulator/cpu.o: simulator/cpu.cpp.o
@@ -156,7 +156,7 @@ simulator/cpu.o: simulator/cpu.cpp.o
 
 # target to build an object file
 simulator/cpu.cpp.o:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/simulator/cpu.cpp.o
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/simulator/cpu.cpp.o
 .PHONY : simulator/cpu.cpp.o
 
 simulator/cpu.i: simulator/cpu.cpp.i
@@ -165,7 +165,7 @@ simulator/cpu.i: simulator/cpu.cpp.i
 
 # target to preprocess a source file
 simulator/cpu.cpp.i:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/simulator/cpu.cpp.i
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/simulator/cpu.cpp.i
 .PHONY : simulator/cpu.cpp.i
 
 simulator/cpu.s: simulator/cpu.cpp.s
@@ -174,7 +174,7 @@ simulator/cpu.s: simulator/cpu.cpp.s
 
 # target to generate assembly for a file
 simulator/cpu.cpp.s:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/simulator/cpu.cpp.s
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/simulator/cpu.cpp.s
 .PHONY : simulator/cpu.cpp.s
 
 simulator/debugger.o: simulator/debugger.cpp.o
@@ -183,7 +183,7 @@ simulator/debugger.o: simulator/debugger.cpp.o
 
 # target to build an object file
 simulator/debugger.cpp.o:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/simulator/debugger.cpp.o
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/simulator/debugger.cpp.o
 .PHONY : simulator/debugger.cpp.o
 
 simulator/debugger.i: simulator/debugger.cpp.i
@@ -192,7 +192,7 @@ simulator/debugger.i: simulator/debugger.cpp.i
 
 # target to preprocess a source file
 simulator/debugger.cpp.i:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/simulator/debugger.cpp.i
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/simulator/debugger.cpp.i
 .PHONY : simulator/debugger.cpp.i
 
 simulator/debugger.s: simulator/debugger.cpp.s
@@ -201,7 +201,7 @@ simulator/debugger.s: simulator/debugger.cpp.s
 
 # target to generate assembly for a file
 simulator/debugger.cpp.s:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/simulator/debugger.cpp.s
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/simulator/debugger.cpp.s
 .PHONY : simulator/debugger.cpp.s
 
 simulator/ex3_asm.o: simulator/ex3_asm.cpp.o
@@ -210,7 +210,7 @@ simulator/ex3_asm.o: simulator/ex3_asm.cpp.o
 
 # target to build an object file
 simulator/ex3_asm.cpp.o:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/simulator/ex3_asm.cpp.o
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/simulator/ex3_asm.cpp.o
 .PHONY : simulator/ex3_asm.cpp.o
 
 simulator/ex3_asm.i: simulator/ex3_asm.cpp.i
@@ -219,7 +219,7 @@ simulator/ex3_asm.i: simulator/ex3_asm.cpp.i
 
 # target to preprocess a source file
 simulator/ex3_asm.cpp.i:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/simulator/ex3_asm.cpp.i
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/simulator/ex3_asm.cpp.i
 .PHONY : simulator/ex3_asm.cpp.i
 
 simulator/ex3_asm.s: simulator/ex3_asm.cpp.s
@@ -228,7 +228,7 @@ simulator/ex3_asm.s: simulator/ex3_asm.cpp.s
 
 # target to generate assembly for a file
 simulator/ex3_asm.cpp.s:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/simulator/ex3_asm.cpp.s
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/simulator/ex3_asm.cpp.s
 .PHONY : simulator/ex3_asm.cpp.s
 
 simulator/ex3_asmparser.o: simulator/ex3_asmparser.cpp.o
@@ -237,7 +237,7 @@ simulator/ex3_asmparser.o: simulator/ex3_asmparser.cpp.o
 
 # target to build an object file
 simulator/ex3_asmparser.cpp.o:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/simulator/ex3_asmparser.cpp.o
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/simulator/ex3_asmparser.cpp.o
 .PHONY : simulator/ex3_asmparser.cpp.o
 
 simulator/ex3_asmparser.i: simulator/ex3_asmparser.cpp.i
@@ -246,7 +246,7 @@ simulator/ex3_asmparser.i: simulator/ex3_asmparser.cpp.i
 
 # target to preprocess a source file
 simulator/ex3_asmparser.cpp.i:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/simulator/ex3_asmparser.cpp.i
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/simulator/ex3_asmparser.cpp.i
 .PHONY : simulator/ex3_asmparser.cpp.i
 
 simulator/ex3_asmparser.s: simulator/ex3_asmparser.cpp.s
@@ -255,7 +255,7 @@ simulator/ex3_asmparser.s: simulator/ex3_asmparser.cpp.s
 
 # target to generate assembly for a file
 simulator/ex3_asmparser.cpp.s:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/simulator/ex3_asmparser.cpp.s
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/simulator/ex3_asmparser.cpp.s
 .PHONY : simulator/ex3_asmparser.cpp.s
 
 simulator/ex3_cpu.o: simulator/ex3_cpu.cpp.o
@@ -264,7 +264,7 @@ simulator/ex3_cpu.o: simulator/ex3_cpu.cpp.o
 
 # target to build an object file
 simulator/ex3_cpu.cpp.o:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/simulator/ex3_cpu.cpp.o
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/simulator/ex3_cpu.cpp.o
 .PHONY : simulator/ex3_cpu.cpp.o
 
 simulator/ex3_cpu.i: simulator/ex3_cpu.cpp.i
@@ -273,7 +273,7 @@ simulator/ex3_cpu.i: simulator/ex3_cpu.cpp.i
 
 # target to preprocess a source file
 simulator/ex3_cpu.cpp.i:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/simulator/ex3_cpu.cpp.i
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/simulator/ex3_cpu.cpp.i
 .PHONY : simulator/ex3_cpu.cpp.i
 
 simulator/ex3_cpu.s: simulator/ex3_cpu.cpp.s
@@ -282,7 +282,7 @@ simulator/ex3_cpu.s: simulator/ex3_cpu.cpp.s
 
 # target to generate assembly for a file
 simulator/ex3_cpu.cpp.s:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/simulator/ex3_cpu.cpp.s
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/simulator/ex3_cpu.cpp.s
 .PHONY : simulator/ex3_cpu.cpp.s
 
 simulator/ex3_insnset.o: simulator/ex3_insnset.cpp.o
@@ -291,7 +291,7 @@ simulator/ex3_insnset.o: simulator/ex3_insnset.cpp.o
 
 # target to build an object file
 simulator/ex3_insnset.cpp.o:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/simulator/ex3_insnset.cpp.o
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/simulator/ex3_insnset.cpp.o
 .PHONY : simulator/ex3_insnset.cpp.o
 
 simulator/ex3_insnset.i: simulator/ex3_insnset.cpp.i
@@ -300,7 +300,7 @@ simulator/ex3_insnset.i: simulator/ex3_insnset.cpp.i
 
 # target to preprocess a source file
 simulator/ex3_insnset.cpp.i:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/simulator/ex3_insnset.cpp.i
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/simulator/ex3_insnset.cpp.i
 .PHONY : simulator/ex3_insnset.cpp.i
 
 simulator/ex3_insnset.s: simulator/ex3_insnset.cpp.s
@@ -309,7 +309,7 @@ simulator/ex3_insnset.s: simulator/ex3_insnset.cpp.s
 
 # target to generate assembly for a file
 simulator/ex3_insnset.cpp.s:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/simulator/ex3_insnset.cpp.s
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/simulator/ex3_insnset.cpp.s
 .PHONY : simulator/ex3_insnset.cpp.s
 
 simulator/ex3_memory.o: simulator/ex3_memory.cpp.o
@@ -318,7 +318,7 @@ simulator/ex3_memory.o: simulator/ex3_memory.cpp.o
 
 # target to build an object file
 simulator/ex3_memory.cpp.o:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/simulator/ex3_memory.cpp.o
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/simulator/ex3_memory.cpp.o
 .PHONY : simulator/ex3_memory.cpp.o
 
 simulator/ex3_memory.i: simulator/ex3_memory.cpp.i
@@ -327,7 +327,7 @@ simulator/ex3_memory.i: simulator/ex3_memory.cpp.i
 
 # target to preprocess a source file
 simulator/ex3_memory.cpp.i:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/simulator/ex3_memory.cpp.i
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/simulator/ex3_memory.cpp.i
 .PHONY : simulator/ex3_memory.cpp.i
 
 simulator/ex3_memory.s: simulator/ex3_memory.cpp.s
@@ -336,7 +336,7 @@ simulator/ex3_memory.s: simulator/ex3_memory.cpp.s
 
 # target to generate assembly for a file
 simulator/ex3_memory.cpp.s:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/simulator/ex3_memory.cpp.s
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/simulator/ex3_memory.cpp.s
 .PHONY : simulator/ex3_memory.cpp.s
 
 simulator/ex3_terminalsystem.o: simulator/ex3_terminalsystem.cpp.o
@@ -345,7 +345,7 @@ simulator/ex3_terminalsystem.o: simulator/ex3_terminalsystem.cpp.o
 
 # target to build an object file
 simulator/ex3_terminalsystem.cpp.o:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/simulator/ex3_terminalsystem.cpp.o
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/simulator/ex3_terminalsystem.cpp.o
 .PHONY : simulator/ex3_terminalsystem.cpp.o
 
 simulator/ex3_terminalsystem.i: simulator/ex3_terminalsystem.cpp.i
@@ -354,7 +354,7 @@ simulator/ex3_terminalsystem.i: simulator/ex3_terminalsystem.cpp.i
 
 # target to preprocess a source file
 simulator/ex3_terminalsystem.cpp.i:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/simulator/ex3_terminalsystem.cpp.i
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/simulator/ex3_terminalsystem.cpp.i
 .PHONY : simulator/ex3_terminalsystem.cpp.i
 
 simulator/ex3_terminalsystem.s: simulator/ex3_terminalsystem.cpp.s
@@ -363,7 +363,7 @@ simulator/ex3_terminalsystem.s: simulator/ex3_terminalsystem.cpp.s
 
 # target to generate assembly for a file
 simulator/ex3_terminalsystem.cpp.s:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/simulator/ex3_terminalsystem.cpp.s
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/simulator/ex3_terminalsystem.cpp.s
 .PHONY : simulator/ex3_terminalsystem.cpp.s
 
 simulator/insnset.o: simulator/insnset.cpp.o
@@ -372,7 +372,7 @@ simulator/insnset.o: simulator/insnset.cpp.o
 
 # target to build an object file
 simulator/insnset.cpp.o:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/simulator/insnset.cpp.o
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/simulator/insnset.cpp.o
 .PHONY : simulator/insnset.cpp.o
 
 simulator/insnset.i: simulator/insnset.cpp.i
@@ -381,7 +381,7 @@ simulator/insnset.i: simulator/insnset.cpp.i
 
 # target to preprocess a source file
 simulator/insnset.cpp.i:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/simulator/insnset.cpp.i
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/simulator/insnset.cpp.i
 .PHONY : simulator/insnset.cpp.i
 
 simulator/insnset.s: simulator/insnset.cpp.s
@@ -390,7 +390,7 @@ simulator/insnset.s: simulator/insnset.cpp.s
 
 # target to generate assembly for a file
 simulator/insnset.cpp.s:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/simulator/insnset.cpp.s
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/simulator/insnset.cpp.s
 .PHONY : simulator/insnset.cpp.s
 
 simulator/label.o: simulator/label.cpp.o
@@ -399,7 +399,7 @@ simulator/label.o: simulator/label.cpp.o
 
 # target to build an object file
 simulator/label.cpp.o:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/simulator/label.cpp.o
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/simulator/label.cpp.o
 .PHONY : simulator/label.cpp.o
 
 simulator/label.i: simulator/label.cpp.i
@@ -408,7 +408,7 @@ simulator/label.i: simulator/label.cpp.i
 
 # target to preprocess a source file
 simulator/label.cpp.i:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/simulator/label.cpp.i
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/simulator/label.cpp.i
 .PHONY : simulator/label.cpp.i
 
 simulator/label.s: simulator/label.cpp.s
@@ -417,7 +417,7 @@ simulator/label.s: simulator/label.cpp.s
 
 # target to generate assembly for a file
 simulator/label.cpp.s:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/simulator/label.cpp.s
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/simulator/label.cpp.s
 .PHONY : simulator/label.cpp.s
 
 simulator/memory.o: simulator/memory.cpp.o
@@ -426,7 +426,7 @@ simulator/memory.o: simulator/memory.cpp.o
 
 # target to build an object file
 simulator/memory.cpp.o:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/simulator/memory.cpp.o
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/simulator/memory.cpp.o
 .PHONY : simulator/memory.cpp.o
 
 simulator/memory.i: simulator/memory.cpp.i
@@ -435,7 +435,7 @@ simulator/memory.i: simulator/memory.cpp.i
 
 # target to preprocess a source file
 simulator/memory.cpp.i:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/simulator/memory.cpp.i
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/simulator/memory.cpp.i
 .PHONY : simulator/memory.cpp.i
 
 simulator/memory.s: simulator/memory.cpp.s
@@ -444,7 +444,7 @@ simulator/memory.s: simulator/memory.cpp.s
 
 # target to generate assembly for a file
 simulator/memory.cpp.s:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/simulator/memory.cpp.s
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/simulator/memory.cpp.s
 .PHONY : simulator/memory.cpp.s
 
 simulator/system.o: simulator/system.cpp.o
@@ -453,7 +453,7 @@ simulator/system.o: simulator/system.cpp.o
 
 # target to build an object file
 simulator/system.cpp.o:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/simulator/system.cpp.o
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/simulator/system.cpp.o
 .PHONY : simulator/system.cpp.o
 
 simulator/system.i: simulator/system.cpp.i
@@ -462,7 +462,7 @@ simulator/system.i: simulator/system.cpp.i
 
 # target to preprocess a source file
 simulator/system.cpp.i:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/simulator/system.cpp.i
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/simulator/system.cpp.i
 .PHONY : simulator/system.cpp.i
 
 simulator/system.s: simulator/system.cpp.s
@@ -471,7 +471,7 @@ simulator/system.s: simulator/system.cpp.s
 
 # target to generate assembly for a file
 simulator/system.cpp.s:
-	$(MAKE) -f CMakeFiles/nomo.dir/build.make CMakeFiles/nomo.dir/simulator/system.cpp.s
+	$(MAKE) -f CMakeFiles/ex3_simulator.dir/build.make CMakeFiles/ex3_simulator.dir/simulator/system.cpp.s
 .PHONY : simulator/system.cpp.s
 
 # Help Target
@@ -482,7 +482,7 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
-	@echo "... nomo"
+	@echo "... ex3_simulator"
 	@echo "... simulator/asmparser.o"
 	@echo "... simulator/asmparser.i"
 	@echo "... simulator/asmparser.s"

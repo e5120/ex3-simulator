@@ -2,14 +2,12 @@
 
 CPU::CPU(const std::string logfilename) : mem(nullptr), isa(nullptr), dbg(nullptr)
 {
-	std::cout << "called cpu constructor" << std::endl;
 	fplog = fopen(logfilename.c_str(), "w");
 	Reset();
 }
 
 CPU::~CPU()
 {
-	std::cout << "called cpu destructor" << std::endl;
 	if (fplog)
 	{
 		fclose(fplog);

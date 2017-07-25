@@ -2,20 +2,17 @@
 
 EX3_TerminalSystem::EX3_TerminalSystem(const std::string fname) : cpu(new EX3_CPU(0x1000)), parser(cpu, fname), inTerm(cpu), outTerm(cpu)
 {
-	//std::cout << "terminal : " <<cpu.get() << std::endl;
-	//std::cout << cpu.use_count() << std::endl;
 	inTerm.Open(parser.OpenFile("_in.log"));
 	outTerm.Open(parser.OpenFile("_out.log"));
-	inTerm.termView.reset(&termView);
-	outTerm.termView.reset(&termView);
-    //printf("called terminal_sys constructor\n");
+
+    inTerm.termView.reset(new System::TerminalViewer(termView));
+    outTerm.termView = inTerm.termView;
 }
 
 EX3_TerminalSystem::~EX3_TerminalSystem()
 {
 	cpu->dbg->EnableAllLogs();
 	Close();
-	//std::cout << "called terminal destructor" << std::endl;
 }
 
 void EX3_TerminalSystem::AccessInPort()

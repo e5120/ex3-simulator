@@ -1,4 +1,4 @@
-# Install script for directory: /Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo
+# Install script for directory: /Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/ex3-simulator
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -35,5 +35,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/nomo/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/shimadu/Desktop/TokyoTech/report/experiment3/ex03_asm_simulator/ex3-simulator/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
