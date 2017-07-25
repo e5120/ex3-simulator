@@ -30,7 +30,7 @@ int EX3_CPU::GetSelectedPortID()
 bool EX3_CPU::IsWaitingForInput()
 {
 	bool inputEnabled = (_IMSK & 0x8) || (_IMSK & 0x2);
-	return IsInputReady() && (_IEN && inputEnabled || inputPending && !intr_pending);
+	return IsInputReady() && ((_IEN && inputEnabled) || (inputPending && !intr_pending));
 }
 
 void EX3_CPU::SetFG(unsigned short& fg, int val)

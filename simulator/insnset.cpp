@@ -25,21 +25,22 @@ void InsnSet::Insn::Set(int id, const std::string n, int t, int showMem, void(*o
 	code = c;
 }
 
-InsnSet::Insn * InsnSet::SearchInsn(std::string& iname_p)
+InsnSet::Insn InsnSet::SearchInsn(std::string& iname_p)
 {
 //	const char * iname = *iname_p;
 	for (int i = 0; i < ICount; ++i)
 	{
-		Insn * ii = &insn[i];
+		Insn ii = insn[i];
 		//printf("ii->nlen = %d\n",ii->nlen);
-		if (ii->nlen > 0 && strncmp(ii->name.c_str(), iname_p.c_str(), ii->nlen) == 0)
+		if (ii.nlen > 0 && strncmp(ii.name.c_str(), iname_p.c_str(), ii.nlen) == 0)
 		{
 			//*iname_p += ii->nlen;
-            iname_p.erase(0,ii->nlen);
+            iname_p.erase(0,ii.nlen);
 			return ii;
 		}
 	}
-	return 0;
+	Insn dummy;
+	return dummy;
 }
 InsnSet::InsnSet(int icount) : insn(icount)
 {

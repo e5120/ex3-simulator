@@ -1,6 +1,4 @@
 #pragma once
-
-#include <cstdio>
 #include <string>
 #include <vector>
 
@@ -17,9 +15,8 @@ public:
 		Element();
 		~Element();
 
-		void Set(const std::string n, int len, unsigned short addr);
-
-		void PrintInfo(FILE * fp, int maxlen);
+		void Set(const std::string& n, int len, unsigned short addr);
+		void PrintInfo(FILE* fp, int maxlen);
 	};
 	enum AnnotationLabel
 	{
@@ -34,20 +31,20 @@ public:
 
 		AnnotationStatus();
 
-		AnnotationLabel CheckAnnotationLabel(const std::string p, int len);
+		AnnotationLabel CheckAnnotationLabel(const std::string& p, int len);
 
-		bool AddAnnotation(const std::string p, int len, unsigned short addr);
+		bool AddAnnotation(const std::string& p, int len, unsigned short addr);
 	} annotation;
 
 #define MAX_LABEL_COUNT	1000
-    std::vector<Element> element;
 	int count, maxLabelLength;
+    std::vector<Element> element;
 	Label();
 
-	Element * AddLabel(std::string& n, int len, unsigned short addr);
+	Element* AddLabel(const std::string& n, int len, unsigned short addr);
 
-	Element * GetLabel(std::string& p, int len);
-	Element * GetLabel(int addr);
+	Element* GetLabel(const std::string& p, int len);
+	Element* GetLabel(int addr);
 
-	void PrintLabels(FILE * fp);
+	void PrintLabels(FILE* fp);
 };

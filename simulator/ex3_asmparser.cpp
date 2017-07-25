@@ -1,19 +1,19 @@
 #include "ex3_asmparser.h"
 #include "ex3_insnset.h"
 
-int EX3_ASMParser::ParseInsn(int passNum, std::string& p, InsnSet::Insn * insn, int& addr)
+int EX3_ASMParser::ParseInsn(int passNum, std::string& p, const InsnSet::Insn& insn, int& addr)
 {
 
-	if (insn->type == EX3_InsnSet::REG_INSN || insn->type == EX3_InsnSet::MEM_INSN)
+	if (insn.type == EX3_InsnSet::REG_INSN || insn.type == EX3_InsnSet::MEM_INSN)
 	{
 		if (passNum == 2)
 		{
 			Memory::Word * m = &cpu->mem->word[addr];
-			m->insnID = insn->ID;
-			m->value = insn->code;
+			m->insnID = insn.ID;
+			m->value = insn.code;
 			m->SetStatus(&cpu->label.annotation, addr);
 			cpu->dbg->InsertMonitorOrBreakpoint(m->status, addr, true);
-			if (insn->type == EX3_InsnSet::MEM_INSN)
+			if (insn.type == EX3_InsnSet::MEM_INSN)
 			{
 				SkipWhiteSpace(p);
 				int len = GetLabelLength(p);

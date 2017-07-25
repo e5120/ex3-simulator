@@ -33,7 +33,7 @@ void Memory::Word::SetStatus(Label::AnnotationStatus * labelAnnotation, int addr
 	}
 }
 
-void Memory::Word::SetComment(std::string& c, int len, int headFlag)
+void Memory::Word::SetComment(const std::string& c, int len, int headFlag)
 {
 	if (headFlag)
 	{

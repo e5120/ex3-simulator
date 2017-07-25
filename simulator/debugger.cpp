@@ -156,7 +156,8 @@ void Debugger::ShowBreakpoints()
 }
 void Debugger::GetValue(const char * msg, const char * field, int * value)
 {
-	printf(msg); scanf(field, value);
+	printf("%s", msg);
+	scanf(field, value);
 }
 void Debugger::DeleteBreakpoint()
 {
@@ -208,7 +209,7 @@ void Debugger::InsertMonitorOrBreakpoint(int status, int addr, bool isInsn)
 {
 	if (addr < 0 || addr >= cpu->mem->size)
 	{
-		ABORT_PROGRAM("Error in InsertMonitorOrBreakpoint!!!\n");
+		ABORT_PROGRAM(printf("Error in InsertMonitorOrBreakpoint!!!\n"));
 	}
 	BreakpointType bt = (isInsn) ? BT_PC : BT_MEM;
 	unsigned short * mem0 = 0;
@@ -289,6 +290,7 @@ bool Debugger::DetectMonitor()
 		{
 			return true;
 		} break;
+        default:    break;
 		}
 	}
 	return false;

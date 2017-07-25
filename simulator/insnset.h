@@ -21,7 +21,7 @@ public:
 		void Set(int id, const std::string n, int t, int showMem, void(*op)(CPU *), unsigned short c);
 	};
 
-	Insn * SearchInsn(std::string& iname_p);
+	Insn SearchInsn(std::string& iname_p);
 	std::vector<Insn> insn;
 	int ICount;
 	

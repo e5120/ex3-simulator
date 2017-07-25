@@ -38,7 +38,7 @@ int main(int argc, char ** argv)
 	EX3_TerminalSystem ex3_sys(argv[1]);
 	if (ex3_sys.parser.Open() != 0)
 	{
-		printf("ERROR during parsing\n", argv[0]);
+		printf("ERROR during parsing\n");
 		printf("\nhit return : ");
 		getchar();
 		return -1;

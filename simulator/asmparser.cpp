@@ -60,21 +60,19 @@ void ASMParser::Close()
 	WriteVerilogMemProbeFile();
 }
 
-FILE * ASMParser::OpenFile(const std::string extname)
+FILE * ASMParser::OpenFile(const std::string& extname)
 {
 	FILE * fp0 = 0;
-	char * mem_fname = new char[asm_name.size() + strlen(VERILOG_DIR) + extname.size() + 1];
-	sprintf(mem_fname, "%s%s", VERILOG_DIR, asm_name.c_str());
-	char * p = mem_fname + strlen(mem_fname) - 4;
-	if (*p != '.')
+	std::string mem_fname = VERILOG_DIR + asm_name;
+	if (mem_fname[mem_fname.size()-4] != '.')
 	{
 		printf("sorry, something is wrong... (please contact admin)\n");
 	}
 	else
 	{
-		strcpy(p, extname.c_str()); fp0 = fopen(mem_fname, "w");
+        mem_fname  = mem_fname.substr(0,mem_fname.size()-4) + extname;
+        fp0 = fopen(mem_fname.c_str(), "w");
 	}
-	delete[] mem_fname;
 	return fp0;
 }
 
@@ -236,7 +234,6 @@ int ASMParser::ExtractComment(std::string& p, int addr, int headFlag)
 {
 	if (addr >= 0 && addr < cpu->mem->size)
 	{
-		Memory::Word * m = &cpu->mem->word[addr];
 		SkipWhiteSpace(p);
 		if (p.front() == '/')
 		{
@@ -245,8 +242,9 @@ int ASMParser::ExtractComment(std::string& p, int addr, int headFlag)
 			{
                 ++len;
 			}
-			m->SetComment(p, len, headFlag);
-			return 1;
+			//m->SetComment(p, len, headFlag);
+			cpu->mem->word[addr].SetComment(p, len, headFlag);;
+            return 1;
 		}
 	}
 	return 0;
@@ -323,8 +321,7 @@ int ASMParser::ParseNonInsn(int passNum, std::string& p, int insnID, int& addr)
 {
 	SkipWhiteSpace(p);
 	int param = GetNum(p, insnID);
-	Memory::Word * m = &cpu->mem->word[addr];
-	int endReached = 0;
+    int endReached = 0;
 	switch (insnID)
 	{
 	case InsnSet::I_ORG:
@@ -374,9 +371,9 @@ int ASMParser::ParseNonInsn(int passNum, std::string& p, int insnID, int& addr)
 	case InsnSet::I_DEC:
 		if (passNum == 2)
 		{
-			m->SetStatus(&cpu->label.annotation, addr);
-			cpu->dbg->InsertMonitorOrBreakpoint(m->status, addr, false);
-			m->value = param;
+            cpu->mem->word[addr].SetStatus(&cpu->label.annotation, addr);
+            cpu->dbg->InsertMonitorOrBreakpoint(cpu->mem->word[addr].status, addr, false);
+            cpu->mem->word[addr].value = param;
 		}
 		if (passNum == 2)
 		{
@@ -465,8 +462,8 @@ int ASMParser::Parse(int passNum)
 		case  1:	continue;
 		default:	break;
 		}
-		InsnSet::Insn * insn = cpu->isa->SearchInsn(p);
-		if (insn == 0)
+		InsnSet::Insn insn = cpu->isa->SearchInsn(p);
+		if (insn.ID == 0)
 		{
 			printf("ERROR: Invalid instruction (%s)\n", p.c_str());
             PrintErrorLocation();
@@ -478,7 +475,7 @@ int ASMParser::Parse(int passNum)
 		case  1:	continue;
 		default:	break;
 		}
-		switch (ParseNonInsn(passNum, p, insn->ID, addr))
+		switch (ParseNonInsn(passNum, p, insn.ID, addr))
 		{
 		case -1:	return -1;
 		case  1:	endReached = 1;

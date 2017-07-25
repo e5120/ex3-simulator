@@ -1,21 +1,14 @@
-#include <cstring>
-
-using namespace std;
-
 #include "label.h"
 
-Label::Element::Element()
+Label::Element::Element() : name(), nlen(0), address(0)
 {
-	name = "";
-	nlen = 0;
-	address = 0;
 }
 
 Label::Element::~Element()
 {
 }
 
-void Label::Element::Set(const std::string n, int len, unsigned short addr)
+void Label::Element::Set(const std::string& n, int len, unsigned short addr)
 {
 	nlen = len;
 	name = n.substr(0,len);
@@ -24,7 +17,10 @@ void Label::Element::Set(const std::string n, int len, unsigned short addr)
 
 void Label::Element::PrintInfo(FILE * fp, int maxlen)
 {
-	if (fp) fprintf(fp, "label(%*s) : %5d(0x%04x)\n", maxlen, name.c_str(), address, address);
+	if (fp)
+    {
+        fprintf(fp, "label(%*s) : %5d(0x%04x)\n", maxlen, name.c_str(), address, address);
+    }
 }
 
 Label::AnnotationStatus::AnnotationStatus()
@@ -33,7 +29,7 @@ Label::AnnotationStatus::AnnotationStatus()
 	annotation = AL_Null;
 }
 
-Label::AnnotationLabel Label::AnnotationStatus::CheckAnnotationLabel(const std::string p, int len)
+Label::AnnotationLabel Label::AnnotationStatus::CheckAnnotationLabel(const std::string& p, int len)
 {
 	if (len != 3 || p[0] != '_' || p[2] != '_')
 	{
@@ -47,7 +43,7 @@ Label::AnnotationLabel Label::AnnotationStatus::CheckAnnotationLabel(const std::
 	}
 }
 
-bool Label::AnnotationStatus::AddAnnotation(const std::string p, int len, unsigned short addr)
+bool Label::AnnotationStatus::AddAnnotation(const std::string& p, int len, unsigned short addr)
 {
 	if (curAddr != addr)
 	{
@@ -62,18 +58,18 @@ bool Label::AnnotationStatus::AddAnnotation(const std::string p, int len, unsign
 Label::Label() : count(0), maxLabelLength(0), element(MAX_LABEL_COUNT)
 {}
 
-Label::Element * Label::AddLabel(std::string& n, int len, unsigned short addr)
+Label::Element* Label::AddLabel(const std::string& n, int len, unsigned short addr)
 {
-	Element * lb;
+	Element* lb;
 	if (count >= MAX_LABEL_COUNT)
 	{
 		printf("ERROR: labelCount exceeds limit %d\n", MAX_LABEL_COUNT);
-        return 0;
+        return nullptr;
 	}
 	if ((lb = GetLabel(n, len)))
 	{
 		printf("ERROR: label(%s) already exists!!\n", lb->name.c_str());
-        return 0;
+        return nullptr;
 	}
 	lb = &element[count++];
 	lb->Set(n, len, addr);
@@ -83,34 +79,36 @@ Label::Element * Label::AddLabel(std::string& n, int len, unsigned short addr)
 	}
 	return lb;
 }
-Label::Element * Label::GetLabel(std::string& p, int len)
+
+Label::Element* Label::GetLabel(const std::string& p, int len)
 {
-	int i;
-	for (i = 0; i < count; i++)
+	for (int i = 0; i < count; ++i)
 	{
-		if (element[i].nlen == len && strncmp(element[i].name.c_str(), p.c_str(), len) == 0){
+		if(element[i].nlen == len && element[i].name.substr(0,len) == p.substr(0,len))
+        {
 			return &element[i];
 		}
 	}
-	return 0;
+	return nullptr;
 }
 
-Label::Element * Label::GetLabel(int addr)
+Label::Element* Label::GetLabel(int addr)
 {
-	int i;
-	for (i = 0; i < count; i++)
+	for (int i = 0; i < count; ++i)
 	{
-		if (element[i].address == addr) return &element[i];
+		if (element[i].address == addr)
+        {
+            return &element[i];
+        }
 	}
-	return 0;
+	return nullptr;
 }
 
-void Label::PrintLabels(FILE * fp)
+void Label::PrintLabels(FILE* fp)
 {
 	if (fp)
 	{
-		int i;
-		for (i = 0; i < count; i++)
+		for (int i = 0; i < count; ++i)
 		{
 			element[i].PrintInfo(fp, maxLabelLength);
 		}

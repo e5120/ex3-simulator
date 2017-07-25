@@ -23,7 +23,7 @@ public:
 		~Word();
 
 		void SetStatus(Label::AnnotationStatus * labelAnnotation, int addr);
-		void SetComment(std::string& c, int len, int headFlag);
+		void SetComment(const std::string& c, int len, int headFlag);
 	};
 
 	Word * word, *curCode, bogusWord;	///	bogusWord : for returning memory word upon access error
