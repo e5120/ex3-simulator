@@ -23,10 +23,12 @@ void Label::Element::PrintInfo(FILE * fp, int maxlen)
     }
 }
 
-Label::AnnotationStatus::AnnotationStatus()
+Label::AnnotationStatus::AnnotationStatus() : curAddr(0), annotation(AL_Null)
 {
-	curAddr = 0;
-	annotation = AL_Null;
+}
+
+Label::AnnotationStatus::~AnnotationStatus()
+{
 }
 
 Label::AnnotationLabel Label::AnnotationStatus::CheckAnnotationLabel(const std::string& p, int len)
@@ -57,6 +59,10 @@ bool Label::AnnotationStatus::AddAnnotation(const std::string& p, int len, unsig
 
 Label::Label() : count(0), maxLabelLength(0), element(MAX_LABEL_COUNT)
 {}
+
+Label::~Label()
+{
+}
 
 Label::Element* Label::AddLabel(const std::string& n, int len, unsigned short addr)
 {

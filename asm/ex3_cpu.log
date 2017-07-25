@@ -174,7 +174,7 @@ I_HND: 002e [3066]: STA 066   (   BA)	// M[BA] <- AC	(store AC)
 // data (no initialization)
    BA: 0066 [0000]: (    0:    0)      	// backup storage for AC during interrupt handling
    BE: 0067 [0001]: (    1:    1)      	// backup storage for  E during interrupt handling
-  SDT: 0068 [0079]: (  121:  'y')      	// S_IN data
+  SDT: 0068 [006f]: (  111:  'o')      	// S_IN data
   PDT: 0069 [0004]: (    4:    4)      	// P_IN data
 // data (need initialization code)
   STT: 006a [ffff]: (   -1:65535)      	// state

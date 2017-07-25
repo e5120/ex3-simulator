@@ -1,16 +1,7 @@
-#include <cstring>
-
-using namespace std;
-
 #include "memory.h"
 
-Memory::Word::Word()
+Memory::Word::Word() : status(MS_Null), insnID(0), value(0), headComment(), tailComment()
 {
-	status = MS_Null;
-    insnID = 0;
-    value = 0;
-    headComment = "";
-    tailComment = "";
 }
 
 Memory::Word::~Word()
@@ -60,13 +51,8 @@ void Memory::Word::SetComment(const std::string& c, int len, int headFlag)
 	}
 }
 
-Memory::Memory(int sz)
+Memory::Memory(int sz) : word(sz), size(sz), maxAddr(0), errorFlag(0)
 {
-	size = sz;
-	maxAddr = 0;
-	errorFlag = 0;
-	curCode = 0;
-	word = new Word[size];
 }
 
 Memory::~Memory()
@@ -78,7 +64,7 @@ bool Memory::IsValidAddress(int addr)
 	return addr >= 0 && addr < size;
 }
 
-Memory::Word * Memory::GetWord(unsigned int addr)
+Memory::Word* Memory::GetWord(unsigned int addr)
 {
 	if (!IsValidAddress(addr) || errorFlag)
 	{
@@ -97,16 +83,16 @@ void Memory::ProbeInsn(unsigned short pc)
 void Memory::FetchInsn(unsigned short & pc)
 {
 	curCode = GetWord(pc);
-	pc++;
+	++pc;
 }
 
 unsigned short Memory::Address()
 {
-	Word * m = (IsIndirectMemoryAccess(curCode)) ? GetWord(GetAddressField(curCode)) : curCode;
+	Word* m = (IsIndirectMemoryAccess(curCode)) ? GetWord(GetAddressField(curCode)) : curCode;
 	return GetAddressField(m);
 }
 
-unsigned short & Memory::Operand()
+unsigned short Memory::Operand()
 {
 	return GetWord(Address())->value;
 }

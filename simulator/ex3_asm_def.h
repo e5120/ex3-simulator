@@ -17,7 +17,8 @@
 
 #define S			(cpu->_S)
 #define PC			(cpu->_PC)
-#define MEM			(cpu->mem->Operand())
+#define MEM			(((EX3_CPU *) cpu)->mem->GetWord(cpu->mem->Address())->value)
+//#define MEM			(cpu->mem->Operand())
 #define AR			(cpu->mem->Address())
 #define INPR		(cpu->_INPR)
 #define OUTR		(cpu->_OUTR)

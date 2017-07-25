@@ -18,22 +18,22 @@ public:
 		unsigned short code;
 		void(*operation)(CPU *);
 		Insn();
-		void Set(int id, const std::string n, int t, int showMem, void(*op)(CPU *), unsigned short c);
+		void Set(int id, const std::string& n, int t, int showMem, void(*op)(CPU *), unsigned short c);
 	};
 
-	Insn SearchInsn(std::string& iname_p);
 	std::vector<Insn> insn;
 	int ICount;
-	
+
+	InsnSet(int icount);
+	~InsnSet();
+
+	Insn SearchInsn(std::string& iname_p);
+	static void OP_DUMMY(CPU * cpu){}
+
 	enum InsnID
 	{
 		I_INVALID, /// valid InsnID is non-zero
 		I_ORG, I_END, I_DEC, I_HEX, I_CHR, I_SYM,
 		I_TAIL,
 	};
-
-	InsnSet(int icount);
-	~InsnSet();
-	static void OP_DUMMY(CPU * cpu)
-	{}
 };
