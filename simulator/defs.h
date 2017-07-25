@@ -6,5 +6,6 @@
 #define VERILOG_DIR "../verilog/"
 
 #define SOCKET 0
+#define NEWEST 1
 
 #define COMMENT '/'

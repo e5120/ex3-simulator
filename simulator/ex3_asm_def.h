@@ -1,4 +1,4 @@
-
+#include "defs.h"
 #if defined INSN_ENUM
 #define INSN(i, code, showMem, func) I_##i,
 /// example: INSN(AND, 0x0000, 0, AC &= MEM;) ==> I_AND,
@@ -61,19 +61,25 @@ INSN(INP, 0xf800, 0, AC = (AC & ~0xff) | (INPR & 0xff);	SetFGI(0); INPUT_PENDING
 INSN(OUT, 0xf400, 0, OUTR = AC & 0xff;					SetFGO(0);)
 INSN(SKI, 0xf200, 0, if(FGI)	PC = PC + 1; INPUT_PENDING = 1;)
 INSN(SKO, 0xf100, 0, if(FGO)	PC = PC + 1;)
+
+#if NEWEST
 INSN(IST, 0xf080, 0, (E==0) ? IEN = 0 : IEN = 1;)
 INSN(SIO, 0xf040, 0, IOT = 1;)
 INSN(PIO, 0xf020, 0, IOT = 0;)
 INSN(IMK, 0xf010, 0, IMSK = AC & 0xf;)
 
-//INSN(TMR, 0xf008, 0, TIMER = AC;) //タイマー
-//INSN(SKT, 0xf004, 0, if(TIMER==0) PC <- PC+1;)
-
 INSN(TMR, 0xf008, 0, TF = 1; TMRF = 0; TIMER = (double)AC;) //タイマー
 INSN(SKT, 0xf004, 0, if(TMRF == 1) {PC = PC + 1; TMRF = TF = 0;})
-
 INSN(RND, 0xf002, 0, (AC > 0) ? AC = rand() % AC : 0;)
 INSN(VGA, 0xf001, 0,)
+#else
+INSN(ION, 0xf080, 0, IEN = 1;)
+INSN(IOF, 0xf040, 0, IEN = 0;)
+INSN(SIO, 0xf020, 0, IOT = 1;)
+INSN(PIO, 0xf010, 0, IOT = 0;)
+INSN(IMK, 0xf008, 0, IMSK = AC & 0xf;)
+//ここにAssembly命令を追加(定義も？/宣言だけでいいかも、ここはAssembly上の命令、レジスタ等の追加は無し、番号の振り方に注意)
+#endif
 
 #undef S
 #undef PC
@@ -91,6 +97,7 @@ INSN(VGA, 0xf001, 0,)
 #undef IEN
 #undef IMSK
 #undef IOT
+#undef INPUT_PENDING
 #undef TMRF
 #undef TIMER
 #undef TF
