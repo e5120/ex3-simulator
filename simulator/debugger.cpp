@@ -1,7 +1,6 @@
 #include "debugger.h"
-#include "utils.h"
 
-Debugger::Breakpoint::Breakpoint() //: mem(new unsigned short(0))
+Debugger::Breakpoint::Breakpoint()
 {
 }
 
@@ -9,10 +8,12 @@ Debugger::Breakpoint::~Breakpoint()
 {
 }
 
-void Debugger::Breakpoint::Set(int id, BreakpointType bt, int value, unsigned short * mem0)
+void Debugger::Breakpoint::Set(int id, BreakpointType bt, int value, unsigned short mem0)
 {
-	ID = id, btype = bt;
-	mem = 0; val = 0;
+	ID = id;
+    btype = bt;
+	mem = 0;
+    val = 0;
 	if (btype == BT_PC)
 	{
 		addr = value;
@@ -23,10 +24,12 @@ void Debugger::Breakpoint::Set(int id, BreakpointType bt, int value, unsigned sh
 	}
 	else
 	{
-		addr = value; mem = mem0;
+		addr = value;
+        mem = mem0;
 	}
 }
-const char * Debugger::Breakpoint::GetBreakpointTypeName()
+
+const std::string Debugger::Breakpoint::GetBreakpointTypeName()
 {
 	switch (btype)
 	{
@@ -35,7 +38,8 @@ const char * Debugger::Breakpoint::GetBreakpointTypeName()
 	case BT_MEM:	return "MEM";
 	}
 }
-void Debugger::Breakpoint::PrintInfo(Debugger * dbg)
+
+void Debugger::Breakpoint::PrintInfo(Debugger* dbg)
 {
 	printf("Breakpoint(%d) at ", ID);
 	if (btype == BT_PC)
@@ -48,44 +52,40 @@ void Debugger::Breakpoint::PrintInfo(Debugger * dbg)
 	}
 	else
 	{
-		printf("MEM (0x%03x) = (%04x : %04x)", addr, val, *mem);
+		printf("MEM (0x%03x) = (%04x : %04x)", addr, val, mem);
 	}
+    printf("\n");
 	if (dbg)
 	{
-		printf("\n"); dbg->ShowCPUStatus();
-	}
-	else
-	{
-		printf("\n");
+        dbg->ShowCPUStatus();
 	}
 }
-Debugger::Debugger(CPU * cpu0)
+
+Debugger::Debugger(CPU* cpu0)
+        :breakpoints(BREAKPOINT_COUNT), monitors(MONITOR_COUNT),
+         breakpointCount(0), monitorCount(0), bpID(0), verboseMode(0), fileLogMode(0), com(CT_Start)
 {
-	if (globalDBG)
-	{
-		ABORT_PROGRAM(printf("globalDBG != 0\n"));
-	}
-	globalDBG = this;
-	cpu = cpu0; breakpointCount = 0; monitorCount = 0; bpID = 0; com = CT_Start; verboseMode = 0; fileLogMode = 0;
+	cpu = cpu0;
 }
+
 Debugger::~Debugger()
 {
-	globalDBG = 0;
 }
-bool Debugger::Echo()
+
+void Debugger::Echo()
 {
-	return (com == CT_Step || verboseMode || DetectMonitor());
+	echo = (com == CT_Step || verboseMode || DetectMonitor());
 }
-bool Debugger::FileLog()
+
+void Debugger::FileLog()
 {
-	return (com == CT_Start || fileLogMode || DetectMonitor());
+	flog = (com == CT_Start || fileLogMode || DetectMonitor());
 }
+
 void Debugger::ShowCommand()
 {
-	printf("r : run(server)\n"
-		"c : run(client)\n"
+	printf("r : run\n"
 		"s : step\n"
-		"a : output mem,prb file\n"
 		"b : show breakpoints\n"
 		"d : delete breakpoint\n"
 		"p : set PC breakpoint\n"
@@ -96,10 +96,11 @@ void Debugger::ShowCommand()
 		"w : show CPU status\n"
 		"n : show PC monitors\n"
 		"h : show commands\n"
-		"q : quit\n"
+		"q : quit and output mem,prb file\n"
 		, verboseMode, fileLogMode
 	);
 }
+
 int Debugger::Debug()
 {
 	UpdateMonitor();
@@ -111,6 +112,7 @@ int Debugger::Debug()
 	}
 	return Command();
 }
+
 int Debugger::Command()
 {
 	while (1)
@@ -121,10 +123,8 @@ int Debugger::Command()
 		switch (ch)
 		{
 		case 'r': com = CT_Run;						return 0;
-        case 'c': com = CT_Run;                     return 0;
 		case '\n':
 		case 's': com = CT_Step;					return 0;
-		case 'a': return 1;
 		case 'b': ShowBreakpoints();				break;
 		case 'd': DeleteBreakpoint();				break;
 		case 'p': InsertBreakpoint(BT_PC);			break;
@@ -139,45 +139,51 @@ int Debugger::Command()
 		default: ShowCommand();					break;
 		}
 	}
-	return 0;
 }
+
 void Debugger::ToggleVerboseMode()
 {
-	verboseMode = 1 - verboseMode; printf("verboseMode = %d\n", verboseMode);
+	verboseMode = 1 - verboseMode;
+    printf("verboseMode = %d\n", verboseMode);
 }
+
 void Debugger::ToggleFileLogMode()
 {
-	fileLogMode = 1 - fileLogMode; printf("fileLogMode = %d\n", fileLogMode);
+	fileLogMode = 1 - fileLogMode;
+    printf("fileLogMode = %d\n", fileLogMode);
 }
+
 void Debugger::EnableAllLogs()
 {
-	verboseMode = 1; fileLogMode = 1;
+	verboseMode = 1;
+    fileLogMode = 1;
 }
+
 void Debugger::ShowBreakpoints()
 {
 	printf("%d breakpoints\n", breakpointCount);
-	int i;
-	for (i = 0; i < breakpointCount; i++)
+	for (int i = 0; i < breakpointCount; ++i)
 	{
 		breakpoints[i].PrintInfo();
 	}
 }
-void Debugger::GetValue(const char * msg, const char * field, int * value)
+
+void Debugger::GetValue(const std::string& msg, const std::string& field, int& value)
 {
-	printf("%s", msg);
-	scanf(field, value);
+	printf("%s", msg.c_str());
+	scanf(field.c_str(), &value);
 }
+
 void Debugger::DeleteBreakpoint()
 {
 	int ID;
-	GetValue("delete breakpoint ID = ", "%d", &ID);
-	int i;
-	for (i = 0; i < breakpointCount; i++)
+	GetValue("delete breakpoint ID = ", "%d", ID);
+	for (int i = 0; i < breakpointCount; ++i)
 	{
 		if (breakpoints[i].ID == ID)
 		{
 			breakpointCount--;
-			for (; i < breakpointCount; i++)
+			for (; i < breakpointCount; ++i)
 			{
 				breakpoints[i] = breakpoints[i + 1];
 			}
@@ -186,33 +192,37 @@ void Debugger::DeleteBreakpoint()
 	}
 	ShowBreakpoints();
 }
+
 void Debugger::InsertBreakpoint(BreakpointType bt)
 {
 	if (breakpointCount >= BREAKPOINT_COUNT)
 	{
-		printf("Too many breakpoints... (delete some to add new ones)\n"); return;
+		printf("Too many breakpoints... (delete some to add new ones)\n");
+        return;
 	}
 	int value;
-	unsigned short * mem0 = 0;
+	unsigned short mem0 = 0;
 	if (bt == BT_ICOUNT)
 	{
-		GetValue("insn count (decimal) = ", "%d", &value);
+		GetValue("insn count (decimal) = ", "%d", value);
 	}
 	else
 	{
-		GetValue("address (hex) = ", "%x", &value);
+		GetValue("address (hex) = ", "%x", value);
 		if (value >= cpu->mem->size)
 		{
-			printf("address is out of range...\n"); return;
+			printf("address is out of range...\n");
+            return;
 		}
 		if (bt == BT_MEM)
 		{
-			mem0 = &cpu->mem->word[value].value;
+			mem0 = cpu->mem->word[value].value;
 		}
 	}
 	breakpoints[breakpointCount++].Set(bpID++, bt, value, mem0);
 	ShowBreakpoints();
 }
+
 void Debugger::InsertMonitorOrBreakpoint(int status, int addr, bool isInsn)
 {
 	if (addr < 0 || addr >= cpu->mem->size)
@@ -220,101 +230,113 @@ void Debugger::InsertMonitorOrBreakpoint(int status, int addr, bool isInsn)
 		ABORT_PROGRAM(printf("Error in InsertMonitorOrBreakpoint!!!\n"));
 	}
 	BreakpointType bt = (isInsn) ? BT_PC : BT_MEM;
-	unsigned short * mem0 = 0;
+	unsigned short  mem0 = 0;
 	if (bt == BT_MEM)
 	{
-		mem0 = &cpu->mem->word[addr].value;
+		mem0 = cpu->mem->word[addr].value;
 	}
 	if (status & Memory::MS_Monitor)
 	{
 		if (monitorCount >= MONITOR_COUNT)
 		{
-			printf("[InsertMonitorOrBreakpoint] Too many monitors... \n"); return;
+			printf("[InsertMonitorOrBreakpoint] Too many monitors... \n");
+            return;
 		}
 		monitors[monitorCount].Set(monitorCount, bt, addr, mem0);
-		monitorCount++;
+		++monitorCount;
 	}
 	if (status & Memory::MS_Breakpoint)
 	{
 		if (breakpointCount >= BREAKPOINT_COUNT)
 		{
-			printf("[InsertMonitorOrBreakpoint] Too many breakpoints... (delete some to add new ones)\n"); return;
+			printf("[InsertMonitorOrBreakpoint] Too many breakpoints... (delete some to add new ones)\n");
+            return;
 		}
 		breakpoints[breakpointCount++].Set(bpID++, bt, addr, mem0);
 	}
 }
+
 bool Debugger::DetectBreakpoint()
 {
-	int i;
-	Breakpoint * bp = breakpoints;
-	for (i = 0; i < breakpointCount; i++, bp++)
+	for (int i = 0; i < breakpointCount; ++i)
 	{
-		switch (bp->btype)
+		switch (breakpoints[i].btype)
 		{
-		case BT_PC:		if (cpu->_PC == bp->addr)
-		{
-			bp->PrintInfo(this); return true;
-		} break;
-		case BT_ICOUNT:	if (cpu->cycle_count == bp->val)
-		{
-			bp->PrintInfo(this); return true;
-		} break;
-		case BT_MEM:	if (*bp->mem != bp->val)
-		{
-			bp->PrintInfo(this); bp->val = *bp->mem; return true;
-		} break;
+		case BT_PC:
+            if (cpu->_PC == breakpoints[i].addr)
+            {
+                breakpoints[i].PrintInfo(this); return true;
+            }
+            break;
+		case BT_ICOUNT:
+            if (cpu->cycle_count == breakpoints[i].val)
+            {
+                breakpoints[i].PrintInfo(this);
+                return true;
+            }
+            break;
+		case BT_MEM:
+            if (breakpoints[i].mem != breakpoints[i].val)
+            {
+                breakpoints[i].PrintInfo(this);
+                breakpoints[i].val = breakpoints[i].mem;
+                return true;
+            }
+            break;
 		}
 	}
 	return false;
 }
+
 void Debugger::ShowMonitors()
 {
-	int i;
-	Breakpoint * mon = monitors;
 	printf("monitors = {");
-	for (i = 0; i < monitorCount; i++, mon++)
+	for (int i = 0; i < monitorCount; ++i)
 	{
 		if (i)
 		{
 			printf(", ");
 		}
-		printf("0x%03x(%s)", mon->addr, (mon->btype == BT_PC) ? "PC" : "MEM");
+		printf("0x%03x(%s)", monitors[i].addr, (monitors[i].btype == BT_PC) ? "PC" : "MEM");
 	}
 	printf("}\n");
 }
+
 bool Debugger::DetectMonitor()
 {
-	int i;
-	Breakpoint * mon = monitors;
-	for (i = 0; i < monitorCount; i++, mon++)
+	for (int i = 0; i < monitorCount; ++i)
 	{
-		switch (mon->btype)
+		switch (monitors[i].btype)
 		{
-		case BT_PC:		if (cpu->_PC == mon->addr)
-		{
-			return true;
-		} break;
-		case BT_MEM:	if (*mon->mem != mon->val)
-		{
-			return true;
-		} break;
+		case BT_PC:
+            if (cpu->_PC == monitors[i].addr)
+            {
+                return true;
+            }
+            break;
+		case BT_MEM:
+            if (monitors[i].mem != monitors[i].val)
+            {
+                return true;
+            }
+            break;
         default:    break;
 		}
 	}
 	return false;
 }
+
 void Debugger::UpdateMonitor()
 {
-	int i;
-	Breakpoint * mon = monitors;
-	for (i = 0; i < monitorCount; i++, mon++)
+	for (int i = 0; i < monitorCount; ++i)
 	{
-		if (mon->mem)
+		if (monitors[i].mem)
 		{
-			mon->val = *mon->mem;
+            monitors[i].val = monitors[i].mem;
 		}
 	}
 }
+
 void Debugger::ShowCPUStatus()
 {
 	cpu->PrintStatus(stdout, 0);

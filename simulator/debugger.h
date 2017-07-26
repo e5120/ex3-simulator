@@ -1,5 +1,6 @@
 #pragma once
-#include <memory>
+#include <string>
+#include <vector>
 
 class CPU;
 #include "cpu.h"
@@ -21,16 +22,15 @@ public:
 		int val;
 		int ID;
 		int addr;
-		//std::unique_ptr<unsigned  short> mem;
-		unsigned short * mem;
+		unsigned  short mem;
 
 		Breakpoint();
 		virtual ~Breakpoint();
 
-		void Set(int id, BreakpointType bt, int value, unsigned short * mem0);
-		const char * GetBreakpointTypeName();
+		void Set(int id, BreakpointType bt, int value, unsigned short mem0);
+		const std::string GetBreakpointTypeName();
 
-		void PrintInfo(Debugger * dbg = 0);
+		void PrintInfo(Debugger* dbg = 0);
 	};
 
 	enum CommandType
@@ -43,21 +43,24 @@ public:
 #define BREAKPOINT_COUNT 100
 #define MONITOR_COUNT 100
 
-	Breakpoint breakpoints[BREAKPOINT_COUNT], monitors[MONITOR_COUNT];
-	int breakpointCount, monitorCount, bpID;
-	int verboseMode, fileLogMode;
+	std::vector<Breakpoint> breakpoints, monitors;
+	int breakpointCount;
+    int monitorCount;
+    int bpID;
+	int verboseMode;
+    int fileLogMode;
 	int ch;
 	CommandType com;
-	CPU * cpu;
-	static Debugger * globalDBG;
+	CPU* cpu;
 
-	Debugger(CPU * cpu0);
+    static bool echo;
+    static bool flog;
 
-	~Debugger();
+	Debugger(CPU* cpu0);
+	virtual ~Debugger();
 
-	bool Echo();
-
-	bool FileLog();
+	void Echo();
+	void FileLog();
 	void ShowCommand();
 	int Debug();
 	int Command();
@@ -65,7 +68,7 @@ public:
 	void ToggleFileLogMode();
 	void EnableAllLogs();
 	void ShowBreakpoints();
-	void GetValue(const char * msg, const char * field, int * value);
+	void GetValue(const std::string& msg, const std::string& field, int& value);
 	void DeleteBreakpoint();
 	void InsertBreakpoint(BreakpointType bt);
 	void InsertMonitorOrBreakpoint(int status, int addr, bool isInsn);

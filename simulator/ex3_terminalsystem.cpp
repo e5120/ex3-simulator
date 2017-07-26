@@ -60,6 +60,9 @@ void EX3_TerminalSystem::RunCPUModel()
 		{
 			break;
 		}
+		cpu->dbg->Echo();
+		cpu->dbg->FileLog();
+
 		///	1. simulate components : inTerm, outTerm, cpu
 		inFlag = inTerm.Execute();
 		outFlag = outTerm.Execute();

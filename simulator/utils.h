@@ -1,9 +1,7 @@
 #pragma once
 
-#include <cstdlib>
-
-#define NEED_ECHO	(Debugger::globalDBG->Echo())
-#define NEED_FDMP		(Debugger::globalDBG->FileLog())
+#define NEED_ECHO (Debugger::echo)
+#define NEED_FDMP (Debugger::flog)
 
 #define EMIT_MESSAGE_0(func, fp)							if(NEED_FDMP) func(fp);							if(NEED_ECHO) func(stdout)
 #define EMIT_MESSAGE_1(func, fp, arg0)						if(NEED_FDMP) func(fp, arg0);					if(NEED_ECHO) func(stdout, arg0)

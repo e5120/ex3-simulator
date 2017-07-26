@@ -5,7 +5,8 @@
 #include "asmparser.h"
 #include "ex3_terminalsystem.h"
 
-Debugger* Debugger::globalDBG = 0;
+bool Debugger::echo = false;
+bool Debugger::flog = false;
 
 #if !defined(WIN32)
 int _getche(void)

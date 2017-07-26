@@ -41,7 +41,7 @@ void EX3_CPU::SetFG(unsigned short& fg, int val)
 	{
 		val <<= 1;
 	}
-	fg = (fg & (~mask)) | val;
+	fg = (unsigned short)((fg & (~mask)) | val);
 }
 
 void EX3_CPU::_SetFGI(int val)
