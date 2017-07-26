@@ -14,7 +14,7 @@ CPU::~CPU()
 	}
 }
 
-void CPU::PrintSeparator(FILE * fp)
+void CPU::PrintSeparator(FILE* fp)
 {
 	fprintf(fp, "----------------\n");
 }
@@ -34,7 +34,7 @@ void CPU::Reset()
 	_FGO = 0x3;
 }
 
-void CPU::PrintMemory(FILE * fp, int printMode)
+void CPU::PrintMemory(FILE* fp, int printMode)
 {
 	int i;
 	for (i = 0; i < mem->maxAddr; i++)
@@ -73,6 +73,7 @@ unsigned char CPU::GetOutput()
 	}
 	else
 	{
-		printf("ERROR!!! GetInput() called when output is not ready...\n"); return -1;
+		printf("ERROR!!! GetInput() called when output is not ready...\n");
+		return -1;
 	}
 }

@@ -21,7 +21,7 @@ public:
 	std::unique_ptr<InsnSet> isa;
 	unsigned short _S, _PC, _oldPC, _INPR, _OUTR, _FGI, _FGO;
 	int cycle_count, appl_cycle_count, intr_cycle_count, intr_pending;
-	FILE * fplog;
+	FILE* fplog;
 	std::unique_ptr<Debugger> dbg;
 
 	CPU(const std::string logfilename);
@@ -47,7 +47,7 @@ public:
 	virtual void _SetFGO(int val) = 0;
 	virtual int _GetFGI() = 0;
 	virtual int _GetFGO() = 0;
-	virtual	void PrintStatus(FILE * fp, bool intr_cycle) = 0;
+	virtual	void PrintStatus(FILE* fp, bool intr_cycle) = 0;
 
 	enum PrintMemoryWordMode
 	{

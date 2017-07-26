@@ -22,6 +22,7 @@ void EX3_CPU::Reset()
 	_TIMER = 0;
 	_TF = 0;
 }
+
 int EX3_CPU::GetSelectedPortID()
 {
 	return (_IOT) & 1;
@@ -47,6 +48,7 @@ void EX3_CPU::_SetFGI(int val)
 {
 	SetFG(_FGI, val);
 }
+
 void EX3_CPU::_SetFGO(int val)
 {
 	SetFG(_FGO, val);
@@ -68,7 +70,7 @@ void EX3_CPU::PrintDataMemory()
 	EMIT_MESSAGE_1(PrintMemory, fplog, CPU:: PM_Null);
 }
 
-void EX3_CPU::PrintStatus(FILE * fp, bool intr_cycle)
+void EX3_CPU::PrintStatus(FILE* fp, bool intr_cycle)
 {
 	if (fp)
 	{
@@ -112,7 +114,7 @@ void EX3_CPU::PrintStatus(FILE * fp, bool intr_cycle)
 
 int EX3_CPU::Execute()
 {
-	cycle_count++;
+	++cycle_count;
 	bool intr_cycle = (_R == 1);
 	intr_pending |= (_R == 1);
 	if (intr_cycle)
@@ -154,11 +156,11 @@ int EX3_CPU::Execute()
 	}
 	if (intr_pending)
 	{
-		intr_cycle_count++;
+		++intr_cycle_count;
 	}
 	else
 	{
-		appl_cycle_count++;
+		++appl_cycle_count;
 	}
 	/// 0xc000 : BUN 0 I (indirect jump at addr 0) --> this is a return from interrupt handler
 	if (!intr_cycle && mem->curCode && mem->curCode->value == 0xc000)
@@ -172,8 +174,7 @@ int EX3_CPU::Execute()
 }
 
 #define VERILOG_READ_MEM_SEPARATOR " "
-
-void EX3_CPU::PrintMemoryWord(Memory::Word * m, FILE * fp, int addr, int printMode)
+void EX3_CPU::PrintMemoryWord(Memory::Word* m, FILE* fp, int addr, int printMode)
 {
 	bool verilogFlag = (printMode & CPU::PM_Verilog) != 0;
 	bool showProgram = (printMode & CPU::PM_Program) != 0;
@@ -181,9 +182,9 @@ void EX3_CPU::PrintMemoryWord(Memory::Word * m, FILE * fp, int addr, int printMo
 	bool skipHeadComment = (printMode & CPU::PM_SkipHeadComment) != 0;
 	if (fp)
 	{
-		InsnSet::Insn * insn = &isa->insn[m->insnID];
+		InsnSet::Insn insn = isa->insn[m->insnID];
 		Label::Element lb = label.GetLabel(addr);
-		if (lb.name.empty() && insn->type == EX3_InsnSet::NON_INSN && m->status == 0 && m->value == 0)
+		if (lb.name.empty() && insn.type == EX3_InsnSet::NON_INSN && m->status == 0 && m->value == 0)
 		{
 			return;
 		}
@@ -194,7 +195,7 @@ void EX3_CPU::PrintMemoryWord(Memory::Word * m, FILE * fp, int addr, int printMo
 				return;
 			}
 		}
-		else if (insn->type != EX3_InsnSet::NON_INSN && !showProgram)
+		else if (insn.type != EX3_InsnSet::NON_INSN && !showProgram)
 		{
 			return;
 		}
@@ -210,7 +211,7 @@ void EX3_CPU::PrintMemoryWord(Memory::Word * m, FILE * fp, int addr, int printMo
 			}
 			else if (showMonitor)
 			{
-				fprintf(fp, "%1x%03x%04x\t///\t", (insn->type == EX3_InsnSet::NON_INSN), addr, m->value);
+				fprintf(fp, "%1x%03x%04x\t///\t", (insn.type == EX3_InsnSet::NON_INSN), addr, m->value);
 			}
 			else
 			{
@@ -218,21 +219,21 @@ void EX3_CPU::PrintMemoryWord(Memory::Word * m, FILE * fp, int addr, int printMo
 			}
 		}
 		fprintf(fp, "%*s%s", label.maxLabelLength, (!lb.name.empty()) ? lb.name.c_str() : "", (!lb.name.empty()) ? ": " : "  ");
-		if (insn->type == EX3_InsnSet::MEM_INSN)
+		if (insn.type == EX3_InsnSet::MEM_INSN)
 		{
 			int addrValue = mem->GetAddressField(m);
 			Label::Element target_lb = label.GetLabel(addrValue);
-			fprintf(fp, "%04x [%04x]: %s %03x %s (%*s)", addr, m->value, insn->name.c_str(), addrValue,
+			fprintf(fp, "%04x [%04x]: %s %03x %s (%*s)", addr, m->value, insn.name.c_str(), addrValue,
 				(mem->IsIndirectMemoryAccess(m)) ? "I" : " ", label.maxLabelLength, (!target_lb.name.empty()) ? target_lb.name.c_str() : "???");
 		}
-		else if (insn->type == EX3_InsnSet::REG_INSN)
+		else if (insn.type == EX3_InsnSet::REG_INSN)
 		{
-			fprintf(fp, "%04x [%04x]: %s%*s", addr, m->value, insn->name.c_str(), label.maxLabelLength + 9, "");
+			fprintf(fp, "%04x [%04x]: %s%*s", addr, m->value, insn.name.c_str(), label.maxLabelLength + 9, "");
 		}
 		else if (m->status != 0)
 		{
-			const char * field = (m->value >= 0x20 && m->value <= 0x7e) ? "%04x [%04x]: (%5d:  '%c')%*s" : "%04x [%04x]: (%5d:%5d)%*s";
-			fprintf(fp, field, addr, m->value, (signed short)m->value, m->value, label.maxLabelLength + 1, "");
+			const std::string field = (m->value >= 0x20 && m->value <= 0x7e) ? "%04x [%04x]: (%5d:  '%c')%*s" : "%04x [%04x]: (%5d:%5d)%*s";
+			fprintf(fp, field.c_str(), addr, m->value, (signed short)m->value, m->value, label.maxLabelLength + 1, "");
 		}
 		else if (m->value != 0)
 		{

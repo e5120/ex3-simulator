@@ -31,7 +31,7 @@ public:
 	virtual int _GetFGO();
 
 	void PrintDataMemory();
-	void PrintStatus(FILE * fp, bool intr_cycle);
+	void PrintStatus(FILE* fp, bool intr_cycle);
 	int Execute();
-	void PrintMemoryWord(Memory::Word * m, FILE * fp, int addr, int printMode);
+	void PrintMemoryWord(Memory::Word* m, FILE* fp, int addr, int printMode);
 };

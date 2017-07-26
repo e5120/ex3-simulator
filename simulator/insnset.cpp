@@ -10,11 +10,11 @@ InsnSet::Insn::~Insn()
 
 void InsnSet::Insn::Set(int id, const std::string& n, int t, int showMem, std::function<void(CPU*)> op, unsigned short c)
 {
-	ID = id;
+	ID = (unsigned char)id;
 	name = n;
-	type = t;
-	showMemFlag = showMem;
-	nlen = name.size();
+	type = (unsigned char)t;
+	showMemFlag = (unsigned  char)showMem;
+	nlen = (unsigned char)name.size();
 	operation = op;
 	code = c;
 }

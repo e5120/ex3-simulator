@@ -1,6 +1,14 @@
 #include "debugger.h"
 #include "utils.h"
 
+Debugger::Breakpoint::Breakpoint() //: mem(new unsigned short(0))
+{
+}
+
+Debugger::Breakpoint::~Breakpoint()
+{
+}
+
 void Debugger::Breakpoint::Set(int id, BreakpointType bt, int value, unsigned short * mem0)
 {
 	ID = id, btype = bt;

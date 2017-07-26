@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 
 class CPU;
 #include "cpu.h"
@@ -17,8 +18,15 @@ public:
 	{
 	public:
 		BreakpointType btype;
-		int val, ID, addr;
+		int val;
+		int ID;
+		int addr;
+		//std::unique_ptr<unsigned  short> mem;
 		unsigned short * mem;
+
+		Breakpoint();
+		virtual ~Breakpoint();
+
 		void Set(int id, BreakpointType bt, int value, unsigned short * mem0);
 		const char * GetBreakpointTypeName();
 
