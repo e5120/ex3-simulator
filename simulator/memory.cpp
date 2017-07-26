@@ -28,26 +28,11 @@ void Memory::Word::SetComment(const std::string& c, int len, int headFlag)
 {
 	if (headFlag)
 	{
-		int len0 = (!headComment.empty()) ? headComment.size() + 2 : 0;
-		int len2 = len0 + len;
-		char * comment2 = new char[len2 + 1];
-		char * p = comment2;
-		if (!headComment.empty())
-		{
-			sprintf(p, "%s\n/", headComment.c_str());
-            p += headComment.size() + 2;
-		}
-		strncpy(p, c.c_str(), len);
-		comment2[len2] = 0;
-		headComment = comment2;
+        headComment += c.substr(0, len);
 	}
 	else if (tailComment.empty())
 	{
-		char * comment2 = new char[len + 1];
-		char * p = comment2;
-		strncpy(p, c.c_str(), len);
-		comment2[len] = 0;
-		tailComment = comment2;
+        tailComment = c.substr(0, len);
 	}
 }
 

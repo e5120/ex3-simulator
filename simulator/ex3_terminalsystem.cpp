@@ -1,6 +1,7 @@
 #include "ex3_terminalsystem.h"
 
-EX3_TerminalSystem::EX3_TerminalSystem(const std::string fname) : cpu(new EX3_CPU(0x1000)), parser(cpu, fname), inTerm(cpu), outTerm(cpu)
+EX3_TerminalSystem::EX3_TerminalSystem(const std::string& fname)
+		: cpu(new EX3_CPU(0x1000)), parser(cpu, fname), inTerm(cpu), outTerm(cpu)
 {
 	inTerm.Open(parser.OpenFile("_in.log"));
 	outTerm.Open(parser.OpenFile("_out.log"));
@@ -27,7 +28,7 @@ void EX3_TerminalSystem::AccessOutPort()
 	outTerm.AccessPort();
 }
 
-void EX3_TerminalSystem::PrintString(const std::string s)
+void EX3_TerminalSystem::PrintString(const std::string& s)
 {
     for(int i=0;i<s.size();++i){
         cpu->_OUTR = s[i];

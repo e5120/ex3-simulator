@@ -1,9 +1,8 @@
 #pragma once
 
-#include <cstdio>
-#include <string>
-#include <stdio.h>
-#include <memory>
+#include "cpu.h"
+#include "utils.h"
+
 #if SOCKET
 #include <sys/socket.h>
 #include <arpa/inet.h>
@@ -15,9 +14,6 @@
 #include <unistd.h>
 #include <thread>
 #endif
-
-#include "cpu.h"
-#include "utils.h"
 
 #define PORT      30000  // 変更 0-65535
 #define BUF_SIZE  1024   // バッファのサイズ
@@ -33,17 +29,18 @@ public:
 		const std::string name;
 		int type;	/// type = 0 : output, type = 1 : input
 		int interval;
-
-        // サーバ用
+		FILE* fp;
+		// サーバ用
         static int fd;
 
-		FILE * fp;
-		RandomPeripheral(const std::shared_ptr<CPU>& cpu0, const std::string n, int t);
+		RandomPeripheral(const std::shared_ptr<CPU>& cpu0, const std::string& n, int t);
 		virtual ~RandomPeripheral();
+
 		enum TraceType
 		{
 			TT_Interval = 0, TT_Data = 1
 		};
+
 		void Open(FILE* fp0);
 		void Close();
 
@@ -52,7 +49,8 @@ public:
 		void RecordTrace(int rtype, unsigned char value);
 		virtual int GetInterval();
 		void SetRandomInterval();
-		int Execute(void(*accessPortHook)(int) = 0);
+		int Execute(std::function<void(int)> accessPortHook = nullptr);
+
 		///	virtual abstract functions : must be defined in actual class
 		virtual bool IsPortReady() = 0;
 		virtual void AccessPort() = 0;
@@ -72,8 +70,8 @@ public:
 	public:
 		std::string str;
 		TerminalViewer();
-		TerminalViewer(const TerminalViewer &rval);
-		~TerminalViewer();
+		TerminalViewer(const TerminalViewer& rval);
+		virtual ~TerminalViewer();
 		void PrintView();
 	};
 
@@ -81,7 +79,9 @@ public:
 	{
 	public:
 		std::shared_ptr<TerminalViewer> termView;
+
 		InputTerminal(const std::shared_ptr<CPU>& cpu0);
+		virtual ~InputTerminal();
 
 		bool IsPortReady();
 		virtual void AccessPort();
@@ -93,7 +93,9 @@ public:
 	{
 	public:
 		std::shared_ptr<TerminalViewer> termView;
+
 		OutputTerminal(const std::shared_ptr<CPU>& cpu0);
+		virtual ~OutputTerminal();
 
 		virtual int GetInterval();
 		bool IsPortReady();

@@ -3,8 +3,8 @@
 
 int System::RandomPeripheral::fd =0;
 
-System::RandomPeripheral::RandomPeripheral(const std::shared_ptr<CPU>& cpu0, const std::string n, int t)
-		: name(n), type(t), interval(-1), fp(0)
+System::RandomPeripheral::RandomPeripheral(const std::shared_ptr<CPU>& cpu0, const std::string& n, int t)
+		: name(n), type(t), interval(-1), fp(nullptr)
 {
 	cpu = cpu0;
 }
@@ -21,7 +21,7 @@ System::RandomPeripheral::~RandomPeripheral()
 }
 
 
-void System::RandomPeripheral::Open(FILE * fp0)
+void System::RandomPeripheral::Open(FILE* fp0)
 {
 	fp = fp0;
 	if (fp)
@@ -43,7 +43,7 @@ void System::RandomPeripheral::Close()
 	{
 		fclose(fp);
 	}
-	fp = 0;
+	fp = nullptr;
 }
 
 int System::RandomPeripheral::GetPortID()
@@ -68,6 +68,7 @@ int System::RandomPeripheral::GetInterval()
 {
 	return rand() % MAX_INTERVAL;
 }
+
 void System::RandomPeripheral::SetRandomInterval()
 {
 	interval = GetInterval();
@@ -79,7 +80,7 @@ void System::RandomPeripheral::SetRandomInterval()
 	RecordTrace(TT_Interval, interval);
 }
 
-int System::RandomPeripheral::Execute(void(*accessPortHook)(int))
+int System::RandomPeripheral::Execute(std::function<void(int)> accessPortHook)
 {
 	if (interval < 0 && IsPortReady())
 	{
@@ -91,7 +92,7 @@ int System::RandomPeripheral::Execute(void(*accessPortHook)(int))
 	}
 	if (interval >= 0)
 	{
-		interval--;
+		--interval;
 	}
     return 0;
 }
@@ -224,6 +225,10 @@ System::InputTerminal::InputTerminal(const std::shared_ptr<CPU>& cpu0) : RandomP
 {
 }
 
+System::InputTerminal::~InputTerminal()
+{
+}
+
 bool System::InputTerminal::IsPortReady()
 {
 	return cpu->IsWaitingForInput();
@@ -273,7 +278,6 @@ void System::InputTerminal::PutInput(int value) {
                            "-------------------------------------\n"
     , GetPortName().c_str(), value, value, value);
     RecordTrace(TT_Data, value);
-
 #endif
 }
 
@@ -283,6 +287,10 @@ bool System::InputTerminal::AccessHookEnabled()
 }
 
 System::OutputTerminal::OutputTerminal(const std::shared_ptr<CPU>& cpu0) : RandomPeripheral(cpu0, "out", 0), termView()
+{
+}
+
+System::OutputTerminal::~OutputTerminal()
 {
 }
 
@@ -314,7 +322,7 @@ void System::OutputTerminal::AccessPort()
     }
 #else
     int value = GetOutput();
-    RecordTrace(TT_Data, value);
+    RecordTrace(TT_Data, (unsigned char)value);
     termView->str += value;
     //termView->PrintView();
 #endif
