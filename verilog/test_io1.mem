@@ -6,8 +6,7 @@
 // interrupt entry point
 @000 0000	///  ST0: 0000 [0000]: (    0:    0)      	// interrupt return address
 @001 4026	///       0001 [4026]: BUN 026   (I_HND)	// goto I_HND (interrupt handler)
-// program entry point
-// initialize data
+// program entry point/ initialize data
 @010 7800	///  INI: 0010 [7800]: CLA              	// AC <- 0
 @011 3046	///       0011 [3046]: STA 046   (  STT)	// M[STT] <- 0
 @012 3047	///       0012 [3047]: STA 047   (  SFG)	// M[SFG] <- 0
@@ -24,12 +23,9 @@
 @01a 7008	///       001a [7008]: SNA              	// (M[STT] < 0) ? skip next
 @01b 4019	///       001b [4019]: BUN 019   (   L0)
 @01c 7001	///       001c [7001]: HLT              
-//////////// subroutine (check end-character) ////////
-// 終了条件・・・ctrl-Dが入力された時、エラー値(-1)を状態変数STTに代入する。
-// 　　　　　　　L0のループで状態変数STTがエラー値(-1)を持つと終了する。
+//////////// subroutine (check end-character) ///////// 終了条件・・・ctrl-Dが入力された時、エラー値(-1)を状態変数STTに代入する。/ 　　　　　　　L0のループで状態変数STTがエラー値(-1)を持つと終了する。
 @01d 0000	///  CEC: 001d [0000]: (    0:    0)      
-// arg0 (AC) : output character
-// end-character = 0x4 (ctrl-D)
+// arg0 (AC) : output character/ end-character = 0x4 (ctrl-D)
 @01e 104b	///       001e [104b]: ADD 04b   (  VM4)	// AC <- AC - 4
 @01f 7004	///       001f [7004]: SZA              	// (AC == 0) ? skip next
 @020 c01d	///       0020 [c01d]: BUN 01d I (  CEC)	// return from CEC
@@ -39,8 +35,7 @@
 @023 7800	///       0023 [7800]: CLA              	// AC <- 0
 @024 f010	///       0024 [f010]: IMK              	// IMSK <- 0 (all interrupts disabled)
 @025 c01d	///       0025 [c01d]: BUN 01d I (  CEC)	// return from CEC
-//////////// interrupt handler /////////
-// 1. store AC & E to memory
+//////////// interrupt handler ////////// 1. store AC & E to memory
 @026 3043	///I_HND: 0026 [3043]: STA 043   (   BA)	// M[BA] <- AC	(store AC)
 @027 7040	///       0027 [7040]: CIL              	// AC[0] <- E	(AC[15:1] is not important here...)
 @028 3044	///       0028 [3044]: STA 044   (   BE)	// M[BE] <- AC	(store E)
@@ -57,8 +52,7 @@
 @030 f800	///       0030 [f800]: INP              	// AC(7:0) <- INPR
 @031 3045	///       0031 [3045]: STA 045   (  SDT)	// M[SDT] <- AC
 @032 6047	///       0032 [6047]: ISZ 047   (  SFG)	// ++M[SFG]
-// 3. check GP_OUT
-// M[SFG] != 0
+// 3. check GP_OUT/ M[SFG] != 0
 @033 f100	///  SOU: 0033 [f100]: SKO              	// (S_OUT ready) ? skip next
 @034 403c	///       0034 [403c]: BUN 03c   (  IRT)	// goto IRT
 // S_OUT is ready --> update IMSK (disable S_OUT, enable S_IN)
@@ -89,7 +83,6 @@
 // data (read-only)
 @048 0004	///  VH4: 0048 [0004]: (    4:    4)      	// VH4 = 0x4 (0100)
 @049 0008	///  VH8: 0049 [0008]: (    8:    8)      	// VHA = 0x8 (1000)
-//VH4,	HEX 1     / VH4 = 0x1 (0001)
-//VH8,	HEX 2     / VHA = 0x8 (0010)
+//VH4,	HEX 1     / VH4 = 0x1 (0001)/VH8,	HEX 2     / VHA = 0x8 (0010)
 @04a ffff	///  VM1: 004a [ffff]: (   -1:65535)      	// VM1 = -1
 @04b fffc	///  VM4: 004b [fffc]: (   -4:65532)      	// VM4 = -4

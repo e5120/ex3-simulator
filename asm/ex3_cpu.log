@@ -1,182 +1,121 @@
 ----------------
 label(  ST0) :     0(0x0000)
 label(  INI) :    16(0x0010)
-label(   L0) :    26(0x001a)
-label(  UMK) :    30(0x001e)
-label(  CEC) :    37(0x0025)
-label(I_HND) :    46(0x002e)
-label(  SIN) :    49(0x0031)
-label(  POU) :    61(0x003d)
-label(  PIN) :    72(0x0048)
-label(  SOU) :    84(0x0054)
-label(  IRT) :    95(0x005f)
-label(   BA) :   102(0x0066)
-label(   BE) :   103(0x0067)
-label(  SDT) :   104(0x0068)
-label(  PDT) :   105(0x0069)
-label(  STT) :   106(0x006a)
-label(  SFG) :   107(0x006b)
-label(  PFG) :   108(0x006c)
-label(  MSK) :   109(0x006d)
-label(  VH6) :   110(0x006e)
-label(  VH9) :   111(0x006f)
-label(  VHA) :   112(0x0070)
-label(  VM1) :   113(0x0071)
-label(  VM4) :   114(0x0072)
+label(   L0) :    25(0x0019)
+label(  CEC) :    29(0x001d)
+label(I_HND) :    38(0x0026)
+label(  SIN) :    41(0x0029)
+label(  SOU) :    51(0x0033)
+label(  IRT) :    60(0x003c)
+label(   BA) :    67(0x0043)
+label(   BE) :    68(0x0044)
+label(  SDT) :    69(0x0045)
+label(  STT) :    70(0x0046)
+label(  SFG) :    71(0x0047)
+label(  VH4) :    72(0x0048)
+label(  VH8) :    73(0x0049)
+label(  VM1) :    74(0x004a)
+label(  VM4) :    75(0x004b)
 ----------------
 // interrupt entry point
   ST0: 0000 [0000]: (    0:    0)      	// interrupt return address
-       0001 [402e]: BUN 02e   (I_HND)	// goto I_HND (interrupt handler)
+       0001 [4026]: BUN 026   (I_HND)	// goto I_HND (interrupt handler)
 // program entry point/ initialize data
   INI: 0010 [7800]: CLA              	// AC <- 0
-       0011 [306a]: STA 06a   (  STT)	// M[STT] <- 0
-       0012 [306b]: STA 06b   (  SFG)	// M[SFG] <- 0
-       0013 [306c]: STA 06c   (  PFG)	// M[PFG] <- 0
+       0011 [3046]: STA 046   (  STT)	// M[STT] <- 0
+       0012 [3047]: STA 047   (  SFG)	// M[SFG] <- 0
 // IMSK[3:0] : { S_IN, S_OUT, P_IN, P_OUT }
-       0014 [2070]: LDA 070   (  VHA)	// AC <- M[VHA] (1010)
-       0015 [306d]: STA 06d   (  MSK)	// M[MSK] <- (1010)
-       0016 [f010]: IMK              	// IMSK   <- (1010) (S_IN, P_IN enabled)
-       0017 [7400]: CLE              
-       0018 [7100]: CME              
-       0019 [f080]: IST              
-//	ION					/ enable interrupt
-   L0: 001a [206a]: LDA 06a   (  STT)	// AC <- M[STT]
-       001b [7008]: SNA              	// (M[STT] < 0) ? skip next
-       001c [401a]: BUN 01a   (   L0)
-       001d [7001]: HLT              
-//////////// subroutine (update IMSK) ////////
-  UMK: 001e [0000]: (    0:    0)      
-// arg0 (AC) : unchanged bit mask/ arg1 : added mask bit
-       001f [006d]: AND 06d   (  MSK)	// AC <- arg0 & M[MSK]
-       0020 [901e]: ADD 01e I (  UMK)	// AC <- AC + M[M[UMK]]
-       0021 [306d]: STA 06d   (  MSK)	// M[MSK] <- AC
-       0022 [f010]: IMK              	// IMSK <- AC[3:0]
-       0023 [601e]: ISZ 01e   (  UMK)	// ++M[UMK]
-       0024 [c01e]: BUN 01e I (  UMK)	// return from UMK
-//////////// subroutine (check end-character) ////////
-  CEC: 0025 [0000]: (    0:    0)      
+       0013 [2049]: LDA 049   (  VH8)	// AC <- M[VH8] (1000)
+       0014 [f010]: IMK              	// IMSK <- (1000) (S_IN enabled)
+       0015 [f040]: SIO              	// IOT <- 1 (serial-IO selected)
+//		PIO
+       0016 [7400]: CLE              
+       0017 [7100]: CME              
+       0018 [f080]: IST              
+//		ION					/ enable interrupt
+   L0: 0019 [2046]: LDA 046   (  STT)	// AC <- M[STT]
+       001a [7008]: SNA              	// (M[STT] < 0) ? skip next
+       001b [4019]: BUN 019   (   L0)
+       001c [7001]: HLT              
+//////////// subroutine (check end-character) ///////// 終了条件・・・ctrl-Dが入力された時、エラー値(-1)を状態変数STTに代入する。/ 　　　　　　　L0のループで状態変数STTがエラー値(-1)を持つと終了する。
+  CEC: 001d [0000]: (    0:    0)      
 // arg0 (AC) : output character/ end-character = 0x4 (ctrl-D)
-       0026 [1072]: ADD 072   (  VM4)	// AC <- AC - 4
-       0027 [7004]: SZA              	// (AC == 0) ? skip next
-       0028 [c025]: BUN 025 I (  CEC)	// return from CEC
+       001e [104b]: ADD 04b   (  VM4)	// AC <- AC - 4
+       001f [7004]: SZA              	// (AC == 0) ? skip next
+       0020 [c01d]: BUN 01d I (  CEC)	// return from CEC
 // output character matches (ctrl-D)
-       0029 [2071]: LDA 071   (  VM1)	// AC <- -1
-       002a [306a]: STA 06a   (  STT)	// M[STT] <- -1
-       002b [7800]: CLA              	// AC <- 0
-       002c [f010]: IMK              	// IMASK <- 0 (all interrupts disabled)
-       002d [c025]: BUN 025 I (  CEC)	// return from CEC
+       0021 [204a]: LDA 04a   (  VM1)	// AC <- -1
+       0022 [3046]: STA 046   (  STT)	// M[STT] <- -1
+       0023 [7800]: CLA              	// AC <- 0
+       0024 [f010]: IMK              	// IMSK <- 0 (all interrupts disabled)
+       0025 [c01d]: BUN 01d I (  CEC)	// return from CEC
 //////////// interrupt handler ////////// 1. store AC & E to memory
-I_HND: 002e [3066]: STA 066   (   BA)	// M[BA] <- AC	(store AC)
-       002f [7040]: CIL              	// AC[0] <- E	(AC[15:1] is not important here...)
-       0030 [3067]: STA 067   (   BE)	// M[BE] <- AC	(store E)
-// 2. check SFG and S_IN/_B_,
-  SIN: 0031 [206b]: LDA 06b   (  SFG)	// AC <- M[SFG]
-       0032 [7004]: SZA              	// (M[SFG] == 0) ? skip next
-       0033 [403d]: BUN 03d   (  POU)	// goto POU
-       0034 [f040]: SIO              	// IOT <- 1 (serial-IO selected)
-       0035 [f200]: SKI              	// (UART_RX ready) ? skip next
-       0036 [4048]: BUN 048   (  PIN)	// goto PIN
-// S_IN is ready --> update IMSK (disable S_IN, enable P_OUT)
-       0037 [206e]: LDA 06e   (  VH6)	// AC <- (0110) (S_OUT, P_IN : unchanged)
-       0038 [501e]: BSA 01e   (  UMK)	// call UMK (update IMSK)
-       0039 [0001]: (    1:    1)      	// (0001) (P_OUT : enabled)
+I_HND: 0026 [3043]: STA 043   (   BA)	// M[BA] <- AC	(store AC)
+       0027 [7040]: CIL              	// AC[0] <- E	(AC[15:1] is not important here...)
+       0028 [3044]: STA 044   (   BE)	// M[BE] <- AC	(store E)
+// 2. check SFG and S_IN
+  SIN: 0029 [2047]: LDA 047   (  SFG)	// AC <- M[SFG]
+       002a [7004]: SZA              	// (M[SFG] == 0) ? skip next
+       002b [4033]: BUN 033   (  SOU)	// goto SOU
+       002c [f200]: SKI              	// (S_IN ready) ? skip next
+       002d [403c]: BUN 03c   (  IRT)	// goto IRT
+// S_IN is ready --> update IMSK (disable S_IN, enable S_OUT)
+       002e [2048]: LDA 048   (  VH4)	// AC   <- (0100)
+       002f [f010]: IMK              	// IMSK <- (0100) (enable S_OUT)
 // read S_IN data
-       003a [f800]: INP              	// AC(7:0) <- INPR
-       003b [3068]: STA 068   (  SDT)	// M[SDT] <- AC
-       003c [606b]: ISZ 06b   (  SFG)	// ++M[SFG]
-// 3. check P_OUT/ M[SFG] != 0
-  POU: 003d [f020]: PIO              	// IOT <- 0 (parallel-IO selected)
-       003e [f100]: SKO              	// (P_OUT ready) ? skip next
-       003f [4048]: BUN 048   (  PIN)	// goto PIN
-// P_OUT is ready --> update IMSK (disable P_OUT, enable S_IN)
-       0040 [206e]: LDA 06e   (  VH6)	// AC <- (0110) (S_OUT, P_IN : unchanged)
-       0041 [501e]: BSA 01e   (  UMK)	// call UMK (update IMSK)
-       0042 [0008]: (    8:    8)      	// (1000) (S_IN : enabled)
-// output to P_OUT
-       0043 [2068]: LDA 068   (  SDT)	// AC <- M[SDT]
-       0044 [f400]: OUT              	// OUTR <- AC
-       0045 [5025]: BSA 025   (  CEC)	// call CEC (check end-character)
-       0046 [7800]: CLA              	// AC <- 0
-       0047 [306b]: STA 06b   (  SFG)	// M[SFG] <- 0
-// 4. check PFG and P_IN
-  PIN: 0048 [206c]: LDA 06c   (  PFG)	// AC <- M[PFG]
-       0049 [7004]: SZA              	// (M[PFG] == 0) ? skip next
-       004a [4054]: BUN 054   (  SOU)	// goto SOU
-       004b [f020]: PIO              	// IOT <- 0 (parallel-IO selected)
-       004c [f200]: SKI              	// (GP_IN ready) ? skip next
-       004d [405f]: BUN 05f   (  IRT)	// goto IRT
-// P_IN is ready --> update IMSK (disable P_IN, enable S_OUT)
-       004e [206f]: LDA 06f   (  VH9)	// AC <- (1001) (S_IN, P_OUT : unchanged)
-       004f [501e]: BSA 01e   (  UMK)	// call UMK (update IMSK)
-       0050 [0004]: (    4:    4)      	// (0100) (S_OUT : enabled)
-// read P_IN data
-       0051 [f800]: INP              	// AC(7:0) <- INPR
-       0052 [3069]: STA 069   (  PDT)	// M[PDT] <- AC
-       0053 [606c]: ISZ 06c   (  PFG)	// ++M[PFG]
-// 5. check S_OUT/ M[PFG] != 0
-  SOU: 0054 [f040]: SIO              	// IOT <- 1 (serial-IO selected)
-       0055 [f100]: SKO              	// (S_OUT ready) ? skip next
-       0056 [405f]: BUN 05f   (  IRT)	// goto IRT
-// S_OUT is ready --> update IMSK (disable S_OUT, enable P_IN)
-       0057 [206f]: LDA 06f   (  VH9)	// AC <- (1001) (S_IN, P_OUT : unchanged)
-       0058 [501e]: BSA 01e   (  UMK)	// call UMK (update IMSK)
-       0059 [0002]: (    2:    2)      	// (0010) (P_IN : enabled)
+       0030 [f800]: INP              	// AC(7:0) <- INPR
+       0031 [3045]: STA 045   (  SDT)	// M[SDT] <- AC
+       0032 [6047]: ISZ 047   (  SFG)	// ++M[SFG]
+// 3. check GP_OUT/ M[SFG] != 0
+  SOU: 0033 [f100]: SKO              	// (S_OUT ready) ? skip next
+       0034 [403c]: BUN 03c   (  IRT)	// goto IRT
+// S_OUT is ready --> update IMSK (disable S_OUT, enable S_IN)
+       0035 [2049]: LDA 049   (  VH8)	// AC   <- (1000)
+       0036 [f010]: IMK              	// IMSK <- (1000) (enable S_IN)
 // output to S_OUT
-       005a [2069]: LDA 069   (  PDT)	// AC <- M[PDT]
-       005b [f400]: OUT              	// OUTR <- AC
-       005c [5025]: BSA 025   (  CEC)	// call CEC (check end-character)
-       005d [7800]: CLA              	// AC <- 0
-       005e [306c]: STA 06c   (  PFG)	// M[PFG] <- 0
-// 6. restore AC & E from memory
-  IRT: 005f [2067]: LDA 067   (   BE)	// AC <- M[BE]
-       0060 [7080]: CIR              	// E <- AC[0]	(restore E)
-       0061 [2066]: LDA 066   (   BA)	// AC <- M[BA]	(restore AC)
-       0062 [7400]: CLE              
-       0063 [7100]: CME              
-       0064 [f080]: IST              
-//	ION				/ IEN <- 1		(enable interrupt)
-       0065 [c000]: BUN 000 I (  ST0)	// indirect return (return address stored in ST0)
+       0037 [2045]: LDA 045   (  SDT)	// AC <- M[SDT]
+       0038 [f400]: OUT              	// OUTR <- AC
+       0039 [501d]: BSA 01d   (  CEC)	// call CEC (check end-character)
+       003a [7800]: CLA              	// AC <- 0
+       003b [3047]: STA 047   (  SFG)	// M[SFG] <- 0
+// 4. restore AC & E from memory
+  IRT: 003c [2044]: LDA 044   (   BE)	// AC <- M[BE]
+       003d [7080]: CIR              	// E <- AC[0]	(restore E)
+       003e [2043]: LDA 043   (   BA)	// AC <- M[BA]	(restore AC)
+       003f [7400]: CLE              
+       0040 [7100]: CME              
+       0041 [f080]: IST              
+//		ION					/ IEN <- 1		(enable interrupt)
+       0042 [c000]: BUN 000 I (  ST0)	// indirect return (return address stored in ST0)
 // data (no initialization)
-   BA: 0066 [0000]: (    0:    0)      	// backup storage for AC during interrupt handling
-   BE: 0067 [0000]: (    0:    0)      	// backup storage for  E during interrupt handling
-  SDT: 0068 [0000]: (    0:    0)      	// S_IN data
-  PDT: 0069 [0000]: (    0:    0)      	// P_IN data
+   BA: 0043 [0000]: (    0:    0)      	// backup storage for AC during interrupt handling
+   BE: 0044 [0000]: (    0:    0)      	// backup storage for  E during interrupt handling
+  SDT: 0045 [0000]: (    0:    0)      	// S_IN data
 // data (need initialization code)
-  STT: 006a [0000]: (    0:    0)      	// state
-  SFG: 006b [0000]: (    0:    0)      	// S_IN flag
-  PFG: 006c [0000]: (    0:    0)      	// P_IN flag
-  MSK: 006d [0000]: (    0:    0)      	// IMSK data
+  STT: 0046 [0000]: (    0:    0)      	// state
+  SFG: 0047 [0000]: (    0:    0)      	// S_IN flag
 // data (read-only)
-  VH6: 006e [0006]: (    6:    6)      	// VH6 = 0x6 (0110)
-  VH9: 006f [0009]: (    9:    9)      	// VH9 = 0x9 (1001)
-  VHA: 0070 [000a]: (   10:   10)      	// VHA = 0xA (1010)
-  VM1: 0071 [ffff]: (   -1:65535)      	// VM1 = -1
-  VM4: 0072 [fffc]: (   -4:65532)      	// VM4 = -4
+  VH4: 0048 [0004]: (    4:    4)      	// VH4 = 0x4 (0100)
+  VH8: 0049 [0008]: (    8:    8)      	// VHA = 0x8 (1000)
+//VH4,	HEX 1     / VH4 = 0x1 (0001)/VH8,	HEX 2     / VHA = 0x8 (0010)
+  VM1: 004a [ffff]: (   -1:65535)      	// VM1 = -1
+  VM4: 004b [fffc]: (   -4:65532)      	// VM4 = -4
 ----------------
 ----------------
 // interrupt entry point
   ST0: 0000 [001b]: (   27:   27)      	// interrupt return address
-//////////// subroutine (update IMSK) ////////
-  UMK: 001e [005a]: (   90:  'Z')      
-//////////// subroutine (check end-character) ////////
-  CEC: 0025 [005d]: (   93:  ']')      
-       0039 [0001]: (    1:    1)      	// (0001) (P_OUT : enabled)
-       0042 [0008]: (    8:    8)      	// (1000) (S_IN : enabled)
-       0050 [0004]: (    4:    4)      	// (0100) (S_OUT : enabled)
-       0059 [0002]: (    2:    2)      	// (0010) (P_IN : enabled)
+//////////// subroutine (check end-character) ///////// 終了条件・・・ctrl-Dが入力された時、エラー値(-1)を状態変数STTに代入する。/ 　　　　　　　L0のループで状態変数STTがエラー値(-1)を持つと終了する。
+  CEC: 001d [003a]: (   58:  ':')      
 // data (no initialization)
-   BA: 0066 [0000]: (    0:    0)      	// backup storage for AC during interrupt handling
-   BE: 0067 [0001]: (    1:    1)      	// backup storage for  E during interrupt handling
-  SDT: 0068 [0061]: (   97:  'a')      	// S_IN data
-  PDT: 0069 [0004]: (    4:    4)      	// P_IN data
+   BA: 0043 [0000]: (    0:    0)      	// backup storage for AC during interrupt handling
+   BE: 0044 [0001]: (    1:    1)      	// backup storage for  E during interrupt handling
+  SDT: 0045 [0004]: (    4:    4)      	// S_IN data
 // data (need initialization code)
-  STT: 006a [ffff]: (   -1:65535)      	// state
-  SFG: 006b [0000]: (    0:    0)      	// S_IN flag
-  PFG: 006c [0000]: (    0:    0)      	// P_IN flag
-  MSK: 006d [000a]: (   10:   10)      	// IMSK data
+  STT: 0046 [ffff]: (   -1:65535)      	// state
+  SFG: 0047 [0000]: (    0:    0)      	// S_IN flag
 // data (read-only)
-  VH6: 006e [0006]: (    6:    6)      	// VH6 = 0x6 (0110)
-  VH9: 006f [0009]: (    9:    9)      	// VH9 = 0x9 (1001)
-  VHA: 0070 [000a]: (   10:   10)      	// VHA = 0xA (1010)
-  VM1: 0071 [ffff]: (   -1:65535)      	// VM1 = -1
-  VM4: 0072 [fffc]: (   -4:65532)      	// VM4 = -4
+  VH4: 0048 [0004]: (    4:    4)      	// VH4 = 0x4 (0100)
+  VH8: 0049 [0008]: (    8:    8)      	// VHA = 0x8 (1000)
+//VH4,	HEX 1     / VH4 = 0x1 (0001)/VH8,	HEX 2     / VHA = 0x8 (0010)
+  VM1: 004a [ffff]: (   -1:65535)      	// VM1 = -1
+  VM4: 004b [fffc]: (   -4:65532)      	// VM4 = -4

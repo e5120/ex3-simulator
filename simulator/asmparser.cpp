@@ -472,7 +472,7 @@ int ASMParser::Parse(int passNum)
 		switch (ParseInsn(passNum, p, insn, addr))
 		{
 		case -1:	return -1;
-		case  1:	continue;
+		case  1:	++addr; continue;
 		default:	break;
 		}
 		switch (ParseNonInsn(passNum, p, insn.ID, addr))

@@ -45,5 +45,5 @@ public:
 	int Parse(int passNum);
 
 	///	virtual abstract functions : must be defined in actual class
-	virtual int ParseInsn(int passNum, std::string& p, const InsnSet::Insn& insn, int& addr) = 0;
+	virtual int ParseInsn(int passNum, std::string& p, const InsnSet::Insn& insn, int addr) = 0;
 };

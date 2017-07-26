@@ -5,7 +5,7 @@
 /// bit[15:0]  : data
 
 // interrupt entry point
-0000001b	///	  ST0: 0000 [001b]: (   27:   27)      	// interrupt return address
+0000001a	///	  ST0: 0000 [001a]: (   26:   26)      	// interrupt return address
 //////////// subroutine (update IMSK) ////////
 001e005a	///	  UMK: 001e [005a]: (   90:  'Z')      
 //////////// subroutine (check end-character) ////////
@@ -17,7 +17,7 @@
 // data (no initialization)
 00660000	///	   BA: 0066 [0000]: (    0:    0)      	// backup storage for AC during interrupt handling
 00670001	///	   BE: 0067 [0001]: (    1:    1)      	// backup storage for  E during interrupt handling
-00680061	///	  SDT: 0068 [0061]: (   97:  'a')      	// S_IN data
+00680065	///	  SDT: 0068 [0065]: (  101:  'e')      	// S_IN data
 00690004	///	  PDT: 0069 [0004]: (    4:    4)      	// P_IN data
 // data (need initialization code)
 006affff	///	  STT: 006a [ffff]: (   -1:65535)      	// state

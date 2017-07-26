@@ -40,7 +40,8 @@ public:
 	}annotation;
 
 #define MAX_LABEL_COUNT	1000
-	int count, maxLabelLength;
+	int count;
+	int maxLabelLength;
     std::vector<Element> element;
 
 	Label();

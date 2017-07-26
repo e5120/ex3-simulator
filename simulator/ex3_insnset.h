@@ -1,6 +1,5 @@
 #pragma once
 #include "insnset.h"
-#include <stdlib.h>
 #include <time.h>
 
 class EX3_InsnSet : public InsnSet
@@ -10,6 +9,7 @@ public:
 	{
 		NON_INSN, MEM_INSN, REG_INSN,
 	};
+
 	enum InsnID
 	{
 		I_ANCHOR = InsnSet::I_TAIL - 1,
