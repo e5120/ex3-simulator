@@ -15,7 +15,7 @@ void Label::Element::Set(const std::string& n, int len, unsigned short addr)
 	address = addr;
 }
 
-void Label::Element::PrintInfo(FILE * fp, int maxlen)
+void Label::Element::PrintInfo(FILE* fp, int maxlen)
 {
 	if (fp)
     {

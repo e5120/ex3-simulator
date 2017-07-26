@@ -4,32 +4,28 @@
 int System::RandomPeripheral::fd =0;
 
 System::RandomPeripheral::RandomPeripheral(const std::shared_ptr<CPU>& cpu0, const std::string& n, int t)
-		: name(n), type(t), interval(-1), fp(nullptr)
+		: name(n), type(t), interval(-1)
 {
 	cpu = cpu0;
 }
 
 System::RandomPeripheral::~RandomPeripheral()
 {
-	if (fp)
-	{
-		fclose(fp);
-	}
 #if SOCKET
     close(fd);
 #endif
 }
 
 
-void System::RandomPeripheral::Open(FILE* fp0)
+void System::RandomPeripheral::Open(const std::shared_ptr<FILE>& fp0)
 {
 	fp = fp0;
 	if (fp)
 	{
-		fprintf(fp, "/// RandomPeripheral trace (%s) :\n", name.c_str());
-		fprintf(fp, "/// bit[17]   (port ID) : 0 = gpio, 1 = uart\n");
-		fprintf(fp, "/// bit[16]   (trace type) : 0 = interval cycles, 1 = data\n");
-		fprintf(fp, "/// bit[15:0] (value)\n\n");
+		fprintf(fp.get(), "/// RandomPeripheral trace (%s) :\n", name.c_str());
+		fprintf(fp.get(), "/// bit[17]   (port ID) : 0 = gpio, 1 = uart\n");
+		fprintf(fp.get(), "/// bit[16]   (trace type) : 0 = interval cycles, 1 = data\n");
+		fprintf(fp.get(), "/// bit[15:0] (value)\n\n");
 	}
 }
 
@@ -39,11 +35,6 @@ void System::RandomPeripheral::Close()
 	{
 		AccessPort();
 	}	///	access output ready port before closing...
-	if (fp)
-	{
-		fclose(fp);
-	}
-	fp = nullptr;
 }
 
 int System::RandomPeripheral::GetPortID()
@@ -60,7 +51,7 @@ void System::RandomPeripheral::RecordTrace(int rtype, unsigned char value)
 {
 	if (fp)
 	{
-		fprintf(fp, "%x%04x\n", (GetPortID() << 1) | rtype, value);
+		fprintf(fp.get(), "%x%04x\n", (GetPortID() << 1) | rtype, value);
 	}
 }
 
@@ -72,7 +63,7 @@ int System::RandomPeripheral::GetInterval()
 void System::RandomPeripheral::SetRandomInterval()
 {
 	interval = GetInterval();
-	EMIT_MESSAGE_4(fprintf, cpu->fplog,
+	EMIT_MESSAGE_4(fprintf, cpu->fplog.get(),
 		"-------------------------------------\n"
 		"%s[%s].interval = %d\n"
 		"-------------------------------------\n"
@@ -262,7 +253,7 @@ void System::InputTerminal::PutInput(int value) {
         SendMsg(fd, tmp);
     //    termView->str += RecvMsg(fd);
     }
-	EMIT_MESSAGE_5(fprintf, cpu->fplog,
+	EMIT_MESSAGE_5(fprintf, cpu->fplog.get(),
 		"-------------------------------------\n"
 		"cpu->input[%s] = 0x%02x (%2d : '%c')\n"
 		"-------------------------------------\n"
@@ -272,7 +263,7 @@ void System::InputTerminal::PutInput(int value) {
 #else
     termView->str += (unsigned char)value;
     cpu->SetInput((unsigned char) value);
-    EMIT_MESSAGE_5(fprintf, cpu->fplog,
+    EMIT_MESSAGE_5(fprintf, cpu->fplog.get(),
                    "-------------------------------------\n"
                            "cpu->input[%s] = 0x%02x (%2d : '%c')\n"
                            "-------------------------------------\n"
@@ -331,7 +322,7 @@ void System::OutputTerminal::AccessPort()
 int System::OutputTerminal::GetOutput()
 {
 	int value = cpu->GetOutput();
-	EMIT_MESSAGE_5(fprintf, cpu->fplog,
+	EMIT_MESSAGE_5(fprintf, cpu->fplog.get(),
 		"-------------------------------------\n"
 		"cpu->output[%s] = 0x%02x (%2d : '%c')\n"
 		"-------------------------------------\n"

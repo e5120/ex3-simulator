@@ -1,22 +1,17 @@
 #include "cpu.h"
 
-CPU::CPU(const std::string logfilename) : mem(nullptr), isa(nullptr), dbg(nullptr)
+CPU::CPU(const std::string logfilename) : mem(nullptr), isa(nullptr), fplog(fopen(logfilename.c_str(),"w"),fclose), dbg(nullptr)
 {
-	fplog = fopen(logfilename.c_str(), "w");
 	Reset();
 }
 
 CPU::~CPU()
 {
-	if (fplog)
-	{
-		fclose(fplog);
-	}
 }
 
 void CPU::PrintSeparator(FILE* fp)
 {
-	fprintf(fp, "----------------\n");
+	fprintf(fp,"----------------\n");
 }
 
 void CPU::Reset()
@@ -36,8 +31,7 @@ void CPU::Reset()
 
 void CPU::PrintMemory(FILE* fp, int printMode)
 {
-	int i;
-	for (i = 0; i < mem->maxAddr; i++)
+	for (int i = 0; i < mem->maxAddr; ++i)
 	{
 		PrintMemoryWord(&mem->word[i], fp, i, printMode);
 	}

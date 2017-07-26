@@ -10,10 +10,11 @@ class ASMParser
 {
 public:
 	std::shared_ptr<CPU> cpu;
-	FILE * fp;
+	std::shared_ptr<FILE> fp;
 	const std::string asm_name;
 	static std::string tool_name;
-	int asmLineNum, blockCommentPending;
+	int asmLineNum;
+    int blockCommentPending;
 
 	ASMParser(const std::shared_ptr<CPU>& cpu0, const std::string fname);
 	~ASMParser();
@@ -21,7 +22,7 @@ public:
 	int Open();
 	void Close();
 
-	FILE * OpenFile(const std::string& extname);
+	std::shared_ptr<FILE> OpenFile(const std::string& extname);
 
 	int WriteVerilogMemFile();
 	int WriteVerilogMemProbeFile();

@@ -5,25 +5,25 @@
 /// bit[15:0]  : data
 
 // interrupt entry point
-0000001a	///	  ST0: 0000 [001a]: (   26:   26)      	// interrupt return address
+00000000	///	  ST0: 0000 [0000]: (    0:    0)      	// interrupt return address
 //////////// subroutine (update IMSK) ////////
-001e0043	///	  UMK: 001e [0043]: (   67:  'C')      
+001e0000	///	  UMK: 001e [0000]: (    0:    0)      
 //////////// subroutine (check end-character) ////////
-00250046	///	  CEC: 0025 [0046]: (   70:  'F')      
+00250000	///	  CEC: 0025 [0000]: (    0:    0)      
 00390001	///	       0039 [0001]: (    1:    1)      	// (0001) (P_OUT : enabled)
 00420008	///	       0042 [0008]: (    8:    8)      	// (1000) (S_IN : enabled)
 00500004	///	       0050 [0004]: (    4:    4)      	// (0100) (S_OUT : enabled)
 00590002	///	       0059 [0002]: (    2:    2)      	// (0010) (P_IN : enabled)
 // data (no initialization)
 00660000	///	   BA: 0066 [0000]: (    0:    0)      	// backup storage for AC during interrupt handling
-00670001	///	   BE: 0067 [0001]: (    1:    1)      	// backup storage for  E during interrupt handling
-00680004	///	  SDT: 0068 [0004]: (    4:    4)      	// S_IN data
-00690066	///	  PDT: 0069 [0066]: (  102:  'f')      	// P_IN data
+00670000	///	   BE: 0067 [0000]: (    0:    0)      	// backup storage for  E during interrupt handling
+00680000	///	  SDT: 0068 [0000]: (    0:    0)      	// S_IN data
+00690000	///	  PDT: 0069 [0000]: (    0:    0)      	// P_IN data
 // data (need initialization code)
-006affff	///	  STT: 006a [ffff]: (   -1:65535)      	// state
+006a0000	///	  STT: 006a [0000]: (    0:    0)      	// state
 006b0000	///	  SFG: 006b [0000]: (    0:    0)      	// S_IN flag
 006c0000	///	  PFG: 006c [0000]: (    0:    0)      	// P_IN flag
-006d000a	///	  MSK: 006d [000a]: (   10:   10)      	// IMSK data
+006d0000	///	  MSK: 006d [0000]: (    0:    0)      	// IMSK data
 // data (read-only)
 006e0006	///	  VH6: 006e [0006]: (    6:    6)      	// VH6 = 0x6 (0110)
 006f0009	///	  VH9: 006f [0009]: (    9:    9)      	// VH9 = 0x9 (1001)

@@ -29,7 +29,7 @@ public:
 		const std::string name;
 		int type;	/// type = 0 : output, type = 1 : input
 		int interval;
-		FILE* fp;
+		std::shared_ptr<FILE> fp;
 		// サーバ用
         static int fd;
 
@@ -41,7 +41,7 @@ public:
 			TT_Interval = 0, TT_Data = 1
 		};
 
-		void Open(FILE* fp0);
+		void Open(const std::shared_ptr<FILE>& fp0);
 		void Close();
 
 		int GetPortID();

@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 
 #define NEED_ECHO (Debugger::echo)
 #define NEED_FDMP (Debugger::flog)

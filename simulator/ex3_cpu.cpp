@@ -66,8 +66,9 @@ int EX3_CPU::_GetFGO()
 
 void EX3_CPU::PrintDataMemory()
 {
-	EMIT_MESSAGE_0(PrintSeparator, fplog);
-	EMIT_MESSAGE_1(PrintMemory, fplog, CPU:: PM_Null);
+	EMIT_MESSAGE_0(PrintSeparator, fplog.get());
+	dbg->echo = true;
+	EMIT_MESSAGE_1(PrintMemory, fplog.get(), CPU:: PM_Null);
 }
 
 void EX3_CPU::PrintStatus(FILE* fp, bool intr_cycle)
@@ -79,7 +80,7 @@ void EX3_CPU::PrintStatus(FILE* fp, bool intr_cycle)
 			mem->ProbeInsn(_PC);
 		}
 		if (intr_cycle)
-			fprintf(fp, "[%4d] INTR [%4d:A] + [%4d:I] : PC(%04x), oldPC(%04x), R(%x), IEN(%x), IMSK(%x), FGI/O(%x:%x)\n",
+			fprintf(fp,"[%4d] INTR [%4d:A] + [%4d:I] : PC(%04x), oldPC(%04x), R(%x), IEN(%x), IMSK(%x), FGI/O(%x:%x)\n",
 				cycle_count, appl_cycle_count, intr_cycle_count, _PC, _oldPC, _R, _IEN, _IMSK, _FGI, _FGO);
 		else if (mem->curCode == 0)
 		{
@@ -168,7 +169,7 @@ int EX3_CPU::Execute()
 		intr_pending = false;
 		inputPending = false;
 	}
-	EMIT_MESSAGE_1(PrintStatus, fplog, intr_cycle);
+	EMIT_MESSAGE_1(PrintStatus, fplog.get(), intr_cycle);
 	_oldPC = _PC;
 	return (mem->errorFlag || _S == 0) ? -1 : 0;
 }
