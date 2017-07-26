@@ -182,8 +182,8 @@ void EX3_CPU::PrintMemoryWord(Memory::Word * m, FILE * fp, int addr, int printMo
 	if (fp)
 	{
 		InsnSet::Insn * insn = &isa->insn[m->insnID];
-		Label::Element * lb = label.GetLabel(addr);
-		if (lb == 0 && insn->type == EX3_InsnSet::NON_INSN && m->status == 0 && m->value == 0)
+		Label::Element lb = label.GetLabel(addr);
+		if (lb.name.empty() && insn->type == EX3_InsnSet::NON_INSN && m->status == 0 && m->value == 0)
 		{
 			return;
 		}
@@ -217,13 +217,13 @@ void EX3_CPU::PrintMemoryWord(Memory::Word * m, FILE * fp, int addr, int printMo
 				fprintf(fp, "%1x%03x%04x\t///\t", 0, addr, m->value);
 			}
 		}
-		fprintf(fp, "%*s%s", label.maxLabelLength, (lb) ? lb->name.c_str() : "", (lb) ? ": " : "  ");
+		fprintf(fp, "%*s%s", label.maxLabelLength, (!lb.name.empty()) ? lb.name.c_str() : "", (!lb.name.empty()) ? ": " : "  ");
 		if (insn->type == EX3_InsnSet::MEM_INSN)
 		{
 			int addrValue = mem->GetAddressField(m);
-			Label::Element * target_lb = label.GetLabel(addrValue);
+			Label::Element target_lb = label.GetLabel(addrValue);
 			fprintf(fp, "%04x [%04x]: %s %03x %s (%*s)", addr, m->value, insn->name.c_str(), addrValue,
-				(mem->IsIndirectMemoryAccess(m)) ? "I" : " ", label.maxLabelLength, (target_lb) ? target_lb->name.c_str() : "???");
+				(mem->IsIndirectMemoryAccess(m)) ? "I" : " ", label.maxLabelLength, (!target_lb.name.empty()) ? target_lb.name.c_str() : "???");
 		}
 		else if (insn->type == EX3_InsnSet::REG_INSN)
 		{

@@ -5,7 +5,7 @@
 /// bit[15:0]  : data
 
 // interrupt entry point
-0000001b	///	  ST0: 0000 [001b]: (   27:   27)      	// interrupt return address
+00000019	///	  ST0: 0000 [0019]: (   25:   25)      	// interrupt return address
 //////////// subroutine (check end-character) ///////// 終了条件・・・ctrl-Dが入力された時、エラー値(-1)を状態変数STTに代入する。/ 　　　　　　　L0のループで状態変数STTがエラー値(-1)を持つと終了する。
 001d003a	///	  CEC: 001d [003a]: (   58:  ':')      
 // data (no initialization)

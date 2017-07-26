@@ -3,7 +3,6 @@
 ASMParser::ASMParser(const std::shared_ptr<CPU>& cpu0, const std::string fname): asm_name(fname)
 {
     cpu = cpu0;
-	std::cout << "asmparser : " <<cpu.get() << std::endl;
     fp = 0;
 }
 
@@ -291,13 +290,14 @@ int ASMParser::ParseLabel(int passNum, std::string& p, int& addr)
 		}
 		else if (passNum == 1)
 		{	///	create label
-			if (cpu->label.AddLabel(p, labelLength, (unsigned short)addr) == 0)
+
+			if ((cpu->label.AddLabel(p, labelLength, (unsigned short)addr)).name.empty())
 			{
 				PrintErrorLocation();
 				return -1;
 			}
 		}
-		else if (cpu->label.GetLabel(p, labelLength) == 0)
+		else if ((cpu->label.GetLabel(p, labelLength)).name.empty())
 		{
 			printf("ERROR: label(%s) not found in 1st pass (bug in the parser...)\n", p.c_str());
             PrintErrorLocation();
@@ -351,20 +351,20 @@ int ASMParser::ParseNonInsn(int passNum, std::string& p, int insnID, int& addr)
 				PrintErrorLocation();
 				return -1;
 			}
-			Label::Element* lb = cpu->label.GetLabel(p, len);
-			if (lb == 0)
+			Label::Element lb = cpu->label.GetLabel(p, len);
+			if (lb.name.empty())
 			{
 				printf("ERROR: label(%s) not found in the 1st pass (bug in the program...)\n", p.c_str());
 				PrintErrorLocation();
 				return -1;
 			}
-			if (!cpu->mem->IsValidAddress(lb->address))
+			if (!cpu->mem->IsValidAddress(lb.address))
 			{
-				printf("ERROR: label(%s) has invalid address (%x)\n", lb->name.c_str(), lb->address);
+				printf("ERROR: label(%s) has invalid address (%x)\n", lb.name.c_str(), lb.address);
 				PrintErrorLocation();
 				return -1;
 			}
-			param = lb->address;
+			param = lb.address;
 		}
 	case InsnSet::I_CHR:
 	case InsnSet::I_HEX:

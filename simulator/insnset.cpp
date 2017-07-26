@@ -4,7 +4,11 @@ InsnSet::Insn::Insn() : ID(0), type(0), nlen(0), showMemFlag(0), name(), operati
 {
 }
 
-void InsnSet::Insn::Set(int id, const std::string& n, int t, int showMem, void(*op)(CPU *), unsigned short c)
+InsnSet::Insn::~Insn()
+{
+}
+
+void InsnSet::Insn::Set(int id, const std::string& n, int t, int showMem, std::function<void(CPU*)> op, unsigned short c)
 {
 	ID = id;
 	name = n;
@@ -20,7 +24,6 @@ InsnSet::Insn InsnSet::SearchInsn(std::string& iname_p)
 	for (int i = 0; i < ICount; ++i)
 	{
 		Insn ii = insn[i];
-//		if (ii.nlen > 0 && strncmp(ii.name.c_str(), iname_p.c_str(), ii.nlen) == 0)
         if (ii.nlen > 0 && ii.name.substr(0,ii.nlen) == iname_p.substr(0,ii.nlen))
         {
             iname_p.erase(0,ii.nlen);
@@ -30,9 +33,8 @@ InsnSet::Insn InsnSet::SearchInsn(std::string& iname_p)
 	Insn null;
 	return null;
 }
-InsnSet::InsnSet(int icount) : insn(icount)
+InsnSet::InsnSet(int icount) : insn(icount), ICount(icount)
 {
-	ICount = icount;
 #define NI(i)	insn[I_##i].Set(I_##i, #i, 0, 0, OP_DUMMY, 0)
 	NI(ORG);
 	NI(END);

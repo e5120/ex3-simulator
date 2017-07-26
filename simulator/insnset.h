@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <functional>
 
 class CPU;
 
@@ -16,19 +17,22 @@ public:
 		unsigned char showMemFlag;
 		std::string name;
 		unsigned short code;
-		void(*operation)(CPU *);
+		std::function<void(CPU*)> operation;
+
 		Insn();
-		void Set(int id, const std::string& n, int t, int showMem, void(*op)(CPU *), unsigned short c);
+		virtual ~Insn();
+
+		void Set(int id, const std::string& n, int t, int showMem, std::function<void(CPU*)> op, unsigned short c);
 	};
 
 	std::vector<Insn> insn;
 	int ICount;
 
 	InsnSet(int icount);
-	~InsnSet();
+	virtual ~InsnSet();
 
 	Insn SearchInsn(std::string& iname_p);
-	static void OP_DUMMY(CPU * cpu){}
+	static void OP_DUMMY(CPU* cpu){}
 
 	enum InsnID
 	{

@@ -27,23 +27,23 @@ int EX3_ASMParser::ParseInsn(int passNum, std::string& p, const InsnSet::Insn& i
                     PrintErrorLocation();
                     return -1;
 				}
-				Label::Element* lb = cpu->label.GetLabel(p, len);
-				if (lb == 0)
+				Label::Element lb = cpu->label.GetLabel(p, len);
+				if (lb.name.empty())
 				{
                     cpu->mem->word[addr] = m;
                     printf("ERROR: label(%s) not found in the 1st pass (bug in the program...)\n", p.c_str());
                     PrintErrorLocation();
                     return -1;
 				}
-				if (!cpu->mem->IsValidAddress(lb->address))
+				if (!cpu->mem->IsValidAddress(lb.address))
 				{
                     cpu->mem->word[addr] = m;
-                    printf("ERROR: label(%s) has invalid address (%x)\n", lb->name.c_str(), lb->address);
+                    printf("ERROR: label(%s) has invalid address (%x)\n", lb.name.c_str(), lb.address);
                     PrintErrorLocation();
                     return -1;
 				}
-				m.value |= lb->address;
-				p.erase(0, (unsigned long)lb->nlen);
+				m.value |= lb.address;
+				p.erase(0, (unsigned long)lb.nlen);
 				SkipWhiteSpace(p);
 				if (p.front() == 'I')
 				{

@@ -47,10 +47,10 @@ public:
 	Label();
 	virtual ~Label();
 
-	Element* AddLabel(const std::string& n, int len, unsigned short addr);
+	Element AddLabel(const std::string& n, int len, unsigned short addr);
 
-	Element* GetLabel(const std::string& p, int len);
-	Element* GetLabel(int addr);
+    Element GetLabel(const std::string& p, int len);
+	Element GetLabel(int addr);
 
 	void PrintLabels(FILE* fp);
 };

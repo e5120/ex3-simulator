@@ -1,121 +1,55 @@
 ----------------
-label(  ST0) :     0(0x0000)
-label(  INI) :    16(0x0010)
-label(   L0) :    25(0x0019)
-label(  CEC) :    29(0x001d)
-label(I_HND) :    38(0x0026)
-label(  SIN) :    41(0x0029)
-label(  SOU) :    51(0x0033)
-label(  IRT) :    60(0x003c)
-label(   BA) :    67(0x0043)
-label(   BE) :    68(0x0044)
-label(  SDT) :    69(0x0045)
-label(  STT) :    70(0x0046)
-label(  SFG) :    71(0x0047)
-label(  VH4) :    72(0x0048)
-label(  VH8) :    73(0x0049)
-label(  VM1) :    74(0x004a)
-label(  VM4) :    75(0x004b)
+label(L0) :    16(0x0010)
+label(LY) :    21(0x0015)
+label(LX) :    25(0x0019)
+label(LP) :    32(0x0020)
+label(XL) :    42(0x002a)
+label(XH) :    43(0x002b)
+label(YL) :    44(0x002c)
+label(YH) :    45(0x002d)
+label(PL) :    46(0x002e)
+label(PH) :    47(0x002f)
 ----------------
-// interrupt entry point
-  ST0: 0000 [0000]: (    0:    0)      	// interrupt return address
-       0001 [4026]: BUN 026   (I_HND)	// goto I_HND (interrupt handler)
-// program entry point/ initialize data
-  INI: 0010 [7800]: CLA              	// AC <- 0
-       0011 [3046]: STA 046   (  STT)	// M[STT] <- 0
-       0012 [3047]: STA 047   (  SFG)	// M[SFG] <- 0
-// IMSK[3:0] : { S_IN, S_OUT, P_IN, P_OUT }
-       0013 [2049]: LDA 049   (  VH8)	// AC <- M[VH8] (1000)
-       0014 [f010]: IMK              	// IMSK <- (1000) (S_IN enabled)
-       0015 [f040]: SIO              	// IOT <- 1 (serial-IO selected)
-//		PIO
-       0016 [7400]: CLE              
-       0017 [7100]: CME              
-       0018 [f080]: IST              
-//		ION					/ enable interrupt
-   L0: 0019 [2046]: LDA 046   (  STT)	// AC <- M[STT]
-       001a [7008]: SNA              	// (M[STT] < 0) ? skip next
-       001b [4019]: BUN 019   (   L0)
-       001c [7001]: HLT              
-//////////// subroutine (check end-character) ///////// 終了条件・・・ctrl-Dが入力された時、エラー値(-1)を状態変数STTに代入する。/ 　　　　　　　L0のループで状態変数STTがエラー値(-1)を持つと終了する。
-  CEC: 001d [0000]: (    0:    0)      
-// arg0 (AC) : output character/ end-character = 0x4 (ctrl-D)
-       001e [104b]: ADD 04b   (  VM4)	// AC <- AC - 4
-       001f [7004]: SZA              	// (AC == 0) ? skip next
-       0020 [c01d]: BUN 01d I (  CEC)	// return from CEC
-// output character matches (ctrl-D)
-       0021 [204a]: LDA 04a   (  VM1)	// AC <- -1
-       0022 [3046]: STA 046   (  STT)	// M[STT] <- -1
-       0023 [7800]: CLA              	// AC <- 0
-       0024 [f010]: IMK              	// IMSK <- 0 (all interrupts disabled)
-       0025 [c01d]: BUN 01d I (  CEC)	// return from CEC
-//////////// interrupt handler ////////// 1. store AC & E to memory
-I_HND: 0026 [3043]: STA 043   (   BA)	// M[BA] <- AC	(store AC)
-       0027 [7040]: CIL              	// AC[0] <- E	(AC[15:1] is not important here...)
-       0028 [3044]: STA 044   (   BE)	// M[BE] <- AC	(store E)
-// 2. check SFG and S_IN
-  SIN: 0029 [2047]: LDA 047   (  SFG)	// AC <- M[SFG]
-       002a [7004]: SZA              	// (M[SFG] == 0) ? skip next
-       002b [4033]: BUN 033   (  SOU)	// goto SOU
-       002c [f200]: SKI              	// (S_IN ready) ? skip next
-       002d [403c]: BUN 03c   (  IRT)	// goto IRT
-// S_IN is ready --> update IMSK (disable S_IN, enable S_OUT)
-       002e [2048]: LDA 048   (  VH4)	// AC   <- (0100)
-       002f [f010]: IMK              	// IMSK <- (0100) (enable S_OUT)
-// read S_IN data
-       0030 [f800]: INP              	// AC(7:0) <- INPR
-       0031 [3045]: STA 045   (  SDT)	// M[SDT] <- AC
-       0032 [6047]: ISZ 047   (  SFG)	// ++M[SFG]
-// 3. check GP_OUT/ M[SFG] != 0
-  SOU: 0033 [f100]: SKO              	// (S_OUT ready) ? skip next
-       0034 [403c]: BUN 03c   (  IRT)	// goto IRT
-// S_OUT is ready --> update IMSK (disable S_OUT, enable S_IN)
-       0035 [2049]: LDA 049   (  VH8)	// AC   <- (1000)
-       0036 [f010]: IMK              	// IMSK <- (1000) (enable S_IN)
-// output to S_OUT
-       0037 [2045]: LDA 045   (  SDT)	// AC <- M[SDT]
-       0038 [f400]: OUT              	// OUTR <- AC
-       0039 [501d]: BSA 01d   (  CEC)	// call CEC (check end-character)
-       003a [7800]: CLA              	// AC <- 0
-       003b [3047]: STA 047   (  SFG)	// M[SFG] <- 0
-// 4. restore AC & E from memory
-  IRT: 003c [2044]: LDA 044   (   BE)	// AC <- M[BE]
-       003d [7080]: CIR              	// E <- AC[0]	(restore E)
-       003e [2043]: LDA 043   (   BA)	// AC <- M[BA]	(restore AC)
-       003f [7400]: CLE              
-       0040 [7100]: CME              
-       0041 [f080]: IST              
-//		ION					/ IEN <- 1		(enable interrupt)
-       0042 [c000]: BUN 000 I (  ST0)	// indirect return (return address stored in ST0)
-// data (no initialization)
-   BA: 0043 [0000]: (    0:    0)      	// backup storage for AC during interrupt handling
-   BE: 0044 [0000]: (    0:    0)      	// backup storage for  E during interrupt handling
-  SDT: 0045 [0000]: (    0:    0)      	// S_IN data
-// data (need initialization code)
-  STT: 0046 [0000]: (    0:    0)      	// state
-  SFG: 0047 [0000]: (    0:    0)      	// S_IN flag
-// data (read-only)
-  VH4: 0048 [0004]: (    4:    4)      	// VH4 = 0x4 (0100)
-  VH8: 0049 [0008]: (    8:    8)      	// VHA = 0x8 (1000)
-//VH4,	HEX 1     / VH4 = 0x1 (0001)/VH8,	HEX 2     / VHA = 0x8 (0010)
-  VM1: 004a [ffff]: (   -1:65535)      	// VM1 = -1
-  VM4: 004b [fffc]: (   -4:65532)      	// VM4 = -4
+// program entry point
+L0: 0010 [7400]: CLE           	// E <- 0
+    0011 [202c]: LDA 02c   (YL)	// AC <- M[YL]
+    0012 [7004]: SZA           	// (AC == 0) ? skip next
+    0013 [4015]: BUN 015   (LY)	// goto LY
+    0014 [7001]: HLT           
+LY: 0015 [7080]: CIR           	// {AC[15:0], E} <- {E, AC[15:0]}
+    0016 [302c]: STA 02c   (YL)	// M[YL] <- AC
+    0017 [7002]: SZE           	// (E == 0) ? skip next
+    0018 [4020]: BUN 020   (LP)	// goto LP
+LX: 0019 [202a]: LDA 02a   (XL)	// AC <- M[XL]
+    001a [7040]: CIL           	// {E, AC[15:0]} <- {AC[15:0], E}
+    001b [302a]: STA 02a   (XL)	// M[XL] <- AC
+    001c [202b]: LDA 02b   (XH)	// AC <- M[XH]
+    001d [7040]: CIL           	// {E, AC[15:0]} <- {AC[15:0], E}
+    001e [302b]: STA 02b   (XH)	// M[XH] <- AC
+    001f [4010]: BUN 010   (L0)	// goto LO
+LP: 0020 [202a]: LDA 02a   (XL)	// AC <- M[XL]
+    0021 [102e]: ADD 02e   (PL)	// AC <- AC + M[PL]
+    0022 [302e]: STA 02e   (PL)	// M[PL} <- AC
+    0023 [7800]: CLA           	// AC <- 0
+    0024 [7040]: CIL           	// {E, AC[15:0]} <- {AC[15:0], E}
+    0025 [102f]: ADD 02f   (PH)	// AC <- AC + M[PH]
+    0026 [102b]: ADD 02b   (XH)	// AC <- AC + M[XH]
+    0027 [302f]: STA 02f   (PH)	// M[PH] <- AC
+    0028 [7400]: CLE           	// E <- 0
+    0029 [4019]: BUN 019   (LX)	// goto LX
+// data
+XL: 002a [000a]: (   10:   10)   	// X:init(low digit)
+XH: 002b [0000]: (    0:    0)   	// X:init(high digit)
+YL: 002c [0064]: (  100:  'd')   	// Y:init(low digit)
+YH: 002d [0000]: (    0:    0)   	// Y:init(high digit)
+PL: 002e [0000]: (    0:    0)   	// result(low digit)
+PH: 002f [0000]: (    0:    0)   	// result(high digit)
 ----------------
 ----------------
-// interrupt entry point
-  ST0: 0000 [001b]: (   27:   27)      	// interrupt return address
-//////////// subroutine (check end-character) ///////// 終了条件・・・ctrl-Dが入力された時、エラー値(-1)を状態変数STTに代入する。/ 　　　　　　　L0のループで状態変数STTがエラー値(-1)を持つと終了する。
-  CEC: 001d [003a]: (   58:  ':')      
-// data (no initialization)
-   BA: 0043 [0000]: (    0:    0)      	// backup storage for AC during interrupt handling
-   BE: 0044 [0001]: (    1:    1)      	// backup storage for  E during interrupt handling
-  SDT: 0045 [0004]: (    4:    4)      	// S_IN data
-// data (need initialization code)
-  STT: 0046 [ffff]: (   -1:65535)      	// state
-  SFG: 0047 [0000]: (    0:    0)      	// S_IN flag
-// data (read-only)
-  VH4: 0048 [0004]: (    4:    4)      	// VH4 = 0x4 (0100)
-  VH8: 0049 [0008]: (    8:    8)      	// VHA = 0x8 (1000)
-//VH4,	HEX 1     / VH4 = 0x1 (0001)/VH8,	HEX 2     / VHA = 0x8 (0010)
-  VM1: 004a [ffff]: (   -1:65535)      	// VM1 = -1
-  VM4: 004b [fffc]: (   -4:65532)      	// VM4 = -4
+// data
+XL: 002a [0500]: ( 1280: 1280)   	// X:init(low digit)
+XH: 002b [0000]: (    0:    0)   	// X:init(high digit)
+YL: 002c [0000]: (    0:    0)   	// Y:init(low digit)
+YH: 002d [0000]: (    0:    0)   	// Y:init(high digit)
+PL: 002e [03e8]: ( 1000: 1000)   	// result(low digit)
+PH: 002f [0000]: (    0:    0)   	// result(high digit)

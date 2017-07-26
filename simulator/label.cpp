@@ -58,56 +58,64 @@ bool Label::AnnotationStatus::AddAnnotation(const std::string& p, int len, unsig
 }
 
 Label::Label() : count(0), maxLabelLength(0), element(MAX_LABEL_COUNT)
-{}
+{
+}
 
 Label::~Label()
 {
 }
 
-Label::Element* Label::AddLabel(const std::string& n, int len, unsigned short addr)
+Label::Element Label::AddLabel(const std::string& n, int len, unsigned short addr)
 {
-	Element* lb;
+	Element lb;
 	if (count >= MAX_LABEL_COUNT)
 	{
 		printf("ERROR: labelCount exceeds limit %d\n", MAX_LABEL_COUNT);
-        return nullptr;
+        return lb;
 	}
-	if ((lb = GetLabel(n, len)))
+	lb = GetLabel(n, len);
+	if (!lb.name.empty())
 	{
-		printf("ERROR: label(%s) already exists!!\n", lb->name.c_str());
-        return nullptr;
+		printf("ERROR: label(%s) already exists!!\n", lb.name.c_str());
+        return lb;
 	}
-	lb = &element[count++];
-	lb->Set(n, len, addr);
+	lb = element[count];
+	lb.Set(n, len, addr);
+	element[count] = lb;
 	if (maxLabelLength < len)
 	{
 		maxLabelLength = len;
 	}
+	++count;
 	return lb;
 }
 
-Label::Element* Label::GetLabel(const std::string& p, int len)
+
+Label::Element Label::GetLabel(const std::string& p, int len)
 {
 	for (int i = 0; i < count; ++i)
 	{
 		if(element[i].nlen == len && element[i].name.substr(0,len) == p.substr(0,len))
-        {
-			return &element[i];
+		{
+			return element[i];
 		}
 	}
-	return nullptr;
+	Label::Element null;
+	return null;
 }
 
-Label::Element* Label::GetLabel(int addr)
+
+Label::Element Label::GetLabel(int addr)
 {
 	for (int i = 0; i < count; ++i)
 	{
 		if (element[i].address == addr)
         {
-            return &element[i];
+            return element[i];
         }
 	}
-	return nullptr;
+	Label::Element null;
+	return null;
 }
 
 void Label::PrintLabels(FILE* fp)
