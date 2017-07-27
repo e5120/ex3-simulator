@@ -9,7 +9,7 @@ class EX3_TerminalSystem
 public:
 	std::shared_ptr<EX3_CPU> cpu;
 	EX3_ASMParser parser;
-	System::TerminalViewer termView;
+	std::shared_ptr<System::TerminalViewer> termView;
 	System::InputTerminal inTerm;
 	System::OutputTerminal outTerm;
 

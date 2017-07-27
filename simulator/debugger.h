@@ -1,6 +1,5 @@
 #pragma once
-#include <string>
-#include <vector>
+#include <iostream>
 
 class CPU;
 #include "cpu.h"
@@ -49,7 +48,6 @@ public:
     int bpID;
 	int verboseMode;
     int fileLogMode;
-	int ch;
 	CommandType com;
 	CPU* cpu;
 

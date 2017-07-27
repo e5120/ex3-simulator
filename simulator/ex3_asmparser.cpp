@@ -14,7 +14,7 @@ int EX3_ASMParser::ParseInsn(int passNum, std::string& p, const InsnSet::Insn& i
 			Memory::Word m = cpu->mem->word[addr];
 			m.insnID = insn.ID;
 			m.value = insn.code;
-			m.SetStatus(&cpu->label.annotation, addr);
+			m.SetStatus(cpu->label.annotation, addr);
 			cpu->dbg->InsertMonitorOrBreakpoint(m.status, addr, true);
 			if (insn.type == EX3_InsnSet::MEM_INSN)
 			{

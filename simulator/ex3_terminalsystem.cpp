@@ -1,12 +1,13 @@
 #include "ex3_terminalsystem.h"
 
 EX3_TerminalSystem::EX3_TerminalSystem(const std::string& fname)
-		: cpu(new EX3_CPU(0x1000)), parser(cpu, fname), inTerm(cpu), outTerm(cpu)
+		: cpu(new EX3_CPU(0x1000)), parser(cpu, fname),
+          termView(new System::TerminalViewer()), inTerm(cpu), outTerm(cpu)
 {
 	inTerm.Open(parser.OpenFile("_in.log"));
 	outTerm.Open(parser.OpenFile("_out.log"));
 
-    inTerm.termView.reset(new System::TerminalViewer(termView));
+   	inTerm.termView = termView;
     outTerm.termView = inTerm.termView;
 }
 
@@ -50,7 +51,7 @@ void EX3_TerminalSystem::RunCPUModel()
     if(System::RandomPeripheral::SocketStart()){
         inTerm.Close();
         outTerm.Close();
-        termView.PrintView();
+        termView->PrintView();
         return;
     }
 #endif
@@ -70,5 +71,5 @@ void EX3_TerminalSystem::RunCPUModel()
 	} while (inFlag + cpuFlag + outFlag == 0);
 	inTerm.Close();
 	outTerm.Close();
-	termView.PrintView();
+	termView->PrintView();
 }

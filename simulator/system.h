@@ -30,8 +30,7 @@ public:
 		int type;	/// type = 0 : output, type = 1 : input
 		int interval;
 		std::shared_ptr<FILE> fp;
-		// サーバ用
-        static int fd;
+        static int fd;	/// サーバ用
 
 		RandomPeripheral(const std::shared_ptr<CPU>& cpu0, const std::string& n, int t);
 		virtual ~RandomPeripheral();
@@ -56,11 +55,11 @@ public:
 		virtual void AccessPort() = 0;
 		virtual bool AccessHookEnabled() = 0;
 #if SOCKET
-        //サーバ用
+        ///サーバ用
         static int SocketStart();
         static int Connect(const std::string host, int port);
-        static void SendMsg(int& fd, char* buf);
-        static std::string RecvMsg(int& fd);
+        static void SendMsg(int fd, char* buf);
+        static std::string RecvMsg(int fd);
 #endif
 	};
 

@@ -97,12 +97,12 @@ int System::RandomPeripheral::SocketStart() {
 	return 0;
 }
 
-void System::RandomPeripheral::SendMsg(int &fd, char* buf) {
+void System::RandomPeripheral::SendMsg(int fd, char* buf) {
 	buf[strlen(buf)] = '\0';
 	send(fd, buf, strlen(buf),0);
 }
 
-std::string System::RandomPeripheral::RecvMsg(int &fd) {
+std::string System::RandomPeripheral::RecvMsg(int fd) {
     std::string str = "";
     char buf[BUF_SIZE];
     int no = 0;
@@ -147,6 +147,7 @@ int System::RandomPeripheral::Connect(const std::string host, int port) {
 	return fd;
 }
 #endif
+
 void System::TerminalViewer::Reset()
 {
 	str = "";
@@ -212,7 +213,7 @@ void System::TerminalViewer::PrintView()
 #endif
 }
 
-System::InputTerminal::InputTerminal(const std::shared_ptr<CPU>& cpu0) : RandomPeripheral(cpu0, "in", 1), termView()
+System::InputTerminal::InputTerminal(const std::shared_ptr<CPU>& cpu0) : RandomPeripheral(cpu0, "in", 1)
 {
 }
 
@@ -233,11 +234,11 @@ void System::InputTerminal::AccessPort()
 	printf("\n");
 	switch (value)
 	{
-	case 0x03:	/// ctrl-C
-		ABORT_PROGRAM(printf("Program terminated on Input terminal (key = %02x)\n", value););
-	case 0x1B:	/// ESC
-		cpu->dbg->Command();
-		return;
+        case 0x03:	/// ctrl-C
+            ABORT_PROGRAM(printf("Program terminated on Input terminal (key = %02x)\n", value););
+        case 0x1B:	/// ESC
+            cpu->dbg->Command();
+            return;
 	}
 	PutInput(value);
 }
@@ -257,7 +258,7 @@ void System::InputTerminal::PutInput(int value) {
 		"-------------------------------------\n"
 		"cpu->input[%s] = 0x%02x (%2d : '%c')\n"
 		"-------------------------------------\n"
-		, GetPortName(), value, value, value);
+		, GetPortName().c_str(), value, value, value);
 
     RecordTrace(TT_Data, value);
 #else
@@ -277,7 +278,7 @@ bool System::InputTerminal::AccessHookEnabled()
 	return true;
 }
 
-System::OutputTerminal::OutputTerminal(const std::shared_ptr<CPU>& cpu0) : RandomPeripheral(cpu0, "out", 0), termView()
+System::OutputTerminal::OutputTerminal(const std::shared_ptr<CPU>& cpu0) : RandomPeripheral(cpu0, "out", 0)
 {
 }
 

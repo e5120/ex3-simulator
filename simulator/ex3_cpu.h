@@ -32,6 +32,10 @@ public:
 
 	void PrintDataMemory();
 	void PrintStatus(FILE* fp, bool intr_cycle);
+
+#define _PER_CYCLE 4.8
+#define _CLOCK 27000
+#define _PER_SECONDS (double)_PER_CYCLE / _CLOCK
 	int Execute();
 	void PrintMemoryWord(Memory::Word* m, FILE* fp, int addr, int printMode);
 };

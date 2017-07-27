@@ -1,6 +1,7 @@
 #include "cpu.h"
 
-CPU::CPU(const std::string logfilename) : mem(nullptr), isa(nullptr), fplog(fopen(logfilename.c_str(),"w"),fclose), dbg(nullptr)
+CPU::CPU(const std::string& logfilename)
+        : mem(nullptr), isa(nullptr), fplog(fopen(logfilename.c_str(),"w"),fclose), dbg(nullptr)
 {
 	Reset();
 }
@@ -46,6 +47,7 @@ bool CPU::IsOutputReady()
 {
 	return _GetFGO() == 0;
 }
+
 void CPU::SetInput(unsigned char val)
 {
 	if (IsInputReady())
@@ -63,7 +65,8 @@ unsigned char CPU::GetOutput()
 {
 	if (IsOutputReady())
 	{
-		_SetFGO(1); return (unsigned char)_OUTR;
+		_SetFGO(1);
+        return (unsigned char)_OUTR;
 	}
 	else
 	{

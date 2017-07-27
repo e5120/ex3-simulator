@@ -1,3 +1,4 @@
+/*  test */
 ORG 0				/ interrupt entry point
 ST0,HEX 0		/ interrupt return address
 BUN I_HND		/ goto I_HND (interrupt handler)

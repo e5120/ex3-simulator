@@ -1,12 +1,11 @@
-#include <cstdio>
-#include <string>
-
 #include "debugger.h"
 #include "asmparser.h"
 #include "ex3_terminalsystem.h"
 
 bool Debugger::echo = false;
 bool Debugger::flog = false;
+
+std::string ASMParser::tool_name = "ex3_asm";
 
 #if !defined(WIN32)
 int _getche(void)
@@ -15,8 +14,6 @@ int _getche(void)
 	return getchar();
 }
 #endif
-
-std::string ASMParser::tool_name = "ex3_asm";
 
 int main(int argc, char ** argv)
 {

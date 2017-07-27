@@ -8,16 +8,16 @@ Memory::Word::~Word()
 {
 }
 
-void Memory::Word::SetStatus(Label::AnnotationStatus * labelAnnotation, int addr)
+void Memory::Word::SetStatus(const Label::AnnotationStatus& labelAnnotation, int addr)
 {
 	status = MS_Used;
-	if (labelAnnotation->curAddr == addr)
+	if (labelAnnotation.curAddr == addr)
 	{
-		if (labelAnnotation->annotation & Label::AL_Monitor)
+		if (labelAnnotation.annotation & Label::AL_Monitor)
 		{
 			status |= MS_Monitor;
 		}
-		if (labelAnnotation->annotation & Label::AL_Breakpoint)
+		if (labelAnnotation.annotation & Label::AL_Breakpoint)
 		{
 			status |= MS_Breakpoint;
 		}

@@ -39,9 +39,9 @@ Label::AnnotationLabel Label::AnnotationStatus::CheckAnnotationLabel(const std::
 	}
 	switch (p[1])
 	{
-	case 'B': return AL_Breakpoint;
-	case 'M': return AL_Monitor;
-	default: return AL_Null;
+		case 'B': return AL_Breakpoint;
+		case 'M': return AL_Monitor;
+		default: return AL_Null;
 	}
 }
 

@@ -1,9 +1,4 @@
 #pragma once
-
-#include <cstdio>
-#include <memory>
-#include <iostream>
-
 #include "utils.h"
 #include "defs.h"
 #include "label.h"
@@ -24,7 +19,7 @@ public:
 	std::shared_ptr<FILE> fplog;
 	std::shared_ptr<Debugger> dbg;
 
-	CPU(const std::string logfilename);
+	CPU(const std::string& logfilename);
 	virtual ~CPU();
 
 	void PrintSeparator(FILE* fp);
@@ -48,6 +43,7 @@ public:
 	virtual int _GetFGI() = 0;
 	virtual int _GetFGO() = 0;
 	virtual	void PrintStatus(FILE* fp, bool intr_cycle) = 0;
+    virtual void PrintMemoryWord(Memory::Word* m, FILE* fp, int addr, int printMode) = 0;
 
 	enum PrintMemoryWordMode
 	{
@@ -57,6 +53,4 @@ public:
 		PM_Monitor = 0x4,
 		PM_SkipHeadComment = 0x8,
 	};
-
-	virtual void PrintMemoryWord(Memory::Word* m, FILE* fp, int addr, int printMode) = 0;
 };

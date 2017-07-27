@@ -1,9 +1,5 @@
 #pragma once
-#include <cstring>
-#include <cstdio>
 #include <string>
-#include <iostream>
-
 #include "cpu.h"
 
 class ASMParser
@@ -32,13 +28,13 @@ public:
 
 	int GetNum(std::string& pp, int insnType);
 
-	int GetLabelLength(std::string& p);
+	int GetLabelLength(const std::string& p);
 
 	int ExtractComment(std::string& p, int addr, int headFlag);
 	void PrintErrorLocation();
-	int ParseLabel(std::string& p);
-	int ParseLabel(int passNum, std::string& p, int& addr);
-	int ParseNonInsn(int passNum, std::string& p, int insnID, int & addr);
+	int ParseLabel(const std::string& p);
+	int ParseLabel(int passNum, std::string& p, int addr);
+	int ParseNonInsn(int passNum, std::string& p, int insnID, int& addr);
 	
 	int ParseBlockCommentStart(std::string& p);
 	int ParseBlockCommentEnd(std::string& p);

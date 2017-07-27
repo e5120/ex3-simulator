@@ -26,13 +26,11 @@ public:
 		Word();
 		virtual ~Word();
 
-		void SetStatus(Label::AnnotationStatus* labelAnnotation, int addr);
+		void SetStatus(const Label::AnnotationStatus& labelAnnotation, int addr);
 		void SetComment(const std::string& c, int len, int headFlag);
 	};
 
-//	Word* word;
     std::vector<Word> word;
-    //Word curCode;
     Word* curCode;
     Word bogusWord;	    /// for returning memory word upon access error
 	int size;

@@ -12,7 +12,7 @@ ASMParser::~ASMParser()
 
 int ASMParser::Open()
 {
-	if (strcmp(asm_name.c_str() + asm_name.size() - 4, ".asm") != 0)
+    if (asm_name.substr((asm_name.size()-4)) != ".asm")
 	{
 		printf("Incorrect ASM file extension : %s\n", asm_name.c_str());
         return -1;
@@ -129,7 +129,8 @@ int ASMParser::WriteVerilogMonitorFile()
 
 void ASMParser::SkipWhiteSpace(std::string& pp)
 {
-    while(pp.find_first_of(" 　\t") == 0){
+    while(pp.find_first_of(" 　\t") == 0)
+    {
         pp.erase(pp.begin());
         if(pp.empty()) break;
     }
@@ -146,10 +147,10 @@ int ASMParser::GetNum(std::string& pp, int insnType)
 	int base = 0;
 	switch (insnType)
 	{
-	case InsnSet::I_ORG:
-	case InsnSet::I_HEX:	base = 16;	break;
-	case InsnSet::I_DEC:	base = 10;	break;
-	default:				return -1;
+        case InsnSet::I_ORG:
+        case InsnSet::I_HEX:	base = 16;	break;
+        case InsnSet::I_DEC:	base = 10;	break;
+        default:				return -1;
 	}
 	int sign = 0;
 	if (pp.front() == '-')
@@ -201,19 +202,19 @@ int ASMParser::GetNum(std::string& pp, int insnType)
 	return (first) ? -1 : val;
 }
 
-int ASMParser::GetLabelLength(std::string& p)
+int ASMParser::GetLabelLength(const std::string& p)
 {
 	int nlen = 0;
 	while (p[nlen])
 	{
 		switch (p[nlen])
 		{
-		case ' ':
-		case '\r':
-		case '\t':
-		case '\n':
-		case ',':	return nlen;
-		default:	break;
+            case ' ':
+            case '\r':
+            case '\t':
+            case '\n':
+            case ',':	return nlen;
+            default:	break;
 		}
 		++nlen;
 	}
@@ -232,37 +233,36 @@ int ASMParser::ExtractComment(std::string& p, int addr, int headFlag)
 			{
                 ++len;
 			}
-			//m->SetComment(p, len, headFlag);
-			cpu->mem->word[addr].SetComment(p, len, headFlag);;
+			cpu->mem->word[addr].SetComment(p, len, headFlag);
             return 1;
 		}
 	}
 	return 0;
 }
+
 void ASMParser::PrintErrorLocation()
 {
 	printf("Error occurred on line %d\n", asmLineNum);
 }
 
-int ASMParser::ParseLabel(std::string& p)
+int ASMParser::ParseLabel(const std::string& p)
 {
 	int nlen = 0;
 	while (p[nlen])
 	{
 		switch (p[nlen])
 		{
-		case ' ':
-		case '\t':	return 0;
-		case ',':	return nlen;
-		default:	break;
+            case ' ':
+            case '\t':	return 0;
+            case ',':	return nlen;
+            default:	break;
 		}
 		++nlen;
-		//p.erase(p.begin());
 	}
 	return 0;
 }
 
-int ASMParser::ParseLabel(int passNum, std::string& p, int& addr)
+int ASMParser::ParseLabel(int passNum, std::string& p, int addr)
 {
 	if (passNum == 2 && ExtractComment(p, addr, 1))
 	{
@@ -315,65 +315,65 @@ int ASMParser::ParseNonInsn(int passNum, std::string& p, int insnID, int& addr)
     int endReached = 0;
 	switch (insnID)
 	{
-	case InsnSet::I_ORG:
-		addr = param;
-		if (!cpu->mem->IsValidAddress(addr))
-		{
-			printf("ERROR: ORG has invalid address %d (0x%x)\n", addr, addr);
-			PrintErrorLocation();
-			return -1;
-		}
-		if (passNum == 2)
-		{
-			ExtractComment(p, addr, 1);
-		}
-		break;
-	case InsnSet::I_END:
-		endReached = 1;
-		break;
-	case InsnSet::I_SYM:
-		if (passNum == 2)
-		{
-			SkipWhiteSpace(p);
-			int len = GetLabelLength(p);
-			if (len == 0)
-			{
-				printf("ERROR: label(%s) length = 0 (bug in parser)\n", p.c_str());
-				PrintErrorLocation();
-				return -1;
-			}
-			Label::Element lb = cpu->label.GetLabel(p, len);
-			if (lb.name.empty())
-			{
-				printf("ERROR: label(%s) not found in the 1st pass (bug in the program...)\n", p.c_str());
-				PrintErrorLocation();
-				return -1;
-			}
-			if (!cpu->mem->IsValidAddress(lb.address))
-			{
-				printf("ERROR: label(%s) has invalid address (%x)\n", lb.name.c_str(), lb.address);
-				PrintErrorLocation();
-				return -1;
-			}
-			param = lb.address;
-		}
-	case InsnSet::I_CHR:
-	case InsnSet::I_HEX:
-	case InsnSet::I_DEC:
-		if (passNum == 2)
-		{
-            cpu->mem->word[addr].SetStatus(&cpu->label.annotation, addr);
-            cpu->dbg->InsertMonitorOrBreakpoint(cpu->mem->word[addr].status, addr, false);
-            cpu->mem->word[addr].value = param;
-		}
-		if (passNum == 2)
-		{
-			ExtractComment(p, addr, 0);
-		}
-		++addr;
-		break;
-	default:
-		break;
+        case InsnSet::I_ORG:
+            addr = param;
+            if (!cpu->mem->IsValidAddress(addr))
+            {
+                printf("ERROR: ORG has invalid address %d (0x%x)\n", addr, addr);
+                PrintErrorLocation();
+                return -1;
+            }
+            if (passNum == 2)
+            {
+                ExtractComment(p, addr, 1);
+            }
+            break;
+        case InsnSet::I_END:
+            endReached = 1;
+            break;
+        case InsnSet::I_SYM:
+            if (passNum == 2)
+            {
+                SkipWhiteSpace(p);
+                int len = GetLabelLength(p);
+                if (len == 0)
+                {
+                    printf("ERROR: label(%s) length = 0 (bug in parser)\n", p.c_str());
+                    PrintErrorLocation();
+                    return -1;
+                }
+                Label::Element lb = cpu->label.GetLabel(p, len);
+                if (lb.name.empty())
+                {
+                    printf("ERROR: label(%s) not found in the 1st pass (bug in the program...)\n", p.c_str());
+                    PrintErrorLocation();
+                    return -1;
+                }
+                if (!cpu->mem->IsValidAddress(lb.address))
+                {
+                    printf("ERROR: label(%s) has invalid address (%x)\n", lb.name.c_str(), lb.address);
+                    PrintErrorLocation();
+                    return -1;
+                }
+                param = lb.address;
+            }
+        case InsnSet::I_CHR:
+        case InsnSet::I_HEX:
+        case InsnSet::I_DEC:
+            if (passNum == 2)
+            {
+                cpu->mem->word[addr].SetStatus(cpu->label.annotation, addr);
+                cpu->dbg->InsertMonitorOrBreakpoint(cpu->mem->word[addr].status, addr, false);
+                cpu->mem->word[addr].value = param;
+            }
+            if (passNum == 2)
+            {
+                ExtractComment(p, addr, 0);
+            }
+            ++addr;
+            break;
+        default:
+            break;
 	}
 	return (endReached) ? 1 : 0;
 }
@@ -383,7 +383,7 @@ int ASMParser::ParseBlockCommentStart(std::string& p)
 	if (!blockCommentPending)
 	{
 		SkipWhiteSpace(p);
-		if (strncmp(p.c_str(), "/*", 2) == 0)
+        if (p.substr(0,2) == "/*")
 		{
 			blockCommentPending = 1;
             p.erase(0,2);
@@ -399,7 +399,7 @@ int ASMParser::ParseBlockCommentEnd(std::string& p)
 	{
 		while (p.front())
 		{
-			if (strncmp(p.c_str(), "*/", 2) == 0)
+            if (p.substr(0,2) == "*/")
 			{
                 p.erase(0,2);
                 blockCommentPending = 0;
@@ -449,9 +449,9 @@ int ASMParser::Parse(int passNum)
 		}
 		switch (ParseLabel(passNum, p, addr))
 		{
-		case -1:	return -1;
-		case  1:	continue;
-		default:	break;
+            case -1:	return -1;
+            case  1:	continue;
+            default:	break;
 		}
 		InsnSet::Insn insn = cpu->isa->SearchInsn(p);
 		if (insn.ID == 0)
@@ -462,15 +462,15 @@ int ASMParser::Parse(int passNum)
 		}
 		switch (ParseInsn(passNum, p, insn, addr))
 		{
-		case -1:	return -1;
-		case  1:	++addr; continue;
-		default:	break;
+            case -1:	return -1;
+            case  1:	++addr; continue;
+            default:	break;
 		}
 		switch (ParseNonInsn(passNum, p, insn.ID, addr))
 		{
-		case -1:	return -1;
-		case  1:	endReached = 1;
-		default:	break;
+            case -1:	return -1;
+            case  1:	endReached = 1;
+            default:	break;
 		}
 	}
 	if (passNum == 1)

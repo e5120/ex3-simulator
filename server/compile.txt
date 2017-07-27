@@ -1,0 +1,4 @@
+#server.cpp
+clang++ -std=c++11 server.cpp -o server
+#client.cpp
+clang++ -std=c++11 client.cpp -o client

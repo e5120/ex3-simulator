@@ -128,15 +128,9 @@ int EX3_CPU::Execute()
 	else
 	{	///	instruction cycle
 
-#define _PER_CYCLE 4.8
-#define _CLOCK 27000
-#define _PER_SECONDS (double)_PER_CYCLE / _CLOCK
 		if (_TF == 1 && _TMRF == 0){
             _TIMER -= _PER_SECONDS * 1000;
 		}
-#undef _PER_CYCLE
-#undef _CLOCK
-#undef _PER_SECONDS
 		if(_TIMER <= 0 && _TF == 1){
             _TF = 0;
             _TMRF = 1;

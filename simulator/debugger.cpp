@@ -33,9 +33,9 @@ const std::string Debugger::Breakpoint::GetBreakpointTypeName()
 {
 	switch (btype)
 	{
-	case BT_PC:		return "PC";
-	case BT_ICOUNT:	return "ICOUNT";
-	case BT_MEM:	return "MEM";
+		case BT_PC:		return "PC";
+		case BT_ICOUNT:	return "ICOUNT";
+		case BT_MEM:	return "MEM";
 	}
 }
 
@@ -106,9 +106,9 @@ int Debugger::Debug()
 	UpdateMonitor();
 	switch (com)
 	{
-	case CT_Run: if (!DetectBreakpoint())	return 0;
-	case CT_Step:							break;
-	case CT_Start: ShowCommand();			break;
+		case CT_Run: if (!DetectBreakpoint())	return 0;
+		case CT_Step:							break;
+		case CT_Start: ShowCommand();			break;
 	}
 	return Command();
 }
@@ -118,25 +118,25 @@ int Debugger::Command()
 	while (1)
 	{
 		printf("EX3-DBG > ");
-		ch = _getche();
+		int ch = _getche();
 		printf("\n");
 		switch (ch)
 		{
-		case 'r': com = CT_Run;						return 0;
-		case '\n':
-		case 's': com = CT_Step;					return 0;
-		case 'b': ShowBreakpoints();				break;
-		case 'd': DeleteBreakpoint();				break;
-		case 'p': InsertBreakpoint(BT_PC);			break;
-		case 'i': InsertBreakpoint(BT_ICOUNT);		break;
-		case 'm': InsertBreakpoint(BT_MEM);			break;
-		case 'n': ShowMonitors();					break;
-		case 'l': ToggleVerboseMode();				break;
-		case 'f': ToggleFileLogMode();				break;
-		case 'w': ShowCPUStatus();					break;
-		case 'h': ShowCommand();					break;
-		case 'q': return 1;
-		default: ShowCommand();					break;
+			case 'r': com = CT_Run;						return 0;
+			case '\n':
+			case 's': com = CT_Step;					return 0;
+			case 'b': ShowBreakpoints();				break;
+			case 'd': DeleteBreakpoint();				break;
+			case 'p': InsertBreakpoint(BT_PC);			break;
+			case 'i': InsertBreakpoint(BT_ICOUNT);		break;
+			case 'm': InsertBreakpoint(BT_MEM);			break;
+			case 'n': ShowMonitors();					break;
+			case 'l': ToggleVerboseMode();				break;
+			case 'f': ToggleFileLogMode();				break;
+			case 'w': ShowCPUStatus();					break;
+			case 'h': ShowCommand();					break;
+			case 'q': return 1;
+			default: ShowCommand();					break;
 		}
 	}
 }
@@ -262,27 +262,28 @@ bool Debugger::DetectBreakpoint()
 	{
 		switch (breakpoints[i].btype)
 		{
-		case BT_PC:
-            if (cpu->_PC == breakpoints[i].addr)
-            {
-                breakpoints[i].PrintInfo(this); return true;
-            }
-            break;
-		case BT_ICOUNT:
-            if (cpu->cycle_count == breakpoints[i].val)
-            {
-                breakpoints[i].PrintInfo(this);
-                return true;
-            }
-            break;
-		case BT_MEM:
-            if (breakpoints[i].mem != breakpoints[i].val)
-            {
-                breakpoints[i].PrintInfo(this);
-                breakpoints[i].val = breakpoints[i].mem;
-                return true;
-            }
-            break;
+            case BT_PC:
+                if (cpu->_PC == breakpoints[i].addr)
+                {
+                    breakpoints[i].PrintInfo(this);
+                    return true;
+                }
+                break;
+            case BT_ICOUNT:
+                if (cpu->cycle_count == breakpoints[i].val)
+                {
+                    breakpoints[i].PrintInfo(this);
+                    return true;
+                }
+                break;
+            case BT_MEM:
+                if (breakpoints[i].mem != breakpoints[i].val)
+                {
+                    breakpoints[i].PrintInfo(this);
+                    breakpoints[i].val = breakpoints[i].mem;
+                    return true;
+                }
+                break;
 		}
 	}
 	return false;
@@ -308,19 +309,19 @@ bool Debugger::DetectMonitor()
 	{
 		switch (monitors[i].btype)
 		{
-		case BT_PC:
-            if (cpu->_PC == monitors[i].addr)
-            {
-                return true;
-            }
-            break;
-		case BT_MEM:
-            if (monitors[i].mem != monitors[i].val)
-            {
-                return true;
-            }
-            break;
-        default:    break;
+            case BT_PC:
+                if (cpu->_PC == monitors[i].addr)
+                {
+                    return true;
+                }
+                break;
+            case BT_MEM:
+                if (monitors[i].mem != monitors[i].val)
+                {
+                    return true;
+                }
+                break;
+            default:    break;
 		}
 	}
 	return false;
